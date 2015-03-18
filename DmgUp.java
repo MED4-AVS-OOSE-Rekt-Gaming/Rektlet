@@ -12,7 +12,7 @@ public class DmgUp extends PowerUp{
 		positionY = startY;
 			
 		if (PickUp() == true) {
-			damage = damage + DmgBoost;
+			Player.damage = Player.damage + DmgBoost;
 		}	
 	}
 	

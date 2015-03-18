@@ -12,7 +12,7 @@ public class HealthUp extends PowerUp{
 		positionY = startY;
 			
 		if (PickUp() == true) {
-			health = health + HealthBoost;
+			Player.health = Player.health + HealthBoost;
 		}	
 	}
 			

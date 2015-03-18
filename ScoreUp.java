@@ -13,7 +13,7 @@ public class ScoreUp extends PowerUp{
 		positionY = startY;
 			
 		if (PickUp() == true) {
-			score = score + ScoreBoost;
+			GameManager.score = GameManager.score + ScoreBoost;
 		}	
 	}
 	
