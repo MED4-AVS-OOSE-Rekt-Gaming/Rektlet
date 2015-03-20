@@ -1,4 +1,3 @@
-
 public class Unit extends GameObject{
 	boolean canAct;
 	boolean isDead;
@@ -19,8 +18,9 @@ public class Unit extends GameObject{
 		canAct = true;
 	}
 	
+	@Override
 	public String toString(){
-		return health+"/"+damage+" unit at position ("+positionX+","+positionY+")";
+		return health+"/"+damage+" Unit, a "+super.toString();
 	}
 	
 	public void Move(String direction){
