@@ -7,7 +7,7 @@ public class GameObject {
 	}
 	
 	public String toString(){
-		return "GameObject unit at position ("+positionX+","+positionY+")";
+		return "GameObject at position ("+positionX+","+positionY+")";
 	}
 	
 }
