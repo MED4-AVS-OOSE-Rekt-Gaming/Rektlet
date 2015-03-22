@@ -3,42 +3,33 @@ public class GameManager {
 protected int score;
 protected int lives;
 protected String PlayerName;
-
+protected int pclass = 0; //Default Warrior
+protected int gender = 0; //Default Male
 
 public void PlayerFetch() {
-//This function gets all the initial information given by the user and loads them up
+//This function gets all the initial information given by the user and loads them up in PlayerCreator
 
 //This is for display of character and which sprite-set should be loaded according to user choice in the menu
 
-//Warrior choice - Male
+	public struct stats {
+ /* The Play creation contains 3 overall stats AGI, STR, INT
+  * AGI Covers, Ranged Attack Damage,  Attack Speed, Movement Speed and Chance to dodge
+  *  STR Covers Melee Attack Damage, HP and Chance to Block
+  *  INT Covers, Magical Damage and other so called magical related things (This Stat can be removed) 
+  *  */
+		public int AGI = 0;
+		public int STR = 0;
+		public int INT = 0;
+		};
+ 
 
- PlayerCreation test = new PlayerCreation();
- 
- if(test.class == 1 && test.gender == 0) {
- //Create a Male Warrior.. refer to Male warrior sprite set and stats
- 
- test.stats.STR = 7;
- test.stats.INT = 2;
- //and so on
- 
- test.spriteSet = 1;
-//SpriteSet for Warrior 
- }
- if(test.class == 2 && test.gender == 1) {
- //Create a Female Mage.. refer to Female mage sprite set and stats
- 
- test.stats.STR = 2;
- test.stats.INT = 7;
- //and so on
- 
- test.spriteSet = 2;
- //SpriteSet for Mage
- }
 
 }
 
 public void Initialize() {
-	/* Insert Functionality to begin GAME here.... */
+	/* Insert Functionality to begin GAME here.... 
+	 * This information is general to all play sessions
+	 * */
 	score = 0;
 	lives = 3;
 	
@@ -62,6 +53,8 @@ public void EnemySpawner() {
 public void EndGame() {
 	/* Insert Functionality to end GAME here.... */
 	// Simple code to change the scene to Menu or Game Over screen
+	
+	MapID = 0; //Menu Screen
 }
 
 
