@@ -42,6 +42,7 @@ public class GameManager extends StateBasedGame {
 		
 		new Resources();
 		
+		this.addState(new MenuState());
 		this.addState(new GameState());
 	}
 } //EOF
