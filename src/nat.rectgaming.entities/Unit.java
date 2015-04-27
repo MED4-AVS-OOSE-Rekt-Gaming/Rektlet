@@ -1,4 +1,4 @@
-public class Unit extends GameObject{
+public abstract class Unit extends GameObject{
 	boolean canAct;
 	boolean isDead;
 	public int health;
@@ -23,26 +23,11 @@ public class Unit extends GameObject{
 		return health+"/"+damage+" Unit, a "+super.toString();
 	}
 	
-	public void Move(String direction){
+	public void Move(int directionX, int directionY){
 		if(canAct){
 			if(true){//TBI: Test for GameObject at space
-				switch (direction) {
-					case "up":
-						positionY=-1;
-						break;
-						
-					case "left":
-						positionX=-1;
-						break;
-					
-					case "down":
-						positionY=+1;
-						break;
-					
-					case "right":
-						positionX=+1;
-						break;
-				}
+				positionX += directionX;
+				positionY += directionY;
 			} else {
 				if(true){ //TBI: Is enemy?
 					Attack();
