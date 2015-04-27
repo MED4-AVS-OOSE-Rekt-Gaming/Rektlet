@@ -1,15 +1,21 @@
+package nat.rectgaming;
+
 import java.io.File;
 
-import nat.rectgaming.Window;
-import nat.rectgaming.states.*;
-import nat.rectgaming.states.world.*;
+//import nat.rectgaming.Window; //Missing File
+//import nat.rectgaming.states.*; //Missing File
+//import nat.rectgaming.states.world.*; //Missing File
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class GameManager {
+public class GameManager extends StateBasedGame {
+	
+	public GameManager(){
+	super ("Rektlet");	
+	}
 	
 protected int score;
 protected int lives;
@@ -23,8 +29,8 @@ public static void main(String[] args) {
 	if(f.exists()) System.setProperty("org.lwjgl.librarypath", f.getAbsolutePath());
 	
 	try {
-		AppGameContainer game = new AppGameContainer(new Engine());
-	game.setDisplayMode(Window.WIDTH, Window.HEIGHT, false);
+		AppGameContainer game = new AppGameContainer(new GameManager());
+	game.setDisplayMode(Window.WIDTH, Window.HEIGHT, false); //Missing Window
 	game.start();
 	} catch (SlickException e) {
 		e.printStackTrace();
@@ -47,7 +53,7 @@ public void PlayerFetch() {
 
 //This is for display of character and which sprite-set should be loaded according to user choice in the menu
 
-	public struct stats {
+	public struct stats { //Rewrite to Slick2D
  /* The Play creation contains 3 overall stats AGI, STR, INT
   *  AGI Covers, Ranged Attack Damage,  Attack Speed, Movement Speed and Chance to dodge
   *  STR Covers Melee Attack Damage, HP and Chance to Block
@@ -71,7 +77,7 @@ public void Initialize() {
 	
 }
 
-public void EnemySpawner() {
+public void EnemySpawner() { //Rewrite to Slick2D
 	if(Initialize() == true && MapID == 1) {
 	SkeletonEnemy SkeletonSpawner == true;
 	SkeletonSpawner.Amount = 10; //adds 10 skeleton units and no more over course of Delay
