@@ -1,3 +1,5 @@
+import org.newdawn.slick.GameContainer;
+
 class Player extends Unit{
 	
 	@Override
@@ -5,23 +7,34 @@ class Player extends Unit{
 		return "The Player, who is a "+super.toString();
 	}
 	
-	//input code should work with slick2D
-	/*public void Input(){
+	//Input parameters
+	public void PlayerInput(){
 		if (input.isKeyPressed(Input.KEY_UP)){
-			Move("up");
+			Move(0, -1);
 		} else {
 			if (input.isKeyPressed(Input.KEY_LEFT)){
-				Move("left");
+				Move(-1, 0);
 			} else { 
 				if (input.isKeyPressed(Input.KEY_DOWN)){
-					Move("down");
+					Move(0, 1);
 				} else { 
 					if (input.isKeyPressed(Input.KEY_RIGHT)){
-						Move("right");
+						Move(1, 0);
 					}
 				}
 			}
 		}
-	}*/
-}//EOF
->>>>>>> origin/master
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(GameContainer gc, int delta) {
+		// TODO Auto-generated method stub
+		
+	}
+} //EOF
