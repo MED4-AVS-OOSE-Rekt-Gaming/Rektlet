@@ -1,3 +1,5 @@
+package nat.rectgaming.entities;
+
 public class DmgUp extends PowerUp{
 
 	public int DmgBoost = 1;

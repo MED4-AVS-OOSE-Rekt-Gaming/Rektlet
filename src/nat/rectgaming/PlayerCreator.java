@@ -1,9 +1,10 @@
+package nat.rectgaming;
 
 public class PlayerCreator extends GameManager {
 
 	//This class will contain all the code,packages and sprites necessary to create a character
 
-	PlayerFetch character = new PlayerFetch();
+	PlayerFetch character = new PlayerFetch(); //Rewriteto Slick2D
 	//Function to Fetch Sprite Packages out from initial/input values
 	public void spriteLoader() {
 		

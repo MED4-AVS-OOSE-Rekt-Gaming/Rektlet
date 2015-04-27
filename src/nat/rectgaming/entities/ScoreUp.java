@@ -1,3 +1,4 @@
+package nat.rectgaming.entities;
 
 public class ScoreUp extends PowerUp{
 

@@ -1,3 +1,5 @@
+package nat.rectgaming.entities;
+
 public class HealthUp extends PowerUp{
 
 	public int HealthBoost = 1;

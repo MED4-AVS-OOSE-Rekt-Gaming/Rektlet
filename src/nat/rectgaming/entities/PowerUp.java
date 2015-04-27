@@ -1,3 +1,5 @@
+package nat.rectgaming.entities;
+
 public class PowerUp extends GameObject {
 	
 	PowerUp(){
