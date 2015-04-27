@@ -1,7 +1,10 @@
 package nat.rectgaming.states;
 
+
+
 import java.util.ArrayList;
 
+import nat.rectgaming.entities.Player;
 import nat.rectgaming.Resources;
 //import nat.rectgaming.states.world.World;
 import org.newdawn.slick.GameContainer;
@@ -15,7 +18,8 @@ public class GameState extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame s) throws SlickException {
-	
+		Player player1 = new Player();
+		System.out.println(player1);
 	}
 	
 	@Override
