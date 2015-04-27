@@ -2,9 +2,9 @@ package nat.rectgaming;
 
 import java.io.File;
 
-import nat.rectgaming.Window; //Missing File
-import nat.rectgaming.states.*; //Missing File
-import nat.rectgaming.states.world.*; //Missing File
+import nat.rectgaming.Window;
+import nat.rectgaming.states.*;
+import nat.rectgaming.states.world.*;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;

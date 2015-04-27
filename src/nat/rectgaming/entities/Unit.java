@@ -1,3 +1,5 @@
+package nat.rectgaming.entities;
+
 public abstract class Unit extends GameObject{
 	boolean canAct;
 	boolean isDead;
