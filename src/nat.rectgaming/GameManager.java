@@ -1,10 +1,46 @@
+import java.io.File;
+
+import nat.rectgaming.Window;
+import nat.rectgaming.states.*;
+import nat.rectgaming.states.world.*;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 public class GameManager {
+	
 protected int score;
 protected int lives;
 protected String PlayerName;
 protected int pclass = 0; //Default Warrior
 protected int gender = 0; //Default Male
+
+public static void main(String[] args) {
+	
+	File f = new File("natives");
+	if(f.exists()) System.setProperty("org.lwjgl.librarypath", f.getAbsolutePath());
+	
+	try {
+		AppGameContainer game = new AppGameContainer(new Engine());
+	game.setDisplayMode(Window.WIDTH, Window.HEIGHT, false);
+	game.start();
+	} catch (SlickException e) {
+		e.printStackTrace();
+	}
+}
+
+@Override
+public void initStatesList(GameContainer gc) throws SlickException {
+	gc.setMaximumLogicUpdateInterval(60);
+	gc.setTargetFrameRate(60);
+	gc.setAlwaysRender(true);
+	gc.setShowFPS(false);
+	gc.setVSync(true);
+	
+	new Resources();
+}
 
 public void PlayerFetch() {
 //This function gets all the initial information given by the user and loads them up in PlayerCreator
@@ -13,7 +49,7 @@ public void PlayerFetch() {
 
 	public struct stats {
  /* The Play creation contains 3 overall stats AGI, STR, INT
-  * AGI Covers, Ranged Attack Damage,  Attack Speed, Movement Speed and Chance to dodge
+  *  AGI Covers, Ranged Attack Damage,  Attack Speed, Movement Speed and Chance to dodge
   *  STR Covers Melee Attack Damage, HP and Chance to Block
   *  INT Covers, Magical Damage and other so called magical related things (This Stat can be removed) 
   *  */
