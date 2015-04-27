@@ -17,24 +17,31 @@ public class Player extends Unit{
 	
 	@Override
 	public void init() {
-	
+	Move(10,10);
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) {
 		//Read player input
 		Input playerInput = gc.getInput();
-		if(playerInput.isKeyDown(Input.KEY_UP)){
+		if(playerInput.isKeyPressed(Input.KEY_UP)){
 			System.out.println("Up was pressed!");
 			Move(0,-1);
-		} else if(playerInput.isKeyPressed(Input.KEY_LEFT)){
+			System.out.println(super.toString());
+		} if(playerInput.isKeyPressed(Input.KEY_LEFT)){
+			System.out.println("Left was pressed!");
 			Move(-1,0);
-			System.out.println();
-		} else if(playerInput.isKeyPressed(Input.KEY_DOWN)){
+			//System.out.println();
+		} if(playerInput.isKeyPressed(Input.KEY_DOWN)){
+			System.out.println("Down was pressed!");
 			Move(0,1);
 			
-		} else if(playerInput.isKeyPressed(Input.KEY_RIGHT)){
+		} if(playerInput.isKeyPressed(Input.KEY_RIGHT)){
+			System.out.println("Right was pressed!");
 			Move(1,0);
 		}
 	}
+	
+
+	
 } //EOF

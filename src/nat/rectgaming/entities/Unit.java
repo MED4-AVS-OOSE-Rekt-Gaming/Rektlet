@@ -1,5 +1,10 @@
 package nat.rectgaming.entities;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+
 public abstract class Unit extends GameObject{
 	boolean canAct;
 	boolean isDead;
@@ -7,6 +12,7 @@ public abstract class Unit extends GameObject{
 	public int damage;
 	
 	Unit(){
+		//init();
 		positionX = 0;
 		positionY = 0;
 		isDead = false;
@@ -19,6 +25,13 @@ public abstract class Unit extends GameObject{
 		isDead = false;
 		canAct = true;
 	}
+	
+	//public abstract void init();
+	public void render(GameContainer gc, Graphics g) {
+
+	}
+	public abstract void update(GameContainer gc, int delta);
+	
 	
 	@Override
 	public String toString(){
@@ -37,7 +50,7 @@ public abstract class Unit extends GameObject{
 			}//else
 		}//if(canAct) 
 	}//Move()
-	
+
 	protected void Attack(){
 		
 	}//Attack()
