@@ -1,4 +1,4 @@
-package nat.rectgaming.states.world;
+package nat.rectgaming;
 
 public class Tile {
 

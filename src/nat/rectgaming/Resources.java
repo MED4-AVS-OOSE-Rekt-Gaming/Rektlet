@@ -3,7 +3,7 @@ package nat.rectgaming;
 import java.util.HashMap;
 import java.util.Map;
 
-import nat.rectgaming.states.world.Tile;
+import nat.rectgaming.Tile;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
