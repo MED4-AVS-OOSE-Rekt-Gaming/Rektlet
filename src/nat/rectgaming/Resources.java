@@ -21,6 +21,12 @@ public class Resources {
 		sprites = new HashMap<String, SpriteSheet>();
 		sounds = new HashMap<String, Sound>();
 		
+		try {
+			images.put("testMap", loadImage("res/images/test2.png"));
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static Image loadImage(String path) throws SlickException {

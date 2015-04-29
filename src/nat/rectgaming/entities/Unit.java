@@ -1,5 +1,7 @@
 package nat.rectgaming.entities;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
 
@@ -26,6 +28,9 @@ public abstract class Unit extends GameObject{
 		canAct = true;
 	}
 
+	
+
+	
 	@Override
 	public String toString(){
 		return health+"/"+damage+" Unit, a "+super.toString();

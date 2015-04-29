@@ -11,6 +11,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -30,7 +31,7 @@ public static void main(String[] args) {
 	
 	try {
 		AppGameContainer game = new AppGameContainer(new GameManager());
-	game.setDisplayMode(Window.WIDTH, Window.HEIGHT, false); //Missing Window
+	game.setDisplayMode(Window.WIDTH, Window.HEIGHT, false);
 	game.start();
 	} catch (SlickException e) {
 		e.printStackTrace();
@@ -40,18 +41,18 @@ public static void main(String[] args) {
 
 @Override
 public void render(GameContainer gc, Graphics g) throws SlickException {
+
+	Resources.getImage("testMap").draw();
 	
-	int amount = entities.size();
-	for(int i = 0; i <amount; i++ ) {
-//		entities.get(i).render(gc, g);
-	}
+	
+	entities.get(0).moveDown.draw(entities.get(0).positionX*16, entities.get(0).positionY*16);
 
 }
 
 
 @Override
 public void init(GameContainer gc) throws SlickException {
-	// TODO Auto-generated method stub
+
 	gc.setMaximumLogicUpdateInterval(60);
 	gc.setTargetFrameRate(60);
 	gc.setAlwaysRender(true);
@@ -60,12 +61,9 @@ public void init(GameContainer gc) throws SlickException {
 	
 	new Resources();
 	
-	//this.addState(new MenuState());
-	//this.addState(new GameState());
-	
 	entities = new ArrayList<Unit>();
 	
-	entities.add(new Player());
+	entities.add(0, new Player());
 }	
 
 
@@ -93,8 +91,6 @@ public void update(GameContainer gc, int delta) throws SlickException {
 		System.out.println(entities.get(0).toString());
 	}
 	
-//	entities.get(0).update(gc, delta);
-
 }
 
 }
