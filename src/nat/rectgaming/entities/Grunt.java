@@ -10,6 +10,11 @@ public class Grunt extends Unit {
 	public Grunt(){
 		positionX = 0;
 		positionY = 0;
+		health = 3;
+		damage = 1;
+		isDead = false;
+		canAct = true;
+		
 	}
 	
 }//EOF
