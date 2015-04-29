@@ -21,27 +21,43 @@ public abstract class Unit extends GameObject{
 	public Animation moveDown;
 	public Animation moveRight;
 	
+	public String facingDirection;
+	
 	Unit(){
 		positionX = 0;
 		positionY = 0;
 		isDead = false;
 		canAct = true;
 	}
-
-	
-
 	
 	@Override
 	public String toString(){
 		return health+"/"+damage+" Unit, a "+super.toString();
 	}
 	
-	public void Move(int directionX, int directionY){
+	public void Move(String direction){
 		if(canAct){
 			if(true){//TBI: Test for GameObject at space
-				positionX += directionX;
-				positionY += directionY;
-			} else {
+				switch(direction){
+					case "up":
+						facingDirection = "up";
+						positionY--;
+						break;
+					case "left":
+						facingDirection = "left";
+						positionX--;
+						break;
+					case "down":
+						facingDirection = "down";
+						positionY++;
+						break;
+					case "right":
+						facingDirection = "right";
+						positionX++;
+						break;
+				}
+			}
+			else {
 				if(true){ //TBI: Is enemy?
 					Attack();
 				}
