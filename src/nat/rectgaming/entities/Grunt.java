@@ -7,15 +7,14 @@ public class Grunt extends Unit {
 		return "The Grunt, who is a "+super.toString();
 	}
 	
-	public Grunt(int spawnX, int spawnY){
-		positionX = spawnX;
-		positionY = spawnY;
-		
+	public Grunt(){
+		positionX = 0;
+		positionY = 0;
 		health = 3;
 		damage = 1;
 		isDead = false;
 		canAct = true;
+		
 	}
-	
 	
 }//EOF
