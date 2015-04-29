@@ -3,11 +3,8 @@ package nat.rectgaming;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD
-=======
 import nat.rectgaming.Tile;
 
->>>>>>> origin/master
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
