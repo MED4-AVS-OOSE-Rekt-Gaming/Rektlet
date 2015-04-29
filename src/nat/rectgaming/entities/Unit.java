@@ -1,13 +1,23 @@
 package nat.rectgaming.entities;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.Animation;
 
 public abstract class Unit extends GameObject{
 	boolean canAct;
 	boolean isDead;
 	public int health;
 	public int damage;
+	
+	public SpriteSheet spriteUp;
+	public SpriteSheet spriteLeft;
+	public SpriteSheet spriteDown;
+	public SpriteSheet spriteRight;
+	
+	public Animation moveUp;
+	public Animation moveLeft;
+	public Animation moveDown;
+	public Animation moveRight;
 	
 	Unit(){
 		positionX = 0;
@@ -16,9 +26,6 @@ public abstract class Unit extends GameObject{
 		canAct = true;
 	}
 
-	
-
-	
 	@Override
 	public String toString(){
 		return health+"/"+damage+" Unit, a "+super.toString();
