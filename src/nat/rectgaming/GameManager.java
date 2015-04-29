@@ -11,6 +11,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class GameManager extends BasicGame {
@@ -42,7 +43,7 @@ public void render(GameContainer gc, Graphics g) throws SlickException {
 	
 	int amount = entities.size();
 	for(int i = 0; i <amount; i++ ) {
-		entities.get(i).render(gc, g);
+//		entities.get(i).render(gc, g);
 	}
 
 }
@@ -65,15 +66,34 @@ public void init(GameContainer gc) throws SlickException {
 	entities = new ArrayList<Unit>();
 	
 	entities.add(new Player());
-	entities.get(0).init();
-	
 }	
 
 
 @Override
 public void update(GameContainer gc, int delta) throws SlickException {
 
-	entities.get(0).update(gc, delta);
+	//Read player input
+	Input playerInput = gc.getInput();
+	if(playerInput.isKeyPressed(Input.KEY_UP)){
+		System.out.println("Up was pressed!");
+		entities.get(0).Move(0,-1);
+		System.out.println(entities.get(0).toString());
+	} if(playerInput.isKeyPressed(Input.KEY_LEFT)){
+		System.out.println("Left was pressed!");
+		entities.get(0).Move(-1,0);
+		System.out.println(entities.get(0).toString());
+		//System.out.println();
+	} if(playerInput.isKeyPressed(Input.KEY_DOWN)){
+		System.out.println("Down was pressed!");
+		entities.get(0).Move(0,1);
+		System.out.println(entities.get(0).toString());
+	} if(playerInput.isKeyPressed(Input.KEY_RIGHT)){
+		System.out.println("Right was pressed!");
+		entities.get(0).Move(1,0);
+		System.out.println(entities.get(0).toString());
+	}
+	
+//	entities.get(0).update(gc, delta);
 
 }
 
