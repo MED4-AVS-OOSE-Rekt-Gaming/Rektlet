@@ -15,6 +15,7 @@ public class Grunt extends Unit {
 	public Grunt(int spawnX, int spawnY){
 		positionX = spawnX;
 		positionY = spawnY;
+		facingDirection = "down";
 		
 		health = 3;
 		damage = 1;
