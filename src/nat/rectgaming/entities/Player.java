@@ -15,6 +15,7 @@ public class Player extends Unit{
 	public Player(){
 		positionX = 0;
 		positionY = 0;
+		facingDirection = "down";
 		
 		try {
 			spriteUp = new SpriteSheet(new Image("res/babarianMoveUp.png"),16,16);

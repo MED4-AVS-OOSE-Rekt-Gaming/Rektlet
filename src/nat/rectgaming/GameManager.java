@@ -45,8 +45,26 @@ public void render(GameContainer gc, Graphics g) throws SlickException {
 	Resources.getImage("testMap").draw();
 	
 	
-	entities.get(0).moveDown.draw(entities.get(0).positionX*16, entities.get(0).positionY*16);
-
+	for(int entity = 0; entity < entities.size(); entity++){
+		Unit currEntity = entities.get(entity);
+		
+		switch(currEntity.facingDirection){
+			case "up":
+				currEntity.moveUp.draw(currEntity.positionX*16,currEntity.positionY*16);
+				break;
+			case "left":
+				currEntity.moveLeft.draw(currEntity.positionX*16,currEntity.positionY*16);
+				break;
+			case "down":
+				currEntity.moveDown.draw(currEntity.positionX*16,currEntity.positionY*16);
+				break;
+			case "right":
+				currEntity.moveRight.draw(currEntity.positionX*16,currEntity.positionY*16);
+				break;
+		}
+		
+	}
+	
 }
 
 
@@ -74,20 +92,20 @@ public void update(GameContainer gc, int delta) throws SlickException {
 	Input playerInput = gc.getInput();
 	if(playerInput.isKeyPressed(Input.KEY_UP)){
 		System.out.println("Up was pressed!");
-		entities.get(0).Move(0,-1);
+		entities.get(0).Move("up");
 		System.out.println(entities.get(0).toString());
 	} if(playerInput.isKeyPressed(Input.KEY_LEFT)){
 		System.out.println("Left was pressed!");
-		entities.get(0).Move(-1,0);
+		entities.get(0).Move("left");
 		System.out.println(entities.get(0).toString());
 		//System.out.println();
 	} if(playerInput.isKeyPressed(Input.KEY_DOWN)){
 		System.out.println("Down was pressed!");
-		entities.get(0).Move(0,1);
+		entities.get(0).Move("down");
 		System.out.println(entities.get(0).toString());
 	} if(playerInput.isKeyPressed(Input.KEY_RIGHT)){
 		System.out.println("Right was pressed!");
-		entities.get(0).Move(1,0);
+		entities.get(0).Move("right");
 		System.out.println(entities.get(0).toString());
 	}
 	
