@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import nat.rectgaming.Window;
 import nat.rectgaming.entities.Player;
 import nat.rectgaming.entities.Unit;
-import nat.rectgaming.states.*;
-import nat.rectgaming.states.world.*;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;

@@ -31,14 +31,16 @@ public class Player extends Unit{
 		} if(playerInput.isKeyPressed(Input.KEY_LEFT)){
 			System.out.println("Left was pressed!");
 			Move(-1,0);
+			System.out.println(super.toString());
 			//System.out.println();
 		} if(playerInput.isKeyPressed(Input.KEY_DOWN)){
 			System.out.println("Down was pressed!");
 			Move(0,1);
-			
+			System.out.println(super.toString());
 		} if(playerInput.isKeyPressed(Input.KEY_RIGHT)){
 			System.out.println("Right was pressed!");
 			Move(1,0);
+			System.out.println(super.toString());
 		}
 	}
 	
