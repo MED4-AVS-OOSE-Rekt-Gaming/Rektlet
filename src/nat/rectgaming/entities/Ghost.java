@@ -4,12 +4,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
+import nat.rectgaming.GameManager;
 
 public class Ghost extends Unit {
 	
 	@Override
 	public String toString(){
-		return "The Grunt, who is a "+super.toString();
+		return "The Ghost, who is a "+super.toString();
 	}
 	
 	public Ghost(int spawnX, int spawnY){
@@ -50,6 +51,27 @@ public class Ghost extends Unit {
 
 		} catch (SlickException e) {
 
+		}
+	}
+	
+	@Override
+	public void AI(){
+		if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY > this.positionY){
+			Move("rightDown");
+		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY > this.positionY){
+			Move("leftDown");
+		} else if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY < this.positionY){
+			Move("rightUp");
+		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY < this.positionY){
+			Move("leftUp");
+		} else if(GameManager.mainPlayer.positionX == this.positionX && GameManager.mainPlayer.positionY > this.positionY){
+			Move("down");
+		} else if(GameManager.mainPlayer.positionX == this.positionX && GameManager.mainPlayer.positionY < this.positionY){
+			Move("up");
+		} else if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY == this.positionY){
+			Move("right");
+		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY == this.positionY){
+			Move("left");
 		}
 	}
 }
