@@ -22,7 +22,7 @@ public class Resources {
 		sounds = new HashMap<String, Sound>();
 		
 		try {
-			images.put("testMap", loadImage("res/images/test2.png"));
+			images.put("testMap", loadImage("res/images/levels/test2.png"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
