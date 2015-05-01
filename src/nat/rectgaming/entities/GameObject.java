@@ -8,8 +8,8 @@ public abstract class GameObject {
 	public int positionX;
 	public int positionY;
 	
-	int width;
-	int height;
+	public int width;
+	public int height;
 	
 	Image sprite; //Sprite of the object
 	Color color; //Color wrapper

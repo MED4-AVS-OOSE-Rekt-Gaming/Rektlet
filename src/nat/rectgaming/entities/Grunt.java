@@ -4,6 +4,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 public class Grunt extends Unit {
 
@@ -16,7 +17,9 @@ public class Grunt extends Unit {
 		positionX = spawnX;
 		positionY = spawnY;
 		facingDirection = "down";
-		
+		width = 16;
+		height = 16;
+		rect = new Rectangle(positionX, positionY, width,height);
 		health = 3;
 		damage = 1;
 		isDead = false;

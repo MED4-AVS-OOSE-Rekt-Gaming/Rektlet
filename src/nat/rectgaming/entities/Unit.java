@@ -4,21 +4,24 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 public abstract class Unit extends GameObject{
 	boolean canAct;
 	boolean isDead;
 	public int health;
 	public int damage;
+	public Shape rect;
 	
 	public SpriteSheet spriteUp;
 	public SpriteSheet spriteLeft;
 	public SpriteSheet spriteDown;
 	public SpriteSheet spriteRight;
+	public SpriteSheet spriteRightUp;
 	public SpriteSheet spriteLeftUp;
 	public SpriteSheet spriteLeftDown;
 	public SpriteSheet spriteRightDown;
-	public SpriteSheet spriteRightUp;
 	
 	public Animation moveUp;
 	public Animation moveLeft;
@@ -39,55 +42,55 @@ public abstract class Unit extends GameObject{
 		return health+"/"+damage+" Unit, a "+super.toString();
 	}
 	
-	public void Move(String direction){
-		if(canAct){
-			if(true){//TBI: Test for GameObject at space
-				switch(direction){
-					case "up":
-						facingDirection = "up";
-						positionY--;
-						break;
-					case "left":
-						facingDirection = "left";
-						positionX--;
-						break;
-					case "down":
-						facingDirection = "down";
-						positionY++;
-						break;
-					case "right":
-						facingDirection = "right";
-						positionX++;
-						break;
+		public void Move(String direction){
+			if(canAct){
+				if(true){//TBI: Test for GameObject at space
+					switch(direction){
+						case "up":
+							facingDirection = "up";
+							positionY--;
+							break;
+						case "left":
+							facingDirection = "left";
+							positionX--;
+							break;
+						case "down":
+							facingDirection = "down";
+							positionY++;
+							break;
+						case "right":
+							facingDirection = "right";
+							positionX++;
+							break;
+							
+						case "leftUp":
+							facingDirection = "leftUp";
+							positionX--;
+							positionY--;
+							
+						case "leftDown":
+							facingDirection = "leftDown";
+							positionX--;
+							positionY++;
+							break;
+							
+						case "rightDown":
+							facingDirection = "rightDown";
+							positionX++;
+							positionY++;
+							break;
 						
-					case "leftUp":
-						facingDirection = "leftUp";
-						positionX--;
-						positionY--;
-						
-					case "leftDown":
-						facingDirection = "leftDown";
-						positionX--;
-						positionY++;
-						break;
-						
-					case "rightDown":
-						facingDirection = "rightDown";
-						positionX++;
-						positionY++;
-						break;
-					
-					case "rightUp":
-						facingDirection = "rightUp";
-						positionX++;
-						positionY--;
-						break;
-						
-					default:
-						System.out.println("Invalid direction was called!");
-						break;
+						case "rightUp":
+							facingDirection = "rightUp";
+							positionX++;
+							positionY--;
+							break;
+							
+						default:
+							System.out.println("Invalid direction was called!");
+							break;
+					}
 				}
-			}
 			else {
 				if(true){ //TBI: Is enemy?
 					Attack();
