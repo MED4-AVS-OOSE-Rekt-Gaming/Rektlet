@@ -4,7 +4,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
-
+import nat.rectgaming.GameManager;
 public class Player extends Unit{
 	
 	@Override
@@ -27,7 +27,7 @@ public class Player extends Unit{
 			spriteRight = new SpriteSheet(new Image("res/babarianMoveRight.png"),16,16);
 			moveRight = new Animation(spriteRight, 300);
 		} catch (SlickException e) {
-
+			System.err.println("Missing SpriteSheet");
 		}
 	}
 	

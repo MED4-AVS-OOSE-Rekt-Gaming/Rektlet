@@ -17,6 +17,7 @@ import org.newdawn.slick.SlickException;
 
 public class GameManager extends BasicGame {
 	
+	public int GameState = 0;
 	private ArrayList<Unit> entities; 
 	
 	public GameManager(){
@@ -63,7 +64,11 @@ public void render(GameContainer gc, Graphics g) throws SlickException {
 				break;
 		}
 		
-	}
+	} if (GameState == 1) {
+	//g.drawRect(50, 50, 100, 100);
+	g.drawString("This is a Test Menu", 50, 50);
+	g.drawString("Press Enter to return to the Game", 50, 150);
+}
 	
 }
 
@@ -87,7 +92,7 @@ public void init(GameContainer gc) throws SlickException {
 
 @Override
 public void update(GameContainer gc, int delta) throws SlickException {
-
+if(GameState == 0) {
 	//Read player input
 	Input playerInput = gc.getInput();
 	if(playerInput.isKeyPressed(Input.KEY_UP)){
@@ -107,6 +112,16 @@ public void update(GameContainer gc, int delta) throws SlickException {
 		System.out.println("Right was pressed!");
 		entities.get(0).Move("right");
 		System.out.println(entities.get(0).toString());
+	}
+}
+	if(gc.getInput().isKeyPressed(Input.KEY_RETURN)) {
+		System.out.println("Loading Menu");
+		GameState = 1;
+		
+	}
+	if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) {
+		System.out.println("Loading Game");
+		GameState = 0;
 	}
 	
 }
