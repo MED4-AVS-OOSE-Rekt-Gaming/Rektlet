@@ -26,11 +26,26 @@ public class Grunt extends Unit {
 
 			spriteUp = new SpriteSheet(new Image("res/gruntMoveUp.png"),16,16);
 			moveUp = new Animation(spriteUp, 300);
+			
 			spriteLeft = new SpriteSheet(new Image("res/gruntMoveLeft.png"),16,16);
 			moveLeft = new Animation(spriteLeft, 300);
+			
 			spriteDown = new SpriteSheet(new Image("res/gruntMoveDown.png"),16,16);
 			moveDown = new Animation(spriteDown, 300);
+			
 			spriteRight = new SpriteSheet(new Image("res/gruntMoveRight.png"),16,16);
+			moveRight = new Animation(spriteRight, 300);
+			
+			spriteRightUp = new SpriteSheet(new Image("res/gruntMoveUp.png"),16,16);
+			moveRight = new Animation(spriteRight, 300);
+			
+			spriteLeftUp = new SpriteSheet(new Image("res/gruntMoveUp.png"),16,16);
+			moveRight = new Animation(spriteRight, 300);
+			
+			spriteRightDown = new SpriteSheet(new Image("res/gruntMoveDown.png"),16,16);
+			moveRight = new Animation(spriteRight, 300);
+			
+			spriteLeftDown = new SpriteSheet(new Image("res/gruntMoveDown.png"),16,16);
 			moveRight = new Animation(spriteRight, 300);
 
 		} catch (SlickException e) {
