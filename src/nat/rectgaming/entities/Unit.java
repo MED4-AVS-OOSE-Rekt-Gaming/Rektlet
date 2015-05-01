@@ -72,7 +72,7 @@ public abstract class Unit extends GameObject{
 						break;
 						
 					case "rightDown":
-						facingDirection = "rightUp";
+						facingDirection = "rightDown";
 						positionX++;
 						positionY++;
 						break;
