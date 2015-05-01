@@ -15,6 +15,10 @@ public abstract class Unit extends GameObject{
 	public SpriteSheet spriteLeft;
 	public SpriteSheet spriteDown;
 	public SpriteSheet spriteRight;
+	public SpriteSheet spriteLeftUp;
+	public SpriteSheet spriteLeftDown;
+	public SpriteSheet spriteRightDown;
+	public SpriteSheet spriteRightUp;
 	
 	public Animation moveUp;
 	public Animation moveLeft;
@@ -54,6 +58,33 @@ public abstract class Unit extends GameObject{
 					case "right":
 						facingDirection = "right";
 						positionX++;
+						break;
+						
+					case "leftUp":
+						facingDirection = "leftUp";
+						positionX--;
+						positionY--;
+						
+					case "leftDown":
+						facingDirection = "leftDown";
+						positionX--;
+						positionY++;
+						break;
+						
+					case "rightDown":
+						facingDirection = "rightUp";
+						positionX++;
+						positionY++;
+						break;
+					
+					case "rightUp":
+						facingDirection = "rightUp";
+						positionX++;
+						positionY--;
+						break;
+						
+					default:
+						System.out.println("Invalid direction was called!");
 						break;
 				}
 			}
