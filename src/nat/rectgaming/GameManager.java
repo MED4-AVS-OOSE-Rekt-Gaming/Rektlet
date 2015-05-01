@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import nat.rectgaming.Window;
+import nat.rectgaming.entities.Ghost;
 import nat.rectgaming.entities.Grunt;
 import nat.rectgaming.entities.Player;
 import nat.rectgaming.entities.Unit;
@@ -22,6 +23,7 @@ public class GameManager extends BasicGame {
 	
 	public int GameStates = 0;
 	public ArrayList<Unit> entities; 
+	public static Player mainPlayer;
 	public ArrayList<staticObject> objects;
 	
 	public GameManager(){
@@ -52,35 +54,47 @@ public class GameManager extends BasicGame {
 		
 		if(GameStates == 0) {
 		
-		for(int obj = 0; obj < objects.size(); obj++) {
-			staticObject currObject = objects.get(obj);
-			currObject.objImage.draw(currObject.positionX, currObject.positionY);
-		}
-			
-		for(int entity = 0; entity < entities.size(); entity++){
-			Unit currEntity = entities.get(entity);
-			
-			switch(currEntity.facingDirection){
-				case "up":
-					currEntity.moveUp.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "left":
-					currEntity.moveLeft.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "down":
-					currEntity.moveDown.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "right":
-					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
-					break;
+			for(int obj = 0; obj < objects.size(); obj++) {
+				staticObject currObject = objects.get(obj);
+				currObject.objImage.draw(currObject.positionX, currObject.positionY);
+			}
+				
+			for(int entity = 0; entity < entities.size(); entity++){
+				Unit currEntity = entities.get(entity);
+				
+				switch(currEntity.facingDirection){
+					case "up":
+						currEntity.moveUp.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "left":
+						currEntity.moveLeft.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "down":
+						currEntity.moveDown.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "right":
+						currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "leftUp":
+						currEntity.moveLeftUp.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "leftDown":
+						currEntity.moveLeftDown.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "rightUp":
+						currEntity.moveRightUp.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "rightDown":
+						currEntity.moveRightDown.draw(currEntity.positionX,currEntity.positionY);
+						break;
+				}
 			}
 		}
-	}
-	if(GameStates == 1) {
-		g.drawString("Menu", 50, 50);
-		g.drawString("Press Right Shift to return to game", 50, 150);
-		
-	}
+		if(GameStates == 1) {
+			g.drawString("Menu", 50, 50);
+			g.drawString("Press Right Shift to return to game", 50, 150);
+			
+		}
 	
 	}
 	
@@ -99,79 +113,76 @@ public class GameManager extends BasicGame {
 		entities = new ArrayList<Unit>();
 		objects = new ArrayList<staticObject>();
 		
-		entities.add(0, new Player());
-		entities.add(1, new Grunt(32,32));
+		entities.add(0, mainPlayer = new Player());
+		entities.add(new Grunt(32,32));
+		entities.add(new Ghost(200,200));
 		objects.add(0, new rock(54,54));
 	}	
 
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-	if(GameStates == 0) {
-		
-		entities.get(0).rect.setLocation(entities.get(0).positionX, entities.get(0).positionY);
-		
-		entities.get(1).rect.setLocation(entities.get(1).positionX, entities.get(1).positionY);
-		
-		objects.get(0).rect.setLocation(objects.get(0).positionX, objects.get(0).positionY);
-		
-		if(entities.get(0).rect.intersects(entities.get(1).rect)) {
-			System.out.println("Hit");
+		if(GameStates == 0) {
+			
+			entities.get(0).rect.setLocation(entities.get(0).positionX, entities.get(0).positionY);
+			
+			entities.get(1).rect.setLocation(entities.get(1).positionX, entities.get(1).positionY);
+			
+			objects.get(0).rect.setLocation(objects.get(0).positionX, objects.get(0).positionY);
+			
+			if(entities.get(0).rect.intersects(entities.get(1).rect)) {
+				System.out.println("Hit");
+			}
+			
+			if(entities.get(0).rect.intersects(objects.get(0).rect)) {
+				System.out.println("Inpassable terrain");
+			}
+			
+			//Read player input
+			Input playerInput = gc.getInput();
+			
+			if(playerInput.isKeyDown(Input.KEY_UP) && playerInput.isKeyDown(Input.KEY_LEFT)){
+				entities.get(0).Move("leftUp");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_UP) && playerInput.isKeyDown(Input.KEY_RIGHT)){ 
+				entities.get(0).Move("rightUp");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_DOWN) && playerInput.isKeyDown(Input.KEY_LEFT)){
+				entities.get(0).Move("leftDown");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_DOWN) && playerInput.isKeyDown(Input.KEY_RIGHT)){
+				entities.get(0).Move("rightDown");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_UP) && (!playerInput.isKeyDown(Input.KEY_LEFT) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
+				entities.get(0).Move("up");
+			} 
+			
+			if(playerInput.isKeyDown(Input.KEY_LEFT) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
+				entities.get(0).Move("left");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_DOWN) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_LEFT))){
+				entities.get(0).Move("down");
+			} 
+			
+			if(playerInput.isKeyDown(Input.KEY_RIGHT) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_LEFT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
+				entities.get(0).Move("right");
+			}
 		}
 		
-		if(entities.get(0).rect.intersects(objects.get(0).rect)) {
-			System.out.println("Inpassable terrain");
+		for(int entity = 1; entity < entities.size(); entity++){
+			entities.get(entity).AI();
 		}
 		
-		//Read player input
-		Input playerInput = gc.getInput();
-		
-		if(playerInput.isKeyDown(Input.KEY_UP) && playerInput.isKeyDown(Input.KEY_LEFT)){
-			entities.get(0).Move("leftUp");
-			System.out.println(entities.get(0).toString());
+		if(gc.getInput().isKeyPressed(Input.KEY_RETURN)) {
+			GameStates = 1;
 		}
-		
-		if(playerInput.isKeyDown(Input.KEY_UP) && playerInput.isKeyDown(Input.KEY_RIGHT)){ 
-			entities.get(0).Move("rightUp");
-			System.out.println(entities.get(0).toString());
+		if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) {
+			GameStates = 0;
 		}
-		
-		if(playerInput.isKeyDown(Input.KEY_DOWN) && playerInput.isKeyDown(Input.KEY_LEFT)){
-			entities.get(0).Move("leftDown");
-			System.out.println(entities.get(0).toString());
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_DOWN) && playerInput.isKeyDown(Input.KEY_RIGHT)){
-			entities.get(0).Move("rightDown");
-			System.out.println(entities.get(0).toString());
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_UP) && (!playerInput.isKeyDown(Input.KEY_LEFT) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
-			entities.get(0).Move("up");
-			System.out.println(entities.get(0).toString());
-		} 
-		
-		if(playerInput.isKeyDown(Input.KEY_LEFT) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
-			entities.get(0).Move("left");
-			System.out.println(entities.get(0).toString());	
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_DOWN) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_LEFT))){
-			entities.get(0).Move("down");
-			System.out.println(entities.get(0).toString());
-		} 
-		
-		if(playerInput.isKeyDown(Input.KEY_RIGHT) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_LEFT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
-			entities.get(0).Move("right");
-			System.out.println(entities.get(0).toString());
-		}
-	}
-	
-	if(gc.getInput().isKeyPressed(Input.KEY_RETURN)) {
-		GameStates = 1;
-	}
-	if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) {
-		GameStates = 0;
-	}
 	}
 } //EOF

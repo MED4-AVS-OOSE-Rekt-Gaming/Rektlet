@@ -27,6 +27,11 @@ public abstract class Unit extends GameObject{
 	public Animation moveLeft;
 	public Animation moveDown;
 	public Animation moveRight;
+	public Animation moveLeftUp;
+	public Animation moveLeftDown;
+	public Animation moveRightUp;
+	public Animation moveRightDown;
+	
 	
 	public String facingDirection;
 	
@@ -67,6 +72,7 @@ public abstract class Unit extends GameObject{
 							facingDirection = "leftUp";
 							positionX--;
 							positionY--;
+							break;
 							
 						case "leftDown":
 							facingDirection = "leftDown";
@@ -107,4 +113,8 @@ public abstract class Unit extends GameObject{
 		isDead = true;
 		
 	}//Die()
-}
+	
+	public void AI(){
+		//Placeholder AI for overriding.
+	}
+} //EOF

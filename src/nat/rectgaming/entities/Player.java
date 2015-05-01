@@ -26,17 +26,25 @@ public class Player extends Unit{
 		facingDirection = "down";
 		
 		try {
-			spriteUp = new SpriteSheet(new Image("res/babarianMoveUp.png"),16,16);
+			spriteUp = new SpriteSheet(new Image("res/images/units/babarian/babarianMoveUp.png"),16,16);
 			moveUp = new Animation(spriteUp, 300);
-			spriteLeft = new SpriteSheet(new Image("res/babarianMoveLeft.png"),16,16);
+			spriteLeft = new SpriteSheet(new Image("res/images/units/babarian/babarianMoveLeft.png"),16,16);
 			moveLeft = new Animation(spriteLeft, 300);
-			spriteDown = new SpriteSheet(new Image("res/babarianMoveDown.png"),16,16);
+			spriteDown = new SpriteSheet(new Image("res/images/units/babarian/babarianMoveDown.png"),16,16);
 			moveDown = new Animation(spriteDown, 300);
-			spriteRight = new SpriteSheet(new Image("res/babarianMoveRight.png"),16,16);
+			spriteRight = new SpriteSheet(new Image("res/images/units/babarian/babarianMoveRight.png"),16,16);
 			moveRight = new Animation(spriteRight, 300);
+			
+			moveLeftUp = new Animation(spriteUp,300);
+			moveLeftDown = new Animation(spriteDown,300);
+			moveRightUp = new Animation(spriteUp,300);
+			moveRightDown = new Animation(spriteDown,300);
+			
 		} catch (SlickException e) {
 			System.err.println("Missing SpriteSheet");
 		}
+		
+		 
 	}
 	
 

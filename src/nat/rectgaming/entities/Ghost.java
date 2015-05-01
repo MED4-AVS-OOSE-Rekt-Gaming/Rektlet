@@ -23,8 +23,7 @@ public class Ghost extends Unit {
 		isDead = false;
 		canAct = true;
 		
-		try { //Override Move
-
+		try { 
 			spriteUp = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveUp.png"),16,16);
 			moveUp = new Animation(spriteUp, 300);
 			
@@ -38,16 +37,16 @@ public class Ghost extends Unit {
 			moveRight = new Animation(spriteRight, 300);
 			
 			spriteRightUp = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveRightUp.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
+			moveRightUp = new Animation(spriteRightUp, 300);
 			
 			spriteLeftUp = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveLeftUp.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
+			moveLeftUp = new Animation(spriteLeftUp, 300);
 			
 			spriteRightDown = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveRightDown.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
+			moveRightDown = new Animation(spriteRightDown, 300);
 			
 			spriteLeftDown = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveLeftDown.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
+			moveLeftDown = new Animation(spriteLeftDown, 300);
 
 		} catch (SlickException e) {
 
