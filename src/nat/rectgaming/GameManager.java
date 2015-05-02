@@ -22,20 +22,9 @@ import org.newdawn.slick.SlickException;
 public class GameManager extends BasicGame {
 	
 	public int GameStates = 0;
-	public ArrayList<Unit> Grunts;
-	public ArrayList<Unit> Ghosts;
+	public ArrayList<Unit> entities; 
 	public static Player mainPlayer;
-	public ArrayList<staticObject> rocks;
-	public ArrayList<staticObject> trees;
-	
-	//Collision Test Booleans
-	public boolean isStaticObject = false;
-	public boolean pMLeft = false;
-	public boolean pMRight = false;
-	public boolean pMUp = false;
-	public boolean pMDown = false;
-	public float speed = 0.1f;
-	public float cSpeed = 0.175f;
+	public ArrayList<staticObject> objects;
 	
 	public GameManager(){
 	super ("Rektlet");	
@@ -65,70 +54,47 @@ public class GameManager extends BasicGame {
 		
 		if(GameStates == 0) {
 		
-		for(int obj = 0; obj < rocks.size(); obj++) {
-			staticObject currObject = rocks.get(obj);
-			currObject.objImage.draw(currObject.positionX, currObject.positionY);
-		}
-			
-		for(int entity = 0; entity < Grunts.size(); entity++){
-			Unit currEntity = Grunts.get(entity);
-			
-			switch(currEntity.facingDirection){
-				case "up":
-					currEntity.moveUp.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "left":
-					currEntity.moveLeft.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "down":
-					currEntity.moveDown.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "right":
-					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
-					break;
+			for(int obj = 0; obj < objects.size(); obj++) {
+				staticObject currObject = objects.get(obj);
+				currObject.objImage.draw(currObject.positionX, currObject.positionY);
+			}
+				
+			for(int entity = 0; entity < entities.size(); entity++){
+				Unit currEntity = entities.get(entity);
+				
+				switch(currEntity.facingDirection){
+					case "up":
+						currEntity.moveUp.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "left":
+						currEntity.moveLeft.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "down":
+						currEntity.moveDown.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "right":
+						currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "leftUp":
+						currEntity.moveLeftUp.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "leftDown":
+						currEntity.moveLeftDown.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "rightUp":
+						currEntity.moveRightUp.draw(currEntity.positionX,currEntity.positionY);
+						break;
+					case "rightDown":
+						currEntity.moveRightDown.draw(currEntity.positionX,currEntity.positionY);
+						break;
+				}
 			}
 		}
-		for(int entity = 0; entity < Ghosts.size(); entity++){
-			Unit currEntity = Ghosts.get(entity);
+		if(GameStates == 1) {
+			g.drawString("Menu", 50, 50);
+			g.drawString("Press Right Shift to return to game", 50, 150);
 			
-			switch(currEntity.facingDirection){
-				case "up":
-					currEntity.moveUp.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "left":
-					currEntity.moveLeft.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "down":
-					currEntity.moveDown.draw(currEntity.positionX,currEntity.positionY);
-					break;
-				case "right":
-					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
-					break;
-			}
 		}
-		
-			Unit playerEntity = mainPlayer;
-			
-			switch(playerEntity.facingDirection){
-				case "up":
-					playerEntity.moveUp.draw(playerEntity.positionX,playerEntity.positionY);
-					break;
-				case "left":
-					playerEntity.moveLeft.draw(playerEntity.positionX,playerEntity.positionY);
-					break;
-				case "down":
-					playerEntity.moveDown.draw(playerEntity.positionX,playerEntity.positionY);
-					break;
-				case "right":
-					playerEntity.moveRight.draw(playerEntity.positionX,playerEntity.positionY);
-					break;
-			}
-	}
-	if(GameStates == 1) {
-		g.drawString("Menu", 50, 50);
-		g.drawString("Press Right Shift to return to game", 50, 150);
-		
-	}
 	
 	}
 	
@@ -144,163 +110,79 @@ public class GameManager extends BasicGame {
 		
 		new Resources();
 		
-		Grunts = new ArrayList<Unit>();
-		Ghosts = new ArrayList<Unit>();
-		rocks = new ArrayList<staticObject>();
+		entities = new ArrayList<Unit>();
+		objects = new ArrayList<staticObject>();
 		
-		
-		mainPlayer = new Player();
-		Grunts.add(0, new Grunt(32,32));
-		Ghosts.add(0, new Ghost(200,200));
-		rocks.add(0, new rock(54,54));
+		entities.add(0, mainPlayer = new Player());
+		entities.add(new Grunt(32,32));
+		entities.add(new Ghost(200,200));
+		objects.add(0, new rock(54,54));
 	}	
 
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-	if(GameStates == 0) {
-		isStaticObject = false;
-		mainPlayer.rect.setLocation(mainPlayer.positionX, mainPlayer.positionY);
-		
-		//entities.get(1).rect.setLocation(entities.get(1).positionX, entities.get(1).positionY);
-		
-		
-		rocks.get(0).rect.setLocation(rocks.get(0).positionX, rocks.get(0).positionY);
-		
-		for(int i = 1; i<Grunts.size(); i++) {
-			Grunts.get(i).rect.setLocation(Grunts.get(i).positionX, Grunts.get(i).positionY);
+		if(GameStates == 0) {
 			
-			if(Grunts.get(i).rect.intersects(mainPlayer.rect)) {
-				System.out.println("hit");
-				
-			}
-		}
-		
-		for(int j = 0; j<rocks.size(); j++) {
-			rocks.get(j).rect.setLocation(rocks.get(j).positionX, rocks.get(j).positionY);
+			entities.get(0).rect.setLocation(entities.get(0).positionX, entities.get(0).positionY);
 			
-			int a = 0;
-			for(int i = 0; i<Grunts.size(); i++) {
-				a=i;
+			entities.get(1).rect.setLocation(entities.get(1).positionX, entities.get(1).positionY);
+			
+			objects.get(0).rect.setLocation(objects.get(0).positionX, objects.get(0).positionY);
+			
+			if(entities.get(0).rect.intersects(entities.get(1).rect)) {
+				System.out.println("Hit");
 			}
-			if(rocks.get(j).rect.intersects(Grunts.get(a).rect)) {
-				System.out.println("Grunt hit an inpassable object");
+			
+			if(entities.get(0).rect.intersects(objects.get(0).rect)) {
+				System.out.println("Inpassable terrain");
 			}
-			if(rocks.get(j).rect.intersects(mainPlayer.rect)) {
-				System.out.println("You Hit an inpassable object");
-				isStaticObject = true;
+			
+			//Read player input
+			Input playerInput = gc.getInput();
+			
+			if(playerInput.isKeyDown(Input.KEY_UP) && playerInput.isKeyDown(Input.KEY_LEFT)){
+				entities.get(0).Move("leftUp");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_UP) && playerInput.isKeyDown(Input.KEY_RIGHT)){ 
+				entities.get(0).Move("rightUp");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_DOWN) && playerInput.isKeyDown(Input.KEY_LEFT)){
+				entities.get(0).Move("leftDown");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_DOWN) && playerInput.isKeyDown(Input.KEY_RIGHT)){
+				entities.get(0).Move("rightDown");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_UP) && (!playerInput.isKeyDown(Input.KEY_LEFT) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
+				entities.get(0).Move("up");
+			} 
+			
+			if(playerInput.isKeyDown(Input.KEY_LEFT) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
+				entities.get(0).Move("left");
+			}
+			
+			if(playerInput.isKeyDown(Input.KEY_DOWN) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_RIGHT) && !playerInput.isKeyDown(Input.KEY_LEFT))){
+				entities.get(0).Move("down");
+			} 
+			
+			if(playerInput.isKeyDown(Input.KEY_RIGHT) && (!playerInput.isKeyDown(Input.KEY_UP) && !playerInput.isKeyDown(Input.KEY_LEFT) && !playerInput.isKeyDown(Input.KEY_DOWN))){
+				entities.get(0).Move("right");
 			}
 		}
 		
-		if(isStaticObject == true && mainPlayer.facingDirection == "up") {
-			pMUp = true;
-
-		} else if(isStaticObject == true && mainPlayer.facingDirection == "down") {
-			pMDown = true;
-
-		} else if(isStaticObject == true && mainPlayer.facingDirection == "left") {
-			pMLeft = true;
-
-		} else if(isStaticObject == true && mainPlayer.facingDirection == "right") {
-			pMRight = true;
-
-		} 
-		
-		else {
-			isStaticObject = false;
-			pMUp = false;
-			pMDown = false;
-			pMRight = false;
-			pMLeft = false;
+		for(int entity = 1; entity < entities.size(); entity++){
+			entities.get(entity).AI();
 		}
 		
-		if(pMUp == true) {
-			mainPlayer.Move("down",cSpeed, delta);
-			System.out.println("Up = "+pMUp);
-			pMDown = false;
+		if(gc.getInput().isKeyPressed(Input.KEY_RETURN)) {
+			GameStates = 1;
 		}
-		
-		if(pMDown == true) {
-			mainPlayer.Move("up",cSpeed, delta);
-			System.out.println("Down = "+pMDown);
-			pMUp = false;
+		if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) {
+			GameStates = 0;
 		}
-		
-		if(pMLeft == true) {
-			mainPlayer.Move("right",cSpeed, delta);
-			System.out.println("Left = "+pMLeft);
-			pMRight = false;
-		}
-		
-		if(pMRight == true) {
-			mainPlayer.Move("left",cSpeed, delta);
-			System.out.println("Right = "+pMRight);
-			pMLeft = false;
-		}
-		/*if(entities.get(0).rect.intersects(entities.get(1).rect)) {
-			System.out.println("Hit");
-		}
-		*/
-		/*if(entities.get(0).rect.intersects(objects.get(0).rect)) {
-			System.out.println("Inpassable terrain");
-		}*/
-		//Gonna Rewrite this section to allow booleans to trigger toggle movement on/off during collision and Attack!
-		//Read player input
-		if(isStaticObject == false) {
-		Input playerInput = gc.getInput();
-		
-		if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_A)){
-			mainPlayer.Move("leftUp",speed, delta);
-			System.out.println(mainPlayer.toString());
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
-			mainPlayer.Move("rightUp",speed, delta);
-			System.out.println(mainPlayer.toString());
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
-			mainPlayer.Move("leftDown",speed, delta);
-			System.out.println(mainPlayer.toString());
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
-			mainPlayer.Move("rightDown",speed, delta);
-			System.out.println(mainPlayer.toString());
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
-			mainPlayer.Move("up",speed, delta);
-			System.out.println(mainPlayer.toString());
-		} 
-		
-		if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
-			mainPlayer.Move("left",speed, delta);
-			System.out.println(mainPlayer.toString());	
-		}
-		
-		if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
-			mainPlayer.Move("down",speed, delta);
-			System.out.println(mainPlayer.toString());
-		} 
-		
-		if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
-			mainPlayer.Move("right",speed, delta);
-			System.out.println(mainPlayer.toString());
-		}
-		}
-	}
-	
-	for(int entity = 0; entity < Ghosts.size(); entity++){
-		Ghosts.get(entity).AI(speed,delta);
-	}
-	
-	
-	if(gc.getInput().isKeyPressed(Input.KEY_RETURN)) {
-		GameStates = 1;
-	}
-	if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) {
-		GameStates = 0;
-	}
 	}
 } //EOF

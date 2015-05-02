@@ -32,6 +32,7 @@ public abstract class Unit extends GameObject{
 	public Animation moveRightUp;
 	public Animation moveRightDown;
 	
+	
 	public String facingDirection;
 	
 	Unit(){
@@ -46,49 +47,51 @@ public abstract class Unit extends GameObject{
 		return health+"/"+damage+" Unit, a "+super.toString();
 	}
 	
-		public void Move(String direction, float speedOverride, int delta){
+		public void Move(String direction){
 			if(canAct){
 				if(true){//TBI: Test for GameObject at space
 					switch(direction){
 						case "up":
 							facingDirection = "up";
-							positionY-= delta * speedOverride;
+							positionY--;
 							break;
 						case "left":
 							facingDirection = "left";
-							positionX-= delta *speedOverride;
+							positionX--;
 							break;
 						case "down":
 							facingDirection = "down";
-							positionY+= delta *speedOverride;
+							positionY++;
 							break;
 						case "right":
 							facingDirection = "right";
-							positionX+= delta *speedOverride;
+							positionX++;
 							break;
 							
 						case "leftUp":
 							facingDirection = "leftUp";
-							positionX-= delta *speedOverride;
-							positionY-= delta *speedOverride;
+							positionX--;
+							positionY--;
+							break;
 							
 						case "leftDown":
 							facingDirection = "leftDown";
-							positionX-= delta *speedOverride;
-							positionY+= delta *speedOverride;
+							positionX--;
+							positionY++;
 							break;
 							
 						case "rightDown":
 							facingDirection = "rightDown";
-							positionX+= delta *speedOverride;
-							positionY+= delta *speedOverride;
+							positionX++;
+							positionY++;
 							break;
 						
 						case "rightUp":
 							facingDirection = "rightUp";
-							positionX+= delta *speedOverride;
-							positionY-= delta *speedOverride;
+							positionX++;
+							positionY--;
 							break;
+							
 						default:
 							System.out.println("Invalid direction was called!");
 							break;
@@ -111,7 +114,7 @@ public abstract class Unit extends GameObject{
 		
 	}//Die()
 	
-	public void AI(float speed,int delta){
+	public void AI(){
 		//Placeholder AI for overriding.
 	}
-}
+} //EOF
