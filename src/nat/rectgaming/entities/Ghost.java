@@ -4,6 +4,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+
 import nat.rectgaming.GameManager;
 
 public class Ghost extends Unit {
@@ -16,14 +18,18 @@ public class Ghost extends Unit {
 	public Ghost(int spawnX, int spawnY){
 		positionX = spawnX;
 		positionY = spawnY;
+		width = 16;
+		height = 16;
+		rect = new Rectangle(positionX, positionY, width, height);
 		facingDirection = "down";
-		
 		health = 3;
 		damage = 1;
 		isDead = false;
 		canAct = true;
 		
-		try { 
+		
+		try { //Override Move
+
 			spriteUp = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveUp.png"),16,16);
 			moveUp = new Animation(spriteUp, 300);
 			
@@ -37,16 +43,16 @@ public class Ghost extends Unit {
 			moveRight = new Animation(spriteRight, 300);
 			
 			spriteRightUp = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveRightUp.png"),16,16);
-			moveRightUp = new Animation(spriteRightUp, 300);
+			moveRight = new Animation(spriteRight, 300);
 			
 			spriteLeftUp = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveLeftUp.png"),16,16);
-			moveLeftUp = new Animation(spriteLeftUp, 300);
+			moveRight = new Animation(spriteRight, 300);
 			
 			spriteRightDown = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveRightDown.png"),16,16);
-			moveRightDown = new Animation(spriteRightDown, 300);
+			moveRight = new Animation(spriteRight, 300);
 			
 			spriteLeftDown = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveLeftDown.png"),16,16);
-			moveLeftDown = new Animation(spriteLeftDown, 300);
+			moveRight = new Animation(spriteRight, 300);
 
 		} catch (SlickException e) {
 
@@ -54,23 +60,24 @@ public class Ghost extends Unit {
 	}
 	
 	@Override
-	public void AI(){
+	public void AI(float s ,int deltat){
 		if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY > this.positionY){
-			Move("rightDown");
+			Move("rightDown",s, deltat);
 		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY > this.positionY){
-			Move("leftDown");
+			Move("leftDown",s, deltat);
 		} else if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY < this.positionY){
-			Move("rightUp");
+			Move("rightUp",s, deltat);
 		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY < this.positionY){
-			Move("leftUp");
+			Move("leftUp",s, deltat);
 		} else if(GameManager.mainPlayer.positionX == this.positionX && GameManager.mainPlayer.positionY > this.positionY){
-			Move("down");
+			Move("down",s, deltat);
 		} else if(GameManager.mainPlayer.positionX == this.positionX && GameManager.mainPlayer.positionY < this.positionY){
-			Move("up");
+			Move("up",s, deltat);
 		} else if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY == this.positionY){
-			Move("right");
+			Move("right",s, deltat);
 		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY == this.positionY){
-			Move("left");
+			Move("left",s, deltat);
 		}
 	}
+
 }
