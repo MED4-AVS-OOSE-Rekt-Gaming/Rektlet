@@ -86,6 +86,7 @@ public class GameManager extends BasicGame {
 				case "right":
 					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
 					break;
+				
 			}
 		}
 		for(int entity = 0; entity < Ghosts.size(); entity++){
@@ -104,6 +105,19 @@ public class GameManager extends BasicGame {
 				case "right":
 					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
 					break;
+				case "rightUp":
+					currEntity.moveRightUp.draw(currEntity.positionX,currEntity.positionY);
+					break;
+				case "rightDown":
+					currEntity.moveRightDown.draw(currEntity.positionX,currEntity.positionY);
+					break;	
+				case "leftUp":
+					currEntity.moveLeftUp.draw(currEntity.positionX,currEntity.positionY);
+					break;	
+				case "leftDown":
+					currEntity.moveLeftDown.draw(currEntity.positionX,currEntity.positionY);
+					break;	
+				
 			}
 		}
 		
@@ -122,6 +136,18 @@ public class GameManager extends BasicGame {
 				case "right":
 					playerEntity.moveRight.draw(playerEntity.positionX,playerEntity.positionY);
 					break;
+				case "rightUp":
+					playerEntity.moveRightUp.draw(playerEntity.positionX,playerEntity.positionY);
+					break;
+				case "rightDown":
+					playerEntity.moveRightDown.draw(playerEntity.positionX,playerEntity.positionY);
+					break;	
+				case "leftUp":
+					playerEntity.moveLeftUp.draw(playerEntity.positionX,playerEntity.positionY);
+					break;	
+				case "leftDown":
+					playerEntity.moveLeftDown.draw(playerEntity.positionX,playerEntity.positionY);
+					break;	
 			}
 	}
 	if(GameStates == 1) {
@@ -149,7 +175,7 @@ public class GameManager extends BasicGame {
 		rocks = new ArrayList<staticObject>();
 		
 		
-		mainPlayer = new Player();
+		mainPlayer = new Player(5,5);
 		Grunts.add(0, new Grunt(32,32));
 		Ghosts.add(0, new Ghost(200,200));
 		rocks.add(0, new rock(54,54));
