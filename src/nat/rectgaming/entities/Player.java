@@ -17,9 +17,9 @@ public class Player extends Unit{
 		return "The Player, who is a "+super.toString();
 	}
 	
-	public Player(){
-		positionX = 0;
-		positionY = 0;
+	public Player(int spawnX, int spawnY){
+		positionX = spawnX;
+		positionY = spawnY;
 		width = 16;
 		height = 16;
 		rect = new Rectangle(positionX,positionY,width,height);
