@@ -90,6 +90,18 @@ public class GameManager extends BasicGame {
 				case "right":
 					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
 					break;
+				case "rightUp":
+					currEntity.moveRightUp.draw(currEntity.positionX,currEntity.positionY);
+					break;
+				case "rightDown":
+					currEntity.moveRightDown.draw(currEntity.positionX,currEntity.positionY);
+					break;	
+				case "leftUp":
+					currEntity.moveLeftUp.draw(currEntity.positionX,currEntity.positionY);
+					break;	
+				case "leftDown":
+					currEntity.moveLeftDown.draw(currEntity.positionX,currEntity.positionY);
+					break;	
 			}
 		}
 		for(int entity = 0; entity < Ghosts.size(); entity++){
