@@ -34,8 +34,12 @@ public class GameManager extends BasicGame {
 	public boolean pMRight = false;
 	public boolean pMUp = false;
 	public boolean pMDown = false;
+	public boolean pMUpLeft = false;
+	public boolean pMUpRight = false;
+	public boolean pMDownLeft = false;
+	public boolean pMDownRight = false;
 	public float speed = 0.1f;
-	public float cSpeed = 0.175f;
+	public float cSpeed = speed + 0.075f;
 	
 	public GameManager(){
 	super ("Rektlet");	
@@ -86,7 +90,6 @@ public class GameManager extends BasicGame {
 				case "right":
 					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
 					break;
-				
 			}
 		}
 		for(int entity = 0; entity < Ghosts.size(); entity++){
@@ -117,36 +120,34 @@ public class GameManager extends BasicGame {
 				case "leftDown":
 					currEntity.moveLeftDown.draw(currEntity.positionX,currEntity.positionY);
 					break;	
-				
 			}
 		}
 		
-			Unit playerEntity = mainPlayer;
 			
-			switch(playerEntity.facingDirection){
+			switch(mainPlayer.facingDirection){
 				case "up":
-					playerEntity.moveUp.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveUp.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;
 				case "left":
-					playerEntity.moveLeft.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveLeft.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;
 				case "down":
-					playerEntity.moveDown.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveDown.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;
 				case "right":
-					playerEntity.moveRight.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveRight.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;
 				case "rightUp":
-					playerEntity.moveRightUp.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveRightUp.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;
 				case "rightDown":
-					playerEntity.moveRightDown.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveRightDown.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;	
 				case "leftUp":
-					playerEntity.moveLeftUp.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveLeftUp.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;	
 				case "leftDown":
-					playerEntity.moveLeftDown.draw(playerEntity.positionX,playerEntity.positionY);
+					mainPlayer.moveLeftDown.draw(mainPlayer.positionX,mainPlayer.positionY);
 					break;	
 			}
 	}
@@ -165,7 +166,7 @@ public class GameManager extends BasicGame {
 		gc.setMaximumLogicUpdateInterval(60);
 		gc.setTargetFrameRate(60);
 		gc.setAlwaysRender(true);
-		gc.setShowFPS(false);
+		gc.setShowFPS(true);
 		gc.setVSync(true);
 		
 		new Resources();
@@ -230,7 +231,19 @@ public class GameManager extends BasicGame {
 		} else if(isStaticObject == true && mainPlayer.facingDirection == "right") {
 			pMRight = true;
 
-		} 
+		} else if(isStaticObject == true && mainPlayer.facingDirection == "leftUp") {
+			pMUpLeft = true;
+			
+		} else if(isStaticObject == true && mainPlayer.facingDirection == "rightUp") {
+			pMUpRight = true;
+			
+		} else if(isStaticObject == true && mainPlayer.facingDirection == "leftDown") {
+			pMDownLeft = true;
+			
+		} else if(isStaticObject == true && mainPlayer.facingDirection == "rightDown") {
+			pMDownRight = true;
+			
+		}
 		
 		else {
 			isStaticObject = false;
@@ -238,6 +251,10 @@ public class GameManager extends BasicGame {
 			pMDown = false;
 			pMRight = false;
 			pMLeft = false;
+			pMUpLeft = false;
+			pMUpRight = false;
+			pMDownRight = false;
+			pMDownLeft = false;
 		}
 		
 		if(pMUp == true) {
@@ -263,6 +280,28 @@ public class GameManager extends BasicGame {
 			System.out.println("Right = "+pMRight);
 			pMLeft = false;
 		}
+		
+		if(pMUpLeft == true) {
+			mainPlayer.Move("rightDown",cSpeed,delta);
+			pMDownRight = false;
+		}
+		
+		if(pMUpRight == true) {
+			mainPlayer.Move("leftDown",cSpeed,delta);
+			pMDownLeft = false;
+		}
+		
+		if(pMDownLeft == true) {
+			mainPlayer.Move("rightUp",cSpeed,delta);
+			pMUpRight = false;
+			
+		}
+		
+		if(pMDownRight == true) {
+			mainPlayer.Move("leftUp",cSpeed,delta);
+			pMUpLeft = false;
+			
+		}
 		/*if(entities.get(0).rect.intersects(entities.get(1).rect)) {
 			System.out.println("Hit");
 		}
@@ -280,37 +319,37 @@ public class GameManager extends BasicGame {
 			System.out.println(mainPlayer.toString());
 		}
 		
-		if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
+		else if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
 			mainPlayer.Move("rightUp",speed, delta);
 			System.out.println(mainPlayer.toString());
 		}
 		
-		if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
+		else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
 			mainPlayer.Move("leftDown",speed, delta);
 			System.out.println(mainPlayer.toString());
 		}
 		
-		if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
+		else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
 			mainPlayer.Move("rightDown",speed, delta);
 			System.out.println(mainPlayer.toString());
 		}
 		
-		if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
+		else if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
 			mainPlayer.Move("up",speed, delta);
 			System.out.println(mainPlayer.toString());
 		} 
 		
-		if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
+		else if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
 			mainPlayer.Move("left",speed, delta);
 			System.out.println(mainPlayer.toString());	
 		}
 		
-		if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
+		else if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
 			mainPlayer.Move("down",speed, delta);
 			System.out.println(mainPlayer.toString());
 		} 
 		
-		if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
+		else if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
 			mainPlayer.Move("right",speed, delta);
 			System.out.println(mainPlayer.toString());
 		}
