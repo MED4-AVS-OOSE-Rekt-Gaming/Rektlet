@@ -54,7 +54,6 @@ public class Ghost extends Unit {
 			spriteLeftDown = new SpriteSheet(new Image("res/images/units/ghost/ghostMoveLeftDown.png"),16,16);
 			moveLeftDown = new Animation(spriteLeftDown, 300);
 
-
 		} catch (SlickException e) {
 
 		}
@@ -62,21 +61,21 @@ public class Ghost extends Unit {
 	
 	@Override
 	public void AI(float s ,int deltat){
-		if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY > this.positionY){
+		if((int)(GameManager.mainPlayer.positionX) > (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) > (int)(this.positionY)){
 			Move("rightDown",s, deltat);
-		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY > this.positionY){
+		} else if((int)(GameManager.mainPlayer.positionX) < (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) > (int)(this.positionY)){
 			Move("leftDown",s, deltat);
-		} else if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY < this.positionY){
+		} else if((int)(GameManager.mainPlayer.positionX) > (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) < (int)(this.positionY)){
 			Move("rightUp",s, deltat);
-		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY < this.positionY){
+		} else if((int)(GameManager.mainPlayer.positionX) < (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) < (int)(this.positionY)){
 			Move("leftUp",s, deltat);
-		} else if(GameManager.mainPlayer.positionX == this.positionX && GameManager.mainPlayer.positionY > this.positionY){
+		} else if((int)(GameManager.mainPlayer.positionX) == (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) > (int)(this.positionY)){
 			Move("down",s, deltat);
-		} else if(GameManager.mainPlayer.positionX == this.positionX && GameManager.mainPlayer.positionY < this.positionY){
+		} else if((int)(GameManager.mainPlayer.positionX) == (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) < (int)(this.positionY)){
 			Move("up",s, deltat);
-		} else if(GameManager.mainPlayer.positionX > this.positionX && GameManager.mainPlayer.positionY == this.positionY){
+		} else if((int)(GameManager.mainPlayer.positionX) > (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) == (int)(this.positionY)){
 			Move("right",s, deltat);
-		} else if(GameManager.mainPlayer.positionX < this.positionX && GameManager.mainPlayer.positionY == this.positionY){
+		} else if((int)(GameManager.mainPlayer.positionX) < (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) == (int)(this.positionY)){
 			Move("left",s, deltat);
 		}
 	}
