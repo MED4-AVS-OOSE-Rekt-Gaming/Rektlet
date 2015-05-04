@@ -52,11 +52,11 @@ public abstract class Unit extends GameObject{
 					switch(direction){
 						case "up":
 							facingDirection = "up";
-							positionY-= speedOverride / delta ;
+							positionY-= speedOverride * delta ;
 							break;
 						case "left":
 							facingDirection = "left";
-							positionX-= speedOverride / delta;
+							positionX-= speedOverride * delta;
 							break;
 						case "down":
 							facingDirection = "down";
@@ -69,12 +69,13 @@ public abstract class Unit extends GameObject{
 							
 						case "leftUp":
 							facingDirection = "leftUp";
-							positionX-= speedOverride / delta;
+							positionX-= speedOverride * delta;
 							positionY-= speedOverride * delta;
+							break;
 							
 						case "leftDown":
 							facingDirection = "leftDown";
-							positionX-= speedOverride / delta;
+							positionX-= speedOverride * delta;
 							positionY+= speedOverride * delta;
 							break;
 							
@@ -87,7 +88,7 @@ public abstract class Unit extends GameObject{
 						case "rightUp":
 							facingDirection = "rightUp";
 							positionX+= speedOverride * delta;
-							positionY-= speedOverride / delta;
+							positionY-= speedOverride * delta;
 							break;
 						default:
 							System.out.println("Invalid direction was called!");
