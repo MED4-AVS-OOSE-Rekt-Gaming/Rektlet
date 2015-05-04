@@ -1,5 +1,6 @@
 package nat.rectgaming;
 
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ import nat.rectgaming.entities.Player;
 import nat.rectgaming.entities.Unit;
 import nat.rectgaming.entities.rock;
 import nat.rectgaming.entities.staticObject;
-
+import nat.rectgaming.Camera;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -38,8 +39,11 @@ public class GameManager extends BasicGame {
 	public boolean pMUpRight = false;
 	public boolean pMDownLeft = false;
 	public boolean pMDownRight = false;
-	public float speed = 0.1f;
-	public float cSpeed = speed + 0.075f;
+	public float speed = 0.06f;
+	public float ghostSpeed = 0.03f;
+	public float cSpeed = speed + 0.0075f;
+	public Camera cam = new Camera();
+	public boolean posCam = false;
 	
 	public GameManager(){
 	super ("Rektlet");	
@@ -64,14 +68,14 @@ public class GameManager extends BasicGame {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 
-		Resources.getImage("testMap").draw();
+		Resources.getImage("testMap").draw(cam.cameraX,cam.cameraY);
 		//Resources.getImage("rock").draw();
-		
+		//g.translate(-cam.cameraX, -cam.cameraY);
 		if(GameStates == 0) {
 		
 		for(int obj = 0; obj < rocks.size(); obj++) {
 			staticObject currObject = rocks.get(obj);
-			currObject.objImage.draw(currObject.positionX, currObject.positionY);
+			currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
 		}
 			
 		for(int entity = 0; entity < Grunts.size(); entity++){
@@ -79,28 +83,28 @@ public class GameManager extends BasicGame {
 			
 			switch(currEntity.facingDirection){
 				case "up":
-					currEntity.moveUp.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveUp.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "left":
-					currEntity.moveLeft.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveLeft.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "down":
-					currEntity.moveDown.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveDown.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "right":
-					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveRight.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "rightUp":
-					currEntity.moveRightUp.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveRightUp.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "rightDown":
-					currEntity.moveRightDown.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveRightDown.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;	
 				case "leftUp":
-					currEntity.moveLeftUp.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveLeftUp.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;	
 				case "leftDown":
-					currEntity.moveLeftDown.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveLeftDown.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;	
 			}
 		}
@@ -109,28 +113,28 @@ public class GameManager extends BasicGame {
 			
 			switch(currEntity.facingDirection){
 				case "up":
-					currEntity.moveUp.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveUp.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "left":
-					currEntity.moveLeft.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveLeft.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "down":
-					currEntity.moveDown.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveDown.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "right":
-					currEntity.moveRight.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveRight.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "rightUp":
-					currEntity.moveRightUp.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveRightUp.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;
 				case "rightDown":
-					currEntity.moveRightDown.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveRightDown.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;	
 				case "leftUp":
-					currEntity.moveLeftUp.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveLeftUp.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;	
 				case "leftDown":
-					currEntity.moveLeftDown.draw(currEntity.positionX,currEntity.positionY);
+					currEntity.moveLeftDown.draw(cam.cameraX+currEntity.positionX,cam.cameraY+currEntity.positionY);
 					break;	
 			}
 		}
@@ -138,30 +142,33 @@ public class GameManager extends BasicGame {
 			
 			switch(mainPlayer.facingDirection){
 				case "up":
-					mainPlayer.moveUp.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveUp.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;
 				case "left":
-					mainPlayer.moveLeft.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveLeft.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;
 				case "down":
-					mainPlayer.moveDown.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveDown.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;
 				case "right":
-					mainPlayer.moveRight.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveRight.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;
 				case "rightUp":
-					mainPlayer.moveRightUp.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveRightUp.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;
 				case "rightDown":
-					mainPlayer.moveRightDown.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveRightDown.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;	
 				case "leftUp":
-					mainPlayer.moveLeftUp.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveLeftUp.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;	
 				case "leftDown":
-					mainPlayer.moveLeftDown.draw(mainPlayer.positionX,mainPlayer.positionY);
+					mainPlayer.moveLeftDown.draw(cam.cameraX+mainPlayer.positionX,cam.cameraY+mainPlayer.positionY);
 					break;	
 			}
+			
+	
+
 	}
 	if(GameStates == 1) {
 		g.drawString("Menu", 50, 50);
@@ -176,9 +183,10 @@ public class GameManager extends BasicGame {
 	public void init(GameContainer gc) throws SlickException {
 	
 		gc.setMaximumLogicUpdateInterval(60);
+		//gc.setMinimumLogicUpdateInterval(30);
 		gc.setTargetFrameRate(60);
 		gc.setAlwaysRender(true);
-		gc.setShowFPS(true);
+		gc.setShowFPS(false);
 		gc.setVSync(true);
 		
 		new Resources();
@@ -187,11 +195,17 @@ public class GameManager extends BasicGame {
 		Ghosts = new ArrayList<Unit>();
 		rocks = new ArrayList<staticObject>();
 		
-		
-		mainPlayer = new Player(5,5);
+//		cam.cameraX = 200;
+//		cam.cameraY = 200;
+		mainPlayer = new Player(200,50);
 		Grunts.add(0, new Grunt(32,32));
 		Ghosts.add(0, new Ghost(200,200));
 		rocks.add(0, new rock(54,54));
+
+		//cam.centerOn(mainPlayer.playerCenterX+600/2, mainPlayer.playerCenterY+600/2);
+
+		posCam = true;
+
 	}	
 
 
@@ -199,15 +213,20 @@ public class GameManager extends BasicGame {
 	public void update(GameContainer gc, int delta) throws SlickException {
 	if(GameStates == 0) {
 		isStaticObject = false;
-		mainPlayer.rect.setLocation(mainPlayer.positionX, mainPlayer.positionY);
-		
+		if(posCam == true) {
+			cam.cameraX = -mainPlayer.positionX+300;
+			cam.cameraY = -mainPlayer.positionY+300; 
+			posCam = false;
+		}
+		mainPlayer.rect.setLocation(cam.cameraX+mainPlayer.positionX, cam.cameraY+mainPlayer.positionY);
+
 		//entities.get(1).rect.setLocation(entities.get(1).positionX, entities.get(1).positionY);
-		
+
 		
 		rocks.get(0).rect.setLocation(rocks.get(0).positionX, rocks.get(0).positionY);
 		
-		for(int i = 1; i<Grunts.size(); i++) {
-			Grunts.get(i).rect.setLocation(Grunts.get(i).positionX, Grunts.get(i).positionY);
+		for(int i = 0; i<Grunts.size(); i++) {
+			Grunts.get(i).rect.setLocation(cam.cameraX+Grunts.get(i).positionX, cam.cameraY+Grunts.get(i).positionY);
 			
 			if(Grunts.get(i).rect.intersects(mainPlayer.rect)) {
 				System.out.println("hit");
@@ -216,7 +235,7 @@ public class GameManager extends BasicGame {
 		}
 		
 		for(int j = 0; j<rocks.size(); j++) {
-			rocks.get(j).rect.setLocation(rocks.get(j).positionX, rocks.get(j).positionY);
+			rocks.get(j).rect.setLocation(cam.cameraX+rocks.get(j).positionX, cam.cameraY+rocks.get(j).positionY);
 			
 			int a = 0;
 			for(int i = 0; i<Grunts.size(); i++) {
@@ -271,6 +290,7 @@ public class GameManager extends BasicGame {
 		
 		if(pMUp == true) {
 			mainPlayer.Move("down",cSpeed, delta);
+			cam.cameraY-= cSpeed * delta;
 			System.out.println("Up = "+pMUp);
 			pMDown = false;
 		}
@@ -278,39 +298,51 @@ public class GameManager extends BasicGame {
 		if(pMDown == true) {
 			mainPlayer.Move("up",cSpeed, delta);
 			System.out.println("Down = "+pMDown);
+			cam.cameraY+= cSpeed * delta;
 			pMUp = false;
 		}
 		
 		if(pMLeft == true) {
 			mainPlayer.Move("right",cSpeed, delta);
 			System.out.println("Left = "+pMLeft);
+			cam.cameraX-= cSpeed * delta;
 			pMRight = false;
 		}
 		
 		if(pMRight == true) {
 			mainPlayer.Move("left",cSpeed, delta);
 			System.out.println("Right = "+pMRight);
+			cam.cameraX+= cSpeed * delta;
 			pMLeft = false;
 		}
 		
 		if(pMUpLeft == true) {
 			mainPlayer.Move("rightDown",cSpeed,delta);
+			cam.cameraX-= cSpeed * delta;
+			cam.cameraY-= cSpeed * delta;
 			pMDownRight = false;
+
 		}
 		
 		if(pMUpRight == true) {
 			mainPlayer.Move("leftDown",cSpeed,delta);
+			cam.cameraX+= cSpeed * delta;
+			cam.cameraY-= cSpeed * delta;
 			pMDownLeft = false;
 		}
 		
 		if(pMDownLeft == true) {
 			mainPlayer.Move("rightUp",cSpeed,delta);
+			cam.cameraX-= cSpeed * delta;
+			cam.cameraY+= cSpeed * delta;
 			pMUpRight = false;
 			
 		}
 		
 		if(pMDownRight == true) {
 			mainPlayer.Move("leftUp",cSpeed,delta);
+			cam.cameraX+= cSpeed * delta;
+			cam.cameraY+= cSpeed * delta;
 			pMUpLeft = false;
 			
 		}
@@ -328,48 +360,61 @@ public class GameManager extends BasicGame {
 		
 		if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_A)){
 			mainPlayer.Move("leftUp",speed, delta);
+			cam.cameraX += speed*delta;
+			cam.cameraY += speed*delta;
+			
 			System.out.println(mainPlayer.toString());
 		}
 		
 		else if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
 			mainPlayer.Move("rightUp",speed, delta);
+			cam.cameraX -= speed*delta;
+			cam.cameraY += speed*delta;
 			System.out.println(mainPlayer.toString());
 		}
 		
 		else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
 			mainPlayer.Move("leftDown",speed, delta);
+			cam.cameraX += speed*delta;
+			cam.cameraY -= speed*delta;
 			System.out.println(mainPlayer.toString());
 		}
 		
 		else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
 			mainPlayer.Move("rightDown",speed, delta);
+			cam.cameraX -= speed*delta;
+			cam.cameraY -= speed*delta;
 			System.out.println(mainPlayer.toString());
 		}
 		
 		else if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
 			mainPlayer.Move("up",speed, delta);
+			cam.cameraY += speed*delta;
 			System.out.println(mainPlayer.toString());
 		} 
 		
 		else if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
 			mainPlayer.Move("left",speed, delta);
+			cam.cameraX += speed*delta;
 			System.out.println(mainPlayer.toString());	
 		}
 		
 		else if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
 			mainPlayer.Move("down",speed, delta);
+			cam.cameraY -= speed*delta;
 			System.out.println(mainPlayer.toString());
 		} 
 		
 		else if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
 			mainPlayer.Move("right",speed, delta);
+			cam.cameraX -= speed*delta;
 			System.out.println(mainPlayer.toString());
 		}
 		}
 	}
 	
 	for(int entity = 0; entity < Ghosts.size(); entity++){
-		Ghosts.get(entity).AI(speed,delta);
+		Ghosts.get(entity).AI(ghostSpeed,delta);
 	}
 	
 	
@@ -379,5 +424,6 @@ public class GameManager extends BasicGame {
 	if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) {
 		GameStates = 0;
 	}
+	
 	}
 } //EOF
