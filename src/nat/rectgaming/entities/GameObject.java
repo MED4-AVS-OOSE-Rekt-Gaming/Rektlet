@@ -5,8 +5,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Color;
 
 public abstract class GameObject {
-	public int positionX;
-	public int positionY;
+	public float positionX;
+	public float positionY;
 	
 	public int width;
 	public int height;
