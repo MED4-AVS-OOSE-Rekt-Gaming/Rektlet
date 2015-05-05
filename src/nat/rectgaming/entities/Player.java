@@ -10,8 +10,6 @@ import org.newdawn.slick.geom.Shape;
 import nat.rectgaming.GameManager;
 public class Player extends Unit{
 	
-	//public Shape rect = new Rectangle (positionX, positionY, 16,16);
-	
 	@Override
 	public String toString(){
 		return "The Player, who is a "+super.toString();
@@ -43,10 +41,36 @@ public class Player extends Unit{
 		} catch (SlickException e) {
 			System.err.println("Missing SpriteSheet");
 		}
-		
-		 
 	}
 	
+	public void Shoot(){
+		Projectile shot = new Projectile();
+		
+		switch(facingDirection){
+			case "up":
+				shot.positionX = this.positionX;
+				shot.positionY = this.positionY-16;
+			break;
+			
+			case "left":
+				shot.positionX = this.positionX-16;
+				shot.positionY = this.positionY;
+			break;
+			
+			case "down":
+				shot.positionX = this.positionX;
+				shot.positionY = this.positionY+16;
+			break;
+			
+			case "right":
+				shot.positionX = this.positionX+16;
+				shot.positionY = this.positionY;
+			break;
+		}
+		
+		shot.flyingDirection = facingDirection;
+		GameManager.Projectiles.add(shot);
+	}
 
 
 	
