@@ -53,7 +53,7 @@ public class Grunt extends Unit {
 	
 	@Override
 	public void AI(float s ,int deltat){
-		
+		if(health > 0){
 			if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
 				Move("rightDown",s, deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
@@ -71,7 +71,8 @@ public class Grunt extends Unit {
 			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
 				Move("left",s, deltat);
 			}
-		
+		} else {
+			System.out.println("I died!");
+		}
 	}//AI End
-	
 }//EOF

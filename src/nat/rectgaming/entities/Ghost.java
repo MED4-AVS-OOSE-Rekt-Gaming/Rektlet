@@ -1,13 +1,12 @@
 package nat.rectgaming.entities;
 
+import nat.rectgaming.Maploader;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
-
-import nat.rectgaming.GameManager;
-import nat.rectgaming.Maploader;
 
 public class Ghost extends Unit {
 	
@@ -62,22 +61,24 @@ public class Ghost extends Unit {
 	
 	@Override
 	public void AI(float s ,int deltat){
-		if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-			Move("rightDown",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-			Move("leftDown",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-			Move("rightUp",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-			Move("leftUp",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-			Move("down",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-			Move("up",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
-			Move("right",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
-			Move("left",s, deltat);
+		if(health > 0){
+			if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+				Move("rightDown",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+				Move("leftDown",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+				Move("rightUp",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+				Move("leftUp",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+				Move("down",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+				Move("up",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
+				Move("right",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
+				Move("left",s, deltat);
+			}
 		}
 	}
 

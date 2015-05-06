@@ -230,7 +230,6 @@ public class GameManager extends BasicGame {
 		//	MapLoader = true;
 			Maploader.LoadMap(Maploader.lvl+=1, 0);
 			posCam = true;
-			
 		}
 
 
@@ -271,7 +270,14 @@ public class GameManager extends BasicGame {
 				
 				if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 					System.out.println("hit");
-					
+				}
+			}
+			
+			for(int i = 0; i<Maploader.grunts.size(); i++) {
+				Maploader.ghosts.get(i).rect.setLocation(cam.cameraX+Maploader.ghosts.get(i).positionX, cam.cameraY+Maploader.ghosts.get(i).positionY);
+				
+				if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
+					System.out.println("hit");
 				}
 			}
 			
@@ -289,6 +295,31 @@ public class GameManager extends BasicGame {
 					System.out.println("You Hit a rock");
 					isStaticObject = true;
 				}
+			}
+			
+			for(int i = 0; i<Projectiles.size(); i++) {
+				Projectiles.get(i).rect.setLocation(cam.cameraX+Projectiles.get(i).positionX, cam.cameraY+Projectiles.get(i).positionY);
+				boolean toBeRemoved = false;
+				
+				//Checks if projectile hits Grunt
+				for(int j = 0; j<Maploader.grunts.size(); j++){
+					if(Projectiles.get(i).rect.intersects(Maploader.grunts.get(j).rect)) {
+						toBeRemoved = true;
+						Maploader.grunts.get(j).health--;
+					}
+				}
+				
+				//Checks if projectile hits Ghost
+				for(int j = 0; j<Maploader.ghosts.size(); j++){
+					if(Projectiles.get(i).rect.intersects(Maploader.ghosts.get(j).rect)) {
+						toBeRemoved = true;
+						Maploader.ghosts.get(j).health--;
+					}
+				}
+				
+				//Removes projectile if it has hit something
+				if(toBeRemoved)
+					Projectiles.remove(i);
 			}
 			
 			if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "up") {
@@ -455,7 +486,6 @@ public class GameManager extends BasicGame {
 					Projectiles.get(projectile).Fly(delta);
 					System.out.println(Projectiles.get(projectile));
 				} else {
-					Projectiles.get(projectile).Die();
 					Projectiles.remove(projectile);
 				}
 			}

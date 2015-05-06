@@ -4,6 +4,8 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 public class Projectile extends GameObject {
 	String flyingDirection;
@@ -12,6 +14,7 @@ public class Projectile extends GameObject {
 	
 	public Projectile thisProjectile;
 	public float projectileSpeed;
+	public Shape rect;
 	
 	@Override
 	public String toString(){
@@ -21,6 +24,7 @@ public class Projectile extends GameObject {
 	public Projectile(){
 		thisProjectile = this;
 		projectileSpeed = 0.2f;
+		rect = new Rectangle(positionX,positionY,8,8);
 		try {
 			projectileAnimation = new Animation(new SpriteSheet(new Image("res/images/units/babarian/playerProjectile.png"),8,8),150);
 		} catch (SlickException e) {
@@ -60,9 +64,5 @@ public class Projectile extends GameObject {
 				positionY += projectileSpeed * delta;
 				break;
 		}
-	}
-	
-	public void Die(){
-		thisProjectile = null;
 	}
 }
