@@ -53,23 +53,25 @@ public class Grunt extends Unit {
 	
 	@Override
 	public void AI(float s ,int deltat){
-		if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-			Move("rightDown",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-			Move("leftDown",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-			Move("rightUp",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-			Move("leftUp",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-			Move("down",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-			Move("up",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
-			Move("right",s, deltat);
-		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
-			Move("left",s, deltat);
-		}
-	}
+		
+			if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+				Move("rightDown",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+				Move("leftDown",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+				Move("rightUp",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+				Move("leftUp",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+				Move("down",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+				Move("up",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
+				Move("right",s, deltat);
+			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
+				Move("left",s, deltat);
+			}
+		
+	}//AI End
 	
 }//EOF
