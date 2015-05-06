@@ -8,6 +8,7 @@ public abstract class staticObject extends GameObject {
 	public int hp;
 	public Image objImage;
 	public Shape rect;
+	
 	staticObject() {
 		positionX = 0;
 		positionY = 0;

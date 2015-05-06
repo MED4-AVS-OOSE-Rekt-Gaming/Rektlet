@@ -50,14 +50,13 @@ public class GameManager extends BasicGame {
 	public int spawns = 0;
 	public int delay = 0;
 	public boolean canSpawn = true;
+	
 	//Camera Variables
 	public Camera cam = new Camera();
 	public boolean posCam = false;
 	
-
-	
 	public GameManager(){
-	super ("Rektlet");	
+		super ("Rektlet");	
 	}
 	
 
@@ -82,23 +81,23 @@ public class GameManager extends BasicGame {
 
 		if(Maploader.GameState == 0 && Maploader.lvl == 0) {
 			Resources.getImage("testMap").draw(cam.cameraX,cam.cameraY);
-			
-
 		} 
+		
 		if (Maploader.GameState == 0 && Maploader.lvl == 2) {
-			Resources.getImage("testMap").draw(cam.cameraX,cam.cameraY);
-			
-			
+			Resources.getImage("testMap").draw(cam.cameraX,cam.cameraY);	
 		}
+		
 		if(Maploader.GameState == 0 && Maploader.lvl < 5){
 			for(int obj = 0; obj < Maploader.Rocks.size(); obj++) {
 				staticObject currObject = Maploader.Rocks.get(obj);
 				currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
 			}
+			
 			for(int obj = 0; obj < Maploader.walls.size(); obj++) {
 				staticObject currObject = Maploader.walls.get(obj);
 				currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
 			}
+			
 			for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
 				staticObject currObject = Maploader.ghostSpawner.get(obj);
 				currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
@@ -259,20 +258,10 @@ public class GameManager extends BasicGame {
 	
 			for(int i = 0; i<Maploader.walls.size(); i++) {
 				Maploader.walls.get(i).rect.setLocation(cam.cameraX+Maploader.walls.get(i).positionX, cam.cameraY+Maploader.walls.get(i).positionY);
-				
-				int a = 0;
-				for(int j = 0; j<Maploader.grunts.size(); j++) {
-					a=j;
-				}
-				if(Maploader.walls.get(i).rect.intersects(Maploader.grunts.get(a).rect)) {
-					System.out.println("Grunt hit a wall");
-				}
-				
-				if(Maploader.walls.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
-					System.out.println("You hit a Wall");
-					isStaticObject = true;
-				}
-				
+			}
+			
+			for(int i = 0; i<Maploader.Rocks.size(); i++) {
+				Maploader.Rocks.get(i).rect.setLocation(cam.cameraX+Maploader.Rocks.get(i).positionX, cam.cameraY+Maploader.Rocks.get(i).positionY);
 			}
 
 			for(int i = 0; i<Maploader.grunts.size(); i++) {
@@ -280,7 +269,6 @@ public class GameManager extends BasicGame {
 				
 				if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 					System.out.println("hit");
-					
 				}
 			}
 			
@@ -292,22 +280,7 @@ public class GameManager extends BasicGame {
 				}
 			}
 			
-			for(int j = 0; j<Maploader.Rocks.size(); j++) {
-				Maploader.Rocks.get(j).rect.setLocation(cam.cameraX+Maploader.Rocks.get(j).positionX, cam.cameraY+Maploader.Rocks.get(j).positionY);
-				
-				int a = 0;
-				for(int i = 0; i<Maploader.grunts.size(); i++) {
-					a=i;
-				}
-				if(Maploader.Rocks.get(j).rect.intersects(Maploader.grunts.get(a).rect)) {
-					System.out.println("Grunt hit a rock");
-				}
-				if(Maploader.Rocks.get(j).rect.intersects(Maploader.mainPlayer.rect)) {
-					System.out.println("You Hit a rock");
-					isStaticObject = true;
-				}
-			}
-			
+			//Projectile Collision
 			for(int i = 0; i<Projectiles.size(); i++) {
 				Projectiles.get(i).rect.setLocation(cam.cameraX+Projectiles.get(i).positionX, cam.cameraY+Projectiles.get(i).positionY);
 				boolean toBeRemoved = false;
@@ -333,157 +306,67 @@ public class GameManager extends BasicGame {
 					Projectiles.remove(i);
 			}
 			
-			if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "up") {
-				pMUp = true;
-	
-			} else if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "down") {
-				pMDown = true;
-	
-			} else if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "left") {
-				pMLeft = true;
-	
-			} else if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "right") {
-				pMRight = true;
-	
-			} else if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "leftUp") {
-				pMUpLeft = true;
-				
-			} else if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "rightUp") {
-				pMUpRight = true;
-				
-			} else if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "leftDown") {
-				pMDownLeft = true;
-				
-			} else if(isStaticObject == true && Maploader.mainPlayer.facingDirection == "rightDown") {
-				pMDownRight = true;
-			}
-			
-			else {
-				isStaticObject = false;
-				pMUp = false;
-				pMDown = false;
-				pMRight = false;
-				pMLeft = false;
-				pMUpLeft = false;
-				pMUpRight = false;
-				pMDownRight = false;
-				pMDownLeft = false;
-			}
-			
-			if(pMUp == true) {
-				Maploader.mainPlayer.Move("down",cSpeed, delta);
-				cam.cameraY-= cSpeed * delta;
-				System.out.println("Up = "+pMUp);
-				pMDown = false;
-			}
-			
-			if(pMDown == true) {
-				Maploader.mainPlayer.Move("up",cSpeed, delta);
-				System.out.println("Down = "+pMDown);
-				cam.cameraY+= cSpeed * delta;
-				pMUp = false;
-			}
-			
-			if(pMLeft == true) {
-				Maploader.mainPlayer.Move("right",cSpeed, delta);
-				System.out.println("Left = "+pMLeft);
-				cam.cameraX-= cSpeed * delta;
-				pMRight = false;
-			}
-			
-			if(pMRight == true) {
-				Maploader.mainPlayer.Move("left",cSpeed, delta);
-				System.out.println("Right = "+pMRight);
-				cam.cameraX+= cSpeed * delta;
-				pMLeft = false;
-			}
-			
-			if(pMUpLeft == true) {
-				Maploader.mainPlayer.Move("rightDown",cSpeed,delta);
-				cam.cameraX-= cSpeed * delta;
-				cam.cameraY-= cSpeed * delta;
-				pMDownRight = false;
-	
-			}
-			
-			if(pMUpRight == true) {
-				Maploader.mainPlayer.Move("leftDown",cSpeed,delta);
-				cam.cameraX+= cSpeed * delta;
-				cam.cameraY-= cSpeed * delta;
-				pMDownLeft = false;
-			}
-			
-			if(pMDownLeft == true) {
-				Maploader.mainPlayer.Move("rightUp",cSpeed,delta);
-				cam.cameraX-= cSpeed * delta;
-				cam.cameraY+= cSpeed * delta;
-				pMUpRight = false;
-				
-			}
-			
-			if(pMDownRight == true) {
-				Maploader.mainPlayer.Move("leftUp",cSpeed,delta);
-				cam.cameraX+= cSpeed * delta;
-				cam.cameraY+= cSpeed * delta;
-				pMUpLeft = false;
-			}
-			
-			
 			//Read player input
-			if(isStaticObject == false) {
+			if(Maploader.mainPlayer.canAct) {
 				Input playerInput = gc.getInput();
 				
 				if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_A)){
-					Maploader.mainPlayer.Move("leftUp",speed, delta);
-					cam.cameraX += speed*delta;
-					cam.cameraY += speed*delta;
-					
-					System.out.println(Maploader.mainPlayer.toString());
+					if(!playerCollisionTest(-1,-1)){
+						Maploader.mainPlayer.Move("leftUp",speed, delta);
+						cam.cameraX += speed*delta;
+						cam.cameraY += speed*delta;
+					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
-					Maploader.mainPlayer.Move("rightUp",speed, delta);
-					cam.cameraX -= speed*delta;
-					cam.cameraY += speed*delta;
-					System.out.println(Maploader.mainPlayer.toString());
+					if(!playerCollisionTest(1,-1)){
+						Maploader.mainPlayer.Move("rightUp",speed, delta);
+						cam.cameraX -= speed*delta;
+						cam.cameraY += speed*delta;
+					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
-					Maploader.mainPlayer.Move("leftDown",speed, delta);
-					cam.cameraX += speed*delta;
-					cam.cameraY -= speed*delta;
-					System.out.println(Maploader.mainPlayer.toString());
+					if(!playerCollisionTest(-1,1)){
+						Maploader.mainPlayer.Move("leftDown",speed, delta);
+						cam.cameraX += speed*delta;
+						cam.cameraY -= speed*delta;
+					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
-					Maploader.mainPlayer.Move("rightDown",speed, delta);
-					cam.cameraX -= speed*delta;
-					cam.cameraY -= speed*delta;
-					System.out.println(Maploader.mainPlayer.toString());
+					if(!playerCollisionTest(1,1)){
+						Maploader.mainPlayer.Move("rightDown",speed, delta);
+						cam.cameraX -= speed*delta;
+						cam.cameraY -= speed*delta;
+					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
-					Maploader.mainPlayer.Move("up",speed, delta);
-					cam.cameraY += speed*delta;
-					System.out.println(Maploader.mainPlayer.toString());
+					if(!playerCollisionTest(0,-1)){
+						Maploader.mainPlayer.Move("up",speed, delta);
+						cam.cameraY += speed*delta;
+					}
 				} 
 				
 				else if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
-					Maploader.mainPlayer.Move("left",speed, delta);
-					cam.cameraX += speed*delta;
-					System.out.println(Maploader.mainPlayer.toString());	
+					if(!playerCollisionTest(-1,0)){
+						Maploader.mainPlayer.Move("left",speed, delta);
+						cam.cameraX += speed*delta;	
+					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
-					Maploader.mainPlayer.Move("down",speed, delta);
-					cam.cameraY -= speed*delta;
-					System.out.println(Maploader.mainPlayer.toString());
-				} 
-				
+					if(!playerCollisionTest(0,1)){
+						Maploader.mainPlayer.Move("down",speed, delta);
+						cam.cameraY -= speed*delta;
+					} 
+				}
 				else if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
-					Maploader.mainPlayer.Move("right",speed, delta);
-					cam.cameraX -= speed*delta;
-					System.out.println(Maploader.mainPlayer.toString());
+					if(!playerCollisionTest(1,0)){
+						Maploader.mainPlayer.Move("right",speed, delta);
+						cam.cameraX -= speed*delta;	
+					}
 				}
 				
 				if(playerInput.isKeyPressed(Input.KEY_SPACE)){
@@ -495,7 +378,6 @@ public class GameManager extends BasicGame {
 				//Check if projectile is within bounds
 				if(Projectiles.get(projectile).positionX > Maploader.mainPlayer.positionX-150 && Projectiles.get(projectile).positionX < Maploader.mainPlayer.positionX+150 && Projectiles.get(projectile).positionY > Maploader.mainPlayer.positionY-150 && Projectiles.get(projectile).positionY < Maploader.mainPlayer.positionY+150){
 					Projectiles.get(projectile).Fly(delta);
-					System.out.println(Projectiles.get(projectile));
 				} else {
 					Projectiles.remove(projectile);
 				}
@@ -521,9 +403,6 @@ public class GameManager extends BasicGame {
 				if(canSpawn == true && Maploader.lvl !=1) {
 					spawns = 0;
 				}
-				
-			
-			
 			}
 			//spawns++;
 			
@@ -532,8 +411,35 @@ public class GameManager extends BasicGame {
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
 			Maploader.GameState = 1;
 		}
+		
 		if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) { 
 			Maploader.GameState = 0;
 		}
 	}//Update End
+	
+	
+	
+	boolean playerCollisionTest(float testPosX, float testPosY){
+		//
+		Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX+testPosX,cam.cameraY+Maploader.mainPlayer.positionY+testPosY);
+		
+		//Test for collision with walls
+		for(int object = 0; object < Maploader.walls.size(); object++){
+			if(Maploader.mainPlayer.rect.intersects(Maploader.walls.get(object).rect)){
+				Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX,cam.cameraY+Maploader.mainPlayer.positionY);
+				return true;
+			}
+		}
+		
+		//Test for collision with rocks
+		for(int object = 0; object < Maploader.Rocks.size(); object++){
+			if(Maploader.mainPlayer.rect.intersects(Maploader.Rocks.get(object).rect)){
+				Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX,cam.cameraY+Maploader.mainPlayer.positionY);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 } //EOF
