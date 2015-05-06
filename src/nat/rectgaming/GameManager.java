@@ -17,6 +17,7 @@ import nat.rectgaming.Camera;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -61,7 +62,7 @@ public class GameManager extends BasicGame {
 		if(f.exists()) System.setProperty("org.lwjgl.librarypath", f.getAbsolutePath());
 		
 		try {
-			AppGameContainer game = new AppGameContainer(new GameManager());
+		AppGameContainer game = new AppGameContainer(new ScalableGame(new GameManager(),300,300));
 		game.setDisplayMode(Window.WIDTH, Window.HEIGHT, false);
 		game.start();
 		} catch (SlickException e) {
@@ -234,8 +235,8 @@ public class GameManager extends BasicGame {
 
 
 		if(posCam == true) {
-			cam.cameraX = -Maploader.mainPlayer.positionX+300;
-			cam.cameraY = -Maploader.mainPlayer.positionY+300; 
+			cam.cameraX = -Maploader.mainPlayer.positionX+150;
+			cam.cameraY = -Maploader.mainPlayer.positionY+150; 
 			posCam = false;
 		}
 
@@ -450,7 +451,7 @@ public class GameManager extends BasicGame {
 			
 			for(int projectile = 0; projectile < Projectiles.size(); projectile++){
 				//Check if projectile is within bounds
-				if(Projectiles.get(projectile).positionX > Maploader.mainPlayer.positionX-Window.WIDTH/2 && Projectiles.get(projectile).positionX < Maploader.mainPlayer.positionX+Window.WIDTH/2 && Projectiles.get(projectile).positionY > Maploader.mainPlayer.positionY-Window.HEIGHT/2 && Projectiles.get(projectile).positionY < Maploader.mainPlayer.positionY+Window.HEIGHT/2){
+				if(Projectiles.get(projectile).positionX > Maploader.mainPlayer.positionX-150 && Projectiles.get(projectile).positionX < Maploader.mainPlayer.positionX+150 && Projectiles.get(projectile).positionY > Maploader.mainPlayer.positionY-150 && Projectiles.get(projectile).positionY < Maploader.mainPlayer.positionY+150){
 					Projectiles.get(projectile).Fly(delta);
 					System.out.println(Projectiles.get(projectile));
 				} else {
