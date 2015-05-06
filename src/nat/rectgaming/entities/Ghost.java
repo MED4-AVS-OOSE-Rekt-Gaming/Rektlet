@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import nat.rectgaming.GameManager;
+import nat.rectgaming.Maploader;
 
 public class Ghost extends Unit {
 	
@@ -61,21 +62,21 @@ public class Ghost extends Unit {
 	
 	@Override
 	public void AI(float s ,int deltat){
-		if((int)(GameManager.mainPlayer.positionX) > (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) > (int)(this.positionY)){
+		if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
 			Move("rightDown",s, deltat);
-		} else if((int)(GameManager.mainPlayer.positionX) < (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) > (int)(this.positionY)){
+		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
 			Move("leftDown",s, deltat);
-		} else if((int)(GameManager.mainPlayer.positionX) > (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) < (int)(this.positionY)){
+		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
 			Move("rightUp",s, deltat);
-		} else if((int)(GameManager.mainPlayer.positionX) < (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) < (int)(this.positionY)){
+		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
 			Move("leftUp",s, deltat);
-		} else if((int)(GameManager.mainPlayer.positionX) == (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) > (int)(this.positionY)){
+		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
 			Move("down",s, deltat);
-		} else if((int)(GameManager.mainPlayer.positionX) == (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) < (int)(this.positionY)){
+		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
 			Move("up",s, deltat);
-		} else if((int)(GameManager.mainPlayer.positionX) > (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) == (int)(this.positionY)){
+		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
 			Move("right",s, deltat);
-		} else if((int)(GameManager.mainPlayer.positionX) < (int)(this.positionX) && (int)(GameManager.mainPlayer.positionY) == (int)(this.positionY)){
+		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
 			Move("left",s, deltat);
 		}
 	}
