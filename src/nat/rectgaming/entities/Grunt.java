@@ -1,5 +1,7 @@
 package nat.rectgaming.entities;
 
+import nat.rectgaming.Maploader;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
@@ -39,22 +41,35 @@ public class Grunt extends Unit {
 			spriteRight = new SpriteSheet(new Image("res/images/units/grunt/gruntMoveRight.png"),16,16);
 			moveRight = new Animation(spriteRight, 300);
 			
-			spriteRightUp = new SpriteSheet(new Image("res/images/units/grunt/gruntMoveUp.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
-			
-			spriteLeftUp = new SpriteSheet(new Image("res/images/units/grunt/gruntMoveUp.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
-			
-			spriteRightDown = new SpriteSheet(new Image("res/images/units/grunt/gruntMoveDown.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
-			
-			spriteLeftDown = new SpriteSheet(new Image("res/images/units/grunt/gruntMoveDown.png"),16,16);
-			moveRight = new Animation(spriteRight, 300);
+			moveLeftUp = new Animation(spriteUp,300);
+			moveLeftDown = new Animation(spriteDown,300);
+			moveRightUp = new Animation(spriteUp,300);
+			moveRightDown = new Animation(spriteDown,300);
 
 		} catch (SlickException e) {
 
 		}
 	}
 	
+	@Override
+	public void AI(float s ,int deltat){
+		if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+			Move("rightDown",s, deltat);
+		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+			Move("leftDown",s, deltat);
+		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+			Move("rightUp",s, deltat);
+		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+			Move("leftUp",s, deltat);
+		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
+			Move("down",s, deltat);
+		} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
+			Move("up",s, deltat);
+		} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
+			Move("right",s, deltat);
+		} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
+			Move("left",s, deltat);
+		}
+	}
 	
 }//EOF
