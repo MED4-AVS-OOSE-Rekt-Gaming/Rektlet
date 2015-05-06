@@ -13,15 +13,16 @@ import nat.rectgaming.entities.Unit;
 import nat.rectgaming.entities.rock;
 import nat.rectgaming.entities.Wall;
 import nat.rectgaming.entities.staticObject;
+import nat.rectgaming.entities.GhostSpawner;
 import nat.rectgaming.Camera;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 
 public class GameManager extends BasicGame {
@@ -40,11 +41,15 @@ public class GameManager extends BasicGame {
 	public boolean pMUpRight = false;
 	public boolean pMDownLeft = false;
 	public boolean pMDownRight = false;
+	
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
 	public float gruntSpeed = 0.03f;
 	public float cSpeed = speed + 0.0075f;
 	
+	public int spawns = 0;
+	public int delay = 0;
+	public boolean canSpawn = true;
 	//Camera Variables
 	public Camera cam = new Camera();
 	public boolean posCam = false;
@@ -62,7 +67,7 @@ public class GameManager extends BasicGame {
 		if(f.exists()) System.setProperty("org.lwjgl.librarypath", f.getAbsolutePath());
 		
 		try {
-		AppGameContainer game = new AppGameContainer(new ScalableGame(new GameManager(),300,300));
+			AppGameContainer game = new AppGameContainer(new ScalableGame(new GameManager(),300,300));
 		game.setDisplayMode(Window.WIDTH, Window.HEIGHT, false);
 		game.start();
 		} catch (SlickException e) {
@@ -92,6 +97,10 @@ public class GameManager extends BasicGame {
 			}
 			for(int obj = 0; obj < Maploader.walls.size(); obj++) {
 				staticObject currObject = Maploader.walls.get(obj);
+				currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
+			}
+			for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
+				staticObject currObject = Maploader.ghostSpawner.get(obj);
 				currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
 			}
 			
@@ -230,8 +239,9 @@ public class GameManager extends BasicGame {
 		//	MapLoader = true;
 			Maploader.LoadMap(Maploader.lvl+=1, 0);
 			posCam = true;
+			
 		}
-
+		
 
 		if(posCam == true) {
 			cam.cameraX = -Maploader.mainPlayer.positionX+150;
@@ -270,10 +280,11 @@ public class GameManager extends BasicGame {
 				
 				if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 					System.out.println("hit");
+					
 				}
 			}
 			
-			for(int i = 0; i<Maploader.grunts.size(); i++) {
+			for(int i = 0; i<Maploader.ghosts.size(); i++) {
 				Maploader.ghosts.get(i).rect.setLocation(cam.cameraX+Maploader.ghosts.get(i).positionX, cam.cameraY+Maploader.ghosts.get(i).positionY);
 				
 				if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
@@ -493,10 +504,29 @@ public class GameManager extends BasicGame {
 			for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
 				Maploader.ghosts.get(entity).AI(ghostSpeed,delta);
 			}
-
 			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
 				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 			}
+			if(canSpawn == true && Maploader.lvl == 1) {
+				delay++;
+				if(delay > 500) {
+					spawns++;
+					for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
+						Maploader.ghostSpawner.get(obj).spawner(spawns, delay, canSpawn);
+						
+					}
+					delay = 0;
+				}
+				
+				if(canSpawn == true && Maploader.lvl !=1) {
+					spawns = 0;
+				}
+				
+			
+			
+			}
+			//spawns++;
+			
 		
 		//These will be updated to fit the new Maploader so they actually work as a menu
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
