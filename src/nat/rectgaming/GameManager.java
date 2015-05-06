@@ -41,6 +41,7 @@ public class GameManager extends BasicGame {
 	public boolean pMDownRight = false;
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
+	public float gruntSpeed = 0.03f;
 	public float cSpeed = speed + 0.0075f;
 	
 	//Camera Variables
@@ -180,6 +181,10 @@ public class GameManager extends BasicGame {
 				case "leftDown":
 					Maploader.mainPlayer.moveLeftDown.draw(cam.cameraX+Maploader.mainPlayer.positionX,cam.cameraY+Maploader.mainPlayer.positionY);
 					break;	
+			}
+			
+			for(int projectile = 0; projectile < Projectiles.size(); projectile++){
+				Projectiles.get(projectile).projectileAnimation.draw(cam.cameraX+Projectiles.get(projectile).positionX,cam.cameraY+Projectiles.get(projectile).positionY);
 			}
 		}
 		
@@ -445,7 +450,7 @@ public class GameManager extends BasicGame {
 			
 			for(int projectile = 0; projectile < Projectiles.size(); projectile++){
 				//Check if projectile is within bounds
-				if(Projectiles.get(projectile).positionX > 0 && Projectiles.get(projectile).positionX < Window.WIDTH && Projectiles.get(projectile).positionY > 0 && Projectiles.get(projectile).positionY < Window.HEIGHT){
+				if(Projectiles.get(projectile).positionX > Maploader.mainPlayer.positionX-Window.WIDTH/2 && Projectiles.get(projectile).positionX < Maploader.mainPlayer.positionX+Window.WIDTH/2 && Projectiles.get(projectile).positionY > Maploader.mainPlayer.positionY-Window.HEIGHT/2 && Projectiles.get(projectile).positionY < Maploader.mainPlayer.positionY+Window.HEIGHT/2){
 					Projectiles.get(projectile).Fly(delta);
 					System.out.println(Projectiles.get(projectile));
 				} else {
@@ -456,6 +461,10 @@ public class GameManager extends BasicGame {
 			
 			for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
 				Maploader.ghosts.get(entity).AI(ghostSpeed,delta);
+			}
+			
+			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
+				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 			}
 		
 		//These will be updated to fit the new Maploader so they actually work as a menu

@@ -1,12 +1,14 @@
 package nat.rectgaming.entities;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 public class Projectile extends GameObject {
 	String flyingDirection;
 	SpriteSheet ProjectileSprites;
-	Animation ProjectileAnimation;
+	public Animation projectileAnimation;
 	
 	public Projectile thisProjectile;
 	public float projectileSpeed;
@@ -19,6 +21,11 @@ public class Projectile extends GameObject {
 	public Projectile(){
 		thisProjectile = this;
 		projectileSpeed = 0.2f;
+		try {
+			projectileAnimation = new Animation(new SpriteSheet(new Image("res/images/units/babarian/playerProjectile.png"),8,8),150);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void Fly(int delta){
@@ -36,7 +43,7 @@ public class Projectile extends GameObject {
 				positionX += projectileSpeed * delta;
 				break;
 			
-			case "lefUp":
+			case "leftUp":
 				positionX -= projectileSpeed * delta;
 				positionY -= projectileSpeed * delta;
 				break;

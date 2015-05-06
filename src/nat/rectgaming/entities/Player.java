@@ -48,24 +48,38 @@ public class Player extends Unit{
 		
 		switch(facingDirection){
 			case "up":
-				shot.positionX = this.positionX;
+				shot.positionX = this.positionX+4;
 				shot.positionY = this.positionY-16;
-			break;
-			
+				break;
 			case "left":
 				shot.positionX = this.positionX-16;
-				shot.positionY = this.positionY;
-			break;
-			
+				shot.positionY = this.positionY+4;
+				break;
 			case "down":
-				shot.positionX = this.positionX;
+				shot.positionX = this.positionX+4;
 				shot.positionY = this.positionY+16;
-			break;
-			
+				break;
 			case "right":
 				shot.positionX = this.positionX+16;
-				shot.positionY = this.positionY;
-			break;
+				shot.positionY = this.positionY+4;
+				break;
+				
+			case "leftUp":
+				shot.positionX = this.positionX-16;
+				shot.positionY = this.positionY-16;
+				break;
+			case "leftDown":
+				shot.positionX = this.positionX-16;
+				shot.positionY = this.positionY+16;
+				break;
+			case "rightUp":
+				shot.positionX = this.positionX+16;
+				shot.positionY = this.positionY-16;
+				break;
+			case "rightDown":
+				shot.positionX = this.positionX+16;
+				shot.positionY = this.positionY+16;
+				break;
 		}
 		
 		shot.flyingDirection = facingDirection;
