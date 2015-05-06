@@ -2,6 +2,8 @@ package nat.rectgaming.entities;
 
 import nat.rectgaming.Maploader;
 import nat.rectgaming.GameManager;
+import nat.rectgaming.entities.Ghost;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -29,10 +31,10 @@ public class GhostSpawner extends staticObject {
 	}
 	
 	@Override
-	public void spawner (int sp, int del , boolean canSp) {
+	public void spawner (int sp) {
 		//boolean canSpawn = true;
 			//delay++;
-		if(canSp == true && sp < 4) {
+		if(sp < 4) {
 			//spawns++;
 			for(int i = 0; i < Maploader.ghostSpawner.size(); i++) {
 				float spawnPosX = Maploader.ghostSpawner.get(i).positionX+16;

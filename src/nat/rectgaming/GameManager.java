@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.ArrayList;
 
+import nat.rectgaming.Maploader;
+import nat.rectgaming.Resources;
 import nat.rectgaming.Window;
 import nat.rectgaming.entities.Ghost;
 import nat.rectgaming.entities.Grunt;
@@ -48,8 +50,15 @@ public class GameManager extends BasicGame {
 	public float cSpeed = speed + 0.0075f;
 	
 	public int spawns = 0;
-	public int delay = 0;
-	public boolean canSpawn = true;
+	public int lvl0delay = 0;
+	public int lvl1delay = 0;
+	public int lvl2delay = 0;
+	public boolean lvl0canSpawn;
+	public boolean lvl1canSpawn;
+	public boolean lvl2canSpawn;
+	public boolean lvl0Reset;
+	public boolean lvl1Reset;
+	public boolean lvl2Reset;
 	
 	//Camera Variables
 	public Camera cam = new Camera();
@@ -80,11 +89,11 @@ public class GameManager extends BasicGame {
 
 
 		if(Maploader.GameState == 0 && Maploader.lvl == 0) {
-			Resources.getImage("testMap").draw(cam.cameraX,cam.cameraY);
+			Resources.getImage("lvl0").draw(cam.cameraX,cam.cameraY);
 		} 
 		
-		if (Maploader.GameState == 0 && Maploader.lvl == 2) {
-			Resources.getImage("testMap").draw(cam.cameraX,cam.cameraY);	
+		if (Maploader.GameState == 0 && Maploader.lvl == 1) {
+			Resources.getImage("lvl1").draw(cam.cameraX,cam.cameraY);	
 		}
 		
 		if(Maploader.GameState == 0 && Maploader.lvl < 5){
@@ -391,20 +400,59 @@ public class GameManager extends BasicGame {
 			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
 				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 			}
-			if(canSpawn == true && Maploader.lvl == 1) {
-				delay++;
-				if(delay > 500) {
+			if(Maploader.lvl == 1) {
+				lvl1Reset = false;
+				lvl1canSpawn = true;
+				//delay = 0;
+				lvl1delay++;
+				if(lvl1delay > 50 && lvl1delay < 60) {
 					spawns++;
 					for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
-						Maploader.ghostSpawner.get(obj).spawner(spawns, delay, canSpawn);
+						Maploader.ghostSpawner.get(obj).spawner(spawns);
 						
 					}
-					delay = 0;
+					lvl1delay = 0;
 				}
 				
-				if(canSpawn == true && Maploader.lvl !=1) {
+				if(lvl1canSpawn == true && spawns > 3) {
 					spawns = 0;
+					lvl1delay = 7000;
+					lvl1canSpawn = false;
 				}
+			}
+			if(lvl1canSpawn == false && Maploader.lvl != 1){
+			lvl1Reset = true;
+			}
+			if(lvl1Reset == true) {
+				lvl1delay = 0;
+			}
+			
+			
+			if(Maploader.lvl == 0) {
+				lvl0Reset = false;
+				lvl0canSpawn = true;
+				//delay = 0;
+				lvl0delay++;
+				if(lvl0delay > 50 && lvl0delay < 60) {
+					spawns++;
+					for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
+						Maploader.ghostSpawner.get(obj).spawner(spawns);
+						
+					}
+					lvl0delay = 0;
+				}
+				
+				if(lvl0canSpawn == true && spawns > 3) {
+					spawns = 0;
+					lvl0delay = 7000;
+					lvl0canSpawn = false;
+				}
+			}
+			if(lvl0canSpawn == false && Maploader.lvl != 0){
+			lvl0Reset = true;
+			}
+			if(lvl0Reset == true) {
+				lvl0delay = 0;
 			}
 			//spawns++;
 			

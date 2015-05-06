@@ -22,7 +22,8 @@ public class Resources {
 		sounds = new HashMap<String, Sound>();
 		
 		try {
-			images.put("testMap", loadImage("res/images/levels/test2.png"));
+			images.put("lvl0", loadImage("res/images/levels/lvl0.png"));
+			images.put("lvl1", loadImage("res/images/levels/lvl1.png"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
