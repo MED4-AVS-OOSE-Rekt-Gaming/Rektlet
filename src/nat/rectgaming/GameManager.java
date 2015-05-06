@@ -41,6 +41,7 @@ public class GameManager extends BasicGame {
 	public boolean pMDownRight = false;
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
+	public float gruntSpeed = 0.03f;
 	public float cSpeed = speed + 0.0075f;
 	
 	//Camera Variables
@@ -456,6 +457,9 @@ public class GameManager extends BasicGame {
 			
 			for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
 				Maploader.ghosts.get(entity).AI(ghostSpeed,delta);
+			}
+			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
+				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 			}
 		
 		//These will be updated to fit the new Maploader so they actually work as a menu
