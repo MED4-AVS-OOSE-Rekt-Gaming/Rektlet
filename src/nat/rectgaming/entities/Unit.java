@@ -9,19 +9,19 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class Unit extends GameObject{
 	public boolean canAct;
-	boolean isDead;
+	public boolean isDead;
 	public int health;
 	public int damage;
 	public Shape rect;
 	
-	public SpriteSheet spriteUp;
-	public SpriteSheet spriteLeft;
-	public SpriteSheet spriteDown;
-	public SpriteSheet spriteRight;
-	public SpriteSheet spriteRightUp;
-	public SpriteSheet spriteLeftUp;
-	public SpriteSheet spriteLeftDown;
-	public SpriteSheet spriteRightDown;
+	protected SpriteSheet spriteUp;
+	protected SpriteSheet spriteLeft;
+	protected SpriteSheet spriteDown;
+	protected SpriteSheet spriteRight;
+	protected SpriteSheet spriteRightUp;
+	protected SpriteSheet spriteLeftUp;
+	protected SpriteSheet spriteLeftDown;
+	protected SpriteSheet spriteRightDown;
 	
 	public Animation moveUp;
 	public Animation moveLeft;

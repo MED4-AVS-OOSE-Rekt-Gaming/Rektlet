@@ -234,6 +234,8 @@ public class GameManager extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
+		deadUnitCleanup();
+		
 		if(gc.getInput().isKeyPressed(Input.KEY_ENTER)) {
 		//	MapLoader = true;
 			Maploader.LoadMap(Maploader.lvl+=1, 0);
@@ -417,10 +419,24 @@ public class GameManager extends BasicGame {
 		}
 	}//Update End
 	
+	private void deadUnitCleanup(){
+		//A function used to remove all dead units from the game
+		
+		//Remove Grunts
+		for(int currGrunt = 0; currGrunt < Maploader.grunts.size(); currGrunt++){
+			if(Maploader.grunts.get(currGrunt).isDead)
+				Maploader.grunts.remove(currGrunt);
+		}
+		
+		//Remove Ghosts
+		for(int currGhost = 0; currGhost < Maploader.ghosts.size(); currGhost++){
+			if(Maploader.ghosts.get(currGhost).isDead)
+				Maploader.ghosts.remove(currGhost);
+		}
+	}
 	
-	
-	boolean playerCollisionTest(float testPosX, float testPosY){
-		//
+	private boolean playerCollisionTest(float testPosX, float testPosY){
+		//A function used to determine whether the player will collide with a staticObject, were his position the same as the given arguments
 		Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX+testPosX,cam.cameraY+Maploader.mainPlayer.positionY+testPosY);
 		
 		//Test for collision with walls
