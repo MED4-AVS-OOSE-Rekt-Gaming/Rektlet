@@ -15,7 +15,7 @@ public abstract class staticObject extends GameObject {
 		positionY = 0;
 		hp = 0;
 	}
-	public void spawner(int spawns) {
+	public void spawner() {
 		
 	}
 	
