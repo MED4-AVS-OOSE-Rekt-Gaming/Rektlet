@@ -79,6 +79,8 @@ public class Ghost extends Unit {
 			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
 				Move("left",s, deltat);
 			}
+		} else {
+			isDead = true;
 		}
 	}
 

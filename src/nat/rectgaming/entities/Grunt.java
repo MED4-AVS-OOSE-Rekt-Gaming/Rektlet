@@ -72,7 +72,7 @@ public class Grunt extends Unit {
 				Move("left",s, deltat);
 			}
 		} else {
-			
+			isDead = true;
 		}
 	}//AI End
 }//EOF
