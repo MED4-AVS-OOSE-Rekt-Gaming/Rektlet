@@ -9,13 +9,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Grunt extends Unit {
-
+	
+	
 	@Override
 	public String toString(){
 		return "The Grunt, who is a "+super.toString();
 	}
 	
 	public Grunt(int spawnX, int spawnY){
+		
 		positionX = spawnX;
 		positionY = spawnY;
 		facingDirection = "down";
@@ -50,74 +52,74 @@ public class Grunt extends Unit {
 
 		}
 	}
+	int patrolType = 0; // Part of AI
 	
-	@Override
 	public void AI(float s, int deltat, int x1, int y1, int x2, int y2){
-			if (health > 0) {
-				if(checkpoint == false){
-					if ( x1 > (int)this.positionX  && y1 > (int)this.positionY){
-						Move("rightDown",s, deltat);
-						
-					} else if( x1 < (int)this.positionX  && y1 > (int)this.positionY) {
-						Move("leftDown",s, deltat);
-						
-					} else if( x1 > (int)this.positionX  && y1 < (int)this.positionY) {
-						Move("rightUp",s, deltat);
-						
-					} else if( x1 < (int)this.positionX  && y1 < (int)this.positionY) {
-						Move("leftUp",s, deltat);
-						
-					} else if( x1 == (int)this.positionX  && y1 > (int)this.positionY) {
-						Move("down",s, deltat);
-						
-					} else if( x1 == (int)this.positionX  && y1 < (int)this.positionY) {
-						Move("up",s, deltat);
-						
-					} else if( x1 > (int)this.positionX  && y1 == (int)this.positionY) {
-						Move("right",s, deltat);
-						
-					} else if( x1 < (int)this.positionX  && y1 == (int)this.positionY) {
-						Move("left",s, deltat);
-						
-					} else if (x1 == (int)this.positionX && y1 == (int)this.positionY){
-						/*System.out.println("checkpoint 1");
-						checkpoint = true;
-						System.out.println(checkpoint);*/ //Debug Code
-					}
-				}
-				if (checkpoint == true){
+		
+		if (health > 0) {
+			if(patrolType == 0){
+				if ( x1 > (int)this.positionX  && y1 > (int)this.positionY) {
+					Move("rightDown",s, deltat);
 					
-					 if ( x2 > (int)this.positionX  && y2 > (int)this.positionY){
-						Move("rightDown",s, deltat);
-						
-					} else if( x2 < (int)this.positionX  && y2 > (int)this.positionY) {
-						Move("leftDown",s, deltat);
-						
-					} else if( x2 > (int)this.positionX  && y2 < (int)this.positionY) {
-						Move("rightUp",s, deltat);
-						
-					} else if( x2 < (int)this.positionX  && y2 < (int)this.positionY) {
-						Move("leftUp",s, deltat);
-						
-					} else if( x2 == (int)this.positionX  && y2 > (int)this.positionY) {
-						Move("down",s, deltat);
-						
-					} else if( x2 == (int)this.positionX  && y2 < (int)this.positionY) {
-						Move("up",s, deltat);
-						
-					} else if( x2 > (int)this.positionX  && y2 == (int)this.positionY) {
-						Move("right",s, deltat);
-						
-					} else if( x2 < (int)this.positionX  && y2 == (int)this.positionY) {
-						Move("left",s, deltat);
-						
-					} else if (x2 == (int)this.positionX && y2 == (int)this.positionY) {
-						/*checkpoint = false;
-						System.out.println("checkpoint 2");
-						System.out.println(checkpoint);*/ //Debug code
-					} 
-			} else {
-				isDead = true;
+				} else if( x1 < (int)this.positionX  && y1 > (int)this.positionY) {
+					Move("leftDown",s, deltat);
+					
+				} else if( x1 > (int)this.positionX  && y1 < (int)this.positionY) {
+					Move("rightUp",s, deltat);
+					
+				} else if( x1 < (int)this.positionX  && y1 < (int)this.positionY) {
+					Move("leftUp",s, deltat);
+					
+				} else if( x1 == (int)this.positionX  && y1 > (int)this.positionY) {
+					Move("down",s, deltat);
+					
+				} else if( x1 == (int)this.positionX  && y1 < (int)this.positionY) {
+					Move("up",s, deltat);
+					
+				} else if( x1 > (int)this.positionX  && y1 == (int)this.positionY) {
+					Move("right",s, deltat);
+					
+				} else if( x1 < (int)this.positionX  && y1 == (int)this.positionY) {
+					Move("left",s, deltat);
+					
+				} else if (x1 == (int)this.positionX && y1 == (int)this.positionY) {
+					patrolType = 1;
+				}
 			}
-	}//AI End
+			if (patrolType == 1){
+				
+				 if ( x2 > (int)this.positionX  && y2 > (int)this.positionY) {
+					Move("rightDown",s, deltat);
+					
+				} else if( x2 < (int)this.positionX  && y2 > (int)this.positionY) {
+					Move("leftDown",s, deltat);
+					
+				} else if( x2 > (int)this.positionX  && y2 < (int)this.positionY) {
+					Move("rightUp",s, deltat);
+					
+				} else if( x2 < (int)this.positionX  && y2 < (int)this.positionY) {
+					Move("leftUp",s, deltat);
+					
+				} else if( x2 == (int)this.positionX  && y2 > (int)this.positionY) {
+					Move("down",s, deltat);
+					
+				} else if( x2 == (int)this.positionX  && y2 < (int)this.positionY) {
+					Move("up",s, deltat);
+					
+				} else if( x2 > (int)this.positionX  && y2 == (int)this.positionY) {
+					Move("right",s, deltat);
+					
+				} else if( x2 < (int)this.positionX  && y2 == (int)this.positionY) {
+					Move("left",s, deltat);
+					
+				} else if (x2 == (int)this.positionX && y2 == (int)this.positionY) {
+					patrolType = 0;
+				} 
+			}
+		}else{
+			isDead = true;
+		} 
+}//end of Patrol ABA
+
+	
 }//EOF

@@ -8,15 +8,19 @@ public abstract class staticObject extends GameObject {
 	public int hp;
 	public Image objImage;
 	public Shape rect;
+	public boolean  isStaticDead;
 	
 	staticObject() {
 		positionX = 0;
 		positionY = 0;
 		hp = 0;
 	}
-	public void spawner() {
+	public void spawner(int spawns) {
 		
 	}
 	
+	void staticDie(){
+		isStaticDead = true;
+	}//Die
 	
 }
