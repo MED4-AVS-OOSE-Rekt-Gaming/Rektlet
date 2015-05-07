@@ -24,6 +24,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.gui.TextField;
@@ -37,6 +38,7 @@ public class GameManager extends BasicGame {
 
 	public static ArrayList<Projectile> Projectiles;
 	
+	private static Music music;
 	
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
@@ -214,6 +216,10 @@ public class GameManager extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 	
+		music = new Music ("res/BGM/SongA.wav");
+		music.setVolume(0.5f);
+		music.loop();
+		
 		gc.setMaximumLogicUpdateInterval(60);
 		//gc.setMinimumLogicUpdateInterval(30);
 		gc.setTargetFrameRate(60);

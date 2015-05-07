@@ -28,7 +28,7 @@ public class GhostSpawner extends staticObject {
 	}
 	
 	@Override
-	public void spawner () {
+	public void spawner() {
 		if(hp > 0) {
 		//boolean canSpawn = true;
 			//delay++;
