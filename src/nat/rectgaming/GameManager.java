@@ -34,31 +34,14 @@ public class GameManager extends BasicGame {
 	public static ArrayList<Projectile> Projectiles;
 	
 	//Collision Variables
-	public boolean isStaticObject = false;
-	public boolean pMLeft = false;
-	public boolean pMRight = false;
-	public boolean pMUp = false;
-	public boolean pMDown = false;
-	public boolean pMUpLeft = false;
-	public boolean pMUpRight = false;
-	public boolean pMDownLeft = false;
-	public boolean pMDownRight = false;
 	
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
 	public float gruntSpeed = 0.03f;
 	public float cSpeed = speed + 0.0075f;
 	
-	public int spawns = 0;
-	public int lvl0delay = 0;
-	public int lvl1delay = 0;
-	public int lvl2delay = 0;
-	public boolean lvl0canSpawn;
-	public boolean lvl1canSpawn;
-	public boolean lvl2canSpawn;
-	public boolean lvl0Reset;
-	public boolean lvl1Reset;
-	public boolean lvl2Reset;
+	public int delay = 0;
+
 	
 	//Camera Variables
 	public Camera cam = new Camera();
@@ -261,8 +244,6 @@ public class GameManager extends BasicGame {
 
 
 
-			isStaticObject = false;
-
 			Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX, cam.cameraY+Maploader.mainPlayer.positionY);
 	
 
@@ -275,11 +256,16 @@ public class GameManager extends BasicGame {
 				Maploader.Rocks.get(i).rect.setLocation(cam.cameraX+Maploader.Rocks.get(i).positionX, cam.cameraY+Maploader.Rocks.get(i).positionY);
 			}
 
+			for(int i = 0; i<Maploader.ghostSpawner.size(); i++) {
+				Maploader.ghostSpawner.get(i).rect.setLocation(cam.cameraX+Maploader.ghostSpawner.get(i).positionX, cam.cameraY+Maploader.ghostSpawner.get(i).positionY);
+			}
+			
 			for(int i = 0; i<Maploader.grunts.size(); i++) {
 				Maploader.grunts.get(i).rect.setLocation(cam.cameraX+Maploader.grunts.get(i).positionX, cam.cameraY+Maploader.grunts.get(i).positionY);
 				
 				if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 					System.out.println("hit");
+					Maploader.mainPlayer.health--;
 				}
 			}
 			
@@ -288,6 +274,7 @@ public class GameManager extends BasicGame {
 				
 				if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 					System.out.println("hit");
+					Maploader.ghosts.get(i).isDead = true;
 				}
 			}
 			
@@ -309,6 +296,14 @@ public class GameManager extends BasicGame {
 					if(Projectiles.get(i).rect.intersects(Maploader.ghosts.get(j).rect)) {
 						toBeRemoved = true;
 						Maploader.ghosts.get(j).health--;
+					}
+				}
+				
+				//Checks if projectile hits GhostSpawner
+				for(int j = 0; j<Maploader.ghostSpawner.size(); j++){
+					if(Projectiles.get(i).rect.intersects(Maploader.ghostSpawner.get(j).rect)) {
+						toBeRemoved = true;
+						Maploader.ghostSpawner.get(j).hp--;
 					}
 				}
 				
@@ -400,61 +395,28 @@ public class GameManager extends BasicGame {
 			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
 				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 			}
+			
 			if(Maploader.lvl == 1) {
-				lvl1Reset = false;
-				lvl1canSpawn = true;
-				//delay = 0;
-				lvl1delay++;
-				if(lvl1delay > 50 && lvl1delay < 60) {
-					spawns++;
+				delay++;
+				if(delay > 500) {
 					for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
-						Maploader.ghostSpawner.get(obj).spawner(spawns);
+						Maploader.ghostSpawner.get(obj).spawner();
 						
 					}
-					lvl1delay = 0;
-				}
-				
-				if(lvl1canSpawn == true && spawns > 3) {
-					spawns = 0;
-					lvl1delay = 7000;
-					lvl1canSpawn = false;
+					delay = 0;
 				}
 			}
-			if(lvl1canSpawn == false && Maploader.lvl != 1){
-			lvl1Reset = true;
-			}
-			if(lvl1Reset == true) {
-				lvl1delay = 0;
-			}
-			
 			
 			if(Maploader.lvl == 0) {
-				lvl0Reset = false;
-				lvl0canSpawn = true;
-				//delay = 0;
-				lvl0delay++;
-				if(lvl0delay > 50 && lvl0delay < 60) {
-					spawns++;
+				delay++;
+				if(delay > 500) {
 					for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
-						Maploader.ghostSpawner.get(obj).spawner(spawns);
+						Maploader.ghostSpawner.get(obj).spawner();
 						
 					}
-					lvl0delay = 0;
-				}
-				
-				if(lvl0canSpawn == true && spawns > 3) {
-					spawns = 0;
-					lvl0delay = 7000;
-					lvl0canSpawn = false;
+					delay = 0;
 				}
 			}
-			if(lvl0canSpawn == false && Maploader.lvl != 0){
-			lvl0Reset = true;
-			}
-			if(lvl0Reset == true) {
-				lvl0delay = 0;
-			}
-			//spawns++;
 			
 		
 		//These will be updated to fit the new Maploader so they actually work as a menu
@@ -480,6 +442,12 @@ public class GameManager extends BasicGame {
 		for(int currGhost = 0; currGhost < Maploader.ghosts.size(); currGhost++){
 			if(Maploader.ghosts.get(currGhost).isDead)
 				Maploader.ghosts.remove(currGhost);
+		}
+		
+		//Remove GhostsSpawners
+		for(int currGhostSP = 0; currGhostSP < Maploader.ghostSpawner.size(); currGhostSP++){
+			if(Maploader.ghostSpawner.get(currGhostSP).isStaticDead)
+				Maploader.ghostSpawner.remove(currGhostSP);
 		}
 	}
 	

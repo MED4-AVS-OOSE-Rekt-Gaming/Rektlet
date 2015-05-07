@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 
+
 import nat.rectgaming.entities.*;
 
 public class Maploader extends GameManager {
@@ -50,32 +51,32 @@ public class Maploader extends GameManager {
 		mainPlayer.positionY = 16;
 		grunts.add(new Grunt(700,300));
 		Rocks.add(new rock(200,600));
-		for(int i = 0; i < 800; i+= 16) {
+		for(int i = 0; i < 16*50; i+= 16) {
 		walls.add(new Wall(i,0));
 		walls.add(new Wall(0,i));
 		}
-		for(int i = 800-16; i > 0; i -= 16) {
-		walls.add(new Wall(i,800-16));
-		walls.add(new Wall(800-16,i));
+		for(int i = 16*50-16; i > 0; i -= 16) {
+		walls.add(new Wall(i,16*50-16));
+		walls.add(new Wall(16*50-16,i));
 		}
 		
-		for(int i = 400-16; i > 32; i -= 16) {
-		walls.add(new Wall(i,288));
+		for(int i = 16*25-16; i > 16*2; i -= 16) {
+		walls.add(new Wall(i,16*18));
 		}
-		for(int i = 768-64; i > 64; i -= 16) {
-			if(i != 288 && i != 128 && i != 320 && i != 336 )
+		for(int i = 16*48-16*3; i > 16*3; i -= 16) {
+			if(i != 16*18 && i != 16*8 && i != 16*20 && i != 16*21 )
 		walls.add(new Wall(i,i));
 		}
 		
 		
-		ghosts.add(new Ghost(200,300));
-		for(int i = 32; i < 128; i+=32 ){
-		ghostSpawner.add(new GhostSpawner(i,400));
-		ghostSpawner.add(new GhostSpawner(400,i));
+		ghosts.add(new Ghost(16*13,16*19));
+		for(int i = 16*2; i < 16*8; i+=16*2 ){
+		ghostSpawner.add(new GhostSpawner(i,16*25));
+		ghostSpawner.add(new GhostSpawner(16*25,i));
 		}
 		for(int i = 128; i > 32; i-=32 ){
-		ghostSpawner.add(new GhostSpawner(i,400));
-		ghostSpawner.add(new GhostSpawner(400,i));
+		ghostSpawner.add(new GhostSpawner(i,16*25));
+		ghostSpawner.add(new GhostSpawner(16*25,i));
 		}
 		}
 		
@@ -85,21 +86,21 @@ public class Maploader extends GameManager {
 		walls.clear();
 		ghosts.clear();
 		ghostSpawner.clear();
-		mainPlayer.positionX = 80;
-		mainPlayer.positionY = 80;
-		for(int i = 0; i < 800; i+= 16) {
+		mainPlayer.positionX = 16*16;
+		mainPlayer.positionY = 16*16;
+		for(int i = 0; i < 16*50; i+= 16) {
 		walls.add(new Wall(i,0));
 		walls.add(new Wall(0,i));
 		}
-		for(int i = 800-16; i > 0; i -= 16) {
-		walls.add(new Wall(i,800-16));
-		walls.add(new Wall(800-16,i));
+		for(int i = 16*50-16; i > 0; i -= 16) {
+		walls.add(new Wall(i,16*50-16));
+		walls.add(new Wall(16*50-16,i));
 		}
-		grunts.add(new Grunt(80,80));
+		grunts.add(new Grunt(16*4,16*4));
 		Rocks.add(new rock(16,16));
-		Rocks.add(new rock(32,16));
-		walls.add(new Wall(64,64));
-		ghosts.add(new Ghost(200,200));
+		Rocks.add(new rock(16*2,16));
+		walls.add(new Wall(16*3,16*3));
+		ghosts.add(new Ghost(16*13,16*13));
 		for(int i = 16*8; i < 16*16; i+=32 ){
 		ghostSpawner.add(new GhostSpawner(i,16*16));
 		ghostSpawner.add(new GhostSpawner(16*16,i));
@@ -117,21 +118,21 @@ public class Maploader extends GameManager {
 		walls.clear();
 		ghosts.clear();
 		ghostSpawner.clear();
-		mainPlayer.positionX = 200;
-		mainPlayer.positionY = 300;
+		mainPlayer.positionX = 16*13;
+		mainPlayer.positionY = 16*19;
 		for(int i = 0; i < 800; i+= 16) {
 		walls.add(new Wall(i,0));
 		walls.add(new Wall(0,i));
 		}
-		for(int i = 800-16; i > 0; i -= 16) {
-		walls.add(new Wall(i,800-16));
-		walls.add(new Wall(800-16,i));
+		for(int i = 16*50-16; i > 0; i -= 16) {
+		walls.add(new Wall(i,16*50-16));
+		walls.add(new Wall(16*50-16,i));
 		}
-		grunts.add(new Grunt(128,128));
-		Rocks.add(new rock(32,32));
-		Rocks.add(new rock(32,16));
-		walls.add(new Wall(64,64));
-		ghosts.add(new Ghost(100,100));
+		grunts.add(new Grunt(16*8,16*8));
+		Rocks.add(new rock(16*2,16*2));
+		Rocks.add(new rock(16*2,16));
+		walls.add(new Wall(16*2,16*2));
+		ghosts.add(new Ghost(16*7,16*7));
 			
 		} else if(lvl > 3 && GameState == 0) {
 			GameState = 1;
