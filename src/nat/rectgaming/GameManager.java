@@ -34,17 +34,14 @@ import org.newdawn.slick.SlickException;
 
 public class GameManager extends BasicGame {
 	
+	//Variables
 	public int GameStates = 0;
-
 	public static ArrayList<Projectile> Projectiles;
-	
 	private static Music music;
-	
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
 	public float gruntSpeed = 0.03f;
 	public float cSpeed = speed + 0.0075f;
-	
 	public int delay = 0;
 
 	//GUI Elements
@@ -83,7 +80,7 @@ public class GameManager extends BasicGame {
 
 		if(Maploader.GameState == 0 && Maploader.lvl == 0) {
 			Resources.getImage("lvl0").draw(cam.cameraX,cam.cameraY);
-		} 
+		}
 		
 		if (Maploader.GameState == 0 && Maploader.lvl == 1) {
 			Resources.getImage("lvl1").draw(cam.cameraX,cam.cameraY);	
@@ -208,6 +205,11 @@ public class GameManager extends BasicGame {
 			g.drawString("Press Right Shift to return to game", 50, 150);
 		}
 		
+		if(Maploader.GameState == 2){
+			g.drawString("You got rekt.",90,50);
+			g.drawString("End of Game",90,100);
+			g.drawString("You got "+score+" points", 60, 150);
+		}
 
 	
 	}//Render End
@@ -248,244 +250,258 @@ public class GameManager extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		deadUnitCleanup();
-		
-		if(gc.getInput().isKeyPressed(Input.KEY_ENTER)) {
-		//	MapLoader = true;
-			Maploader.LoadMap(Maploader.lvl+=1, 0);
-			posCam = true;
+		if(Maploader.GameState != 2){
+			deathHandling();
 			
-		}
-		
-
-		if(posCam == true) {
-			cam.cameraX = -Maploader.mainPlayer.positionX+150;
-			cam.cameraY = -Maploader.mainPlayer.positionY+150; 
-			posCam = false;
-		}
-
-
-
-			Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX, cam.cameraY+Maploader.mainPlayer.positionY);
-	
-			Maploader.ExitDoor.rect.setLocation(cam.cameraX+Maploader.ExitDoor.positionX, cam.cameraY+Maploader.ExitDoor.positionY);
-			if(Maploader.ExitDoor.rect.intersects(Maploader.mainPlayer.rect) && Maploader.ExitDoor.isOpen == true) {
+			if(gc.getInput().isKeyPressed(Input.KEY_ENTER)) {
+			//	MapLoader = true;
 				Maploader.LoadMap(Maploader.lvl+=1, 0);
 				posCam = true;
+				
+			}
+			
+	
+			if(posCam == true) {
+				cam.cameraX = -Maploader.mainPlayer.positionX+150;
+				cam.cameraY = -Maploader.mainPlayer.positionY+150; 
+				posCam = false;
 			}
 	
-			for(int i = 0; i<Maploader.walls.size(); i++) {
-				Maploader.walls.get(i).rect.setLocation(cam.cameraX+Maploader.walls.get(i).positionX, cam.cameraY+Maploader.walls.get(i).positionY);
-			}
-			
-			for(int i = 0; i<Maploader.Rocks.size(); i++) {
-				Maploader.Rocks.get(i).rect.setLocation(cam.cameraX+Maploader.Rocks.get(i).positionX, cam.cameraY+Maploader.Rocks.get(i).positionY);
-			}
-			
-			for(int i = 0; i<Maploader.ghostSpawner.size(); i++) {
-				Maploader.ghostSpawner.get(i).rect.setLocation(cam.cameraX+Maploader.ghostSpawner.get(i).positionX, cam.cameraY+Maploader.ghostSpawner.get(i).positionY);
-			}
-
-			for(int i = 0; i<Maploader.grunts.size(); i++) {
-				Maploader.grunts.get(i).rect.setLocation(cam.cameraX+Maploader.grunts.get(i).positionX, cam.cameraY+Maploader.grunts.get(i).positionY);
-				
-				if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
-					System.out.println("hit");
-					Maploader.mainPlayer.health--;
+	
+	
+				Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX, cam.cameraY+Maploader.mainPlayer.positionY);
+		
+				Maploader.ExitDoor.rect.setLocation(cam.cameraX+Maploader.ExitDoor.positionX, cam.cameraY+Maploader.ExitDoor.positionY);
+				if(Maploader.ExitDoor.rect.intersects(Maploader.mainPlayer.rect) && Maploader.ExitDoor.isOpen == true) {
+					Maploader.LoadMap(Maploader.lvl+=1, 0);
+					posCam = true;
 				}
-			}
-			
-			for(int i = 0; i<Maploader.ghosts.size(); i++) {
-				Maploader.ghosts.get(i).rect.setLocation(cam.cameraX+Maploader.ghosts.get(i).positionX, cam.cameraY+Maploader.ghosts.get(i).positionY);
+		
+				for(int i = 0; i<Maploader.walls.size(); i++) {
+					Maploader.walls.get(i).rect.setLocation(cam.cameraX+Maploader.walls.get(i).positionX, cam.cameraY+Maploader.walls.get(i).positionY);
+				}
 				
-				if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
-					System.out.println("hit");
-					Maploader.ghosts.get(i).isDead = true;
-					if(Maploader.mainPlayer.canAct){
+				for(int i = 0; i<Maploader.Rocks.size(); i++) {
+					Maploader.Rocks.get(i).rect.setLocation(cam.cameraX+Maploader.Rocks.get(i).positionX, cam.cameraY+Maploader.Rocks.get(i).positionY);
+				}
+				
+				for(int i = 0; i<Maploader.ghostSpawner.size(); i++) {
+					Maploader.ghostSpawner.get(i).rect.setLocation(cam.cameraX+Maploader.ghostSpawner.get(i).positionX, cam.cameraY+Maploader.ghostSpawner.get(i).positionY);
+				}
+	
+				for(int i = 0; i<Maploader.grunts.size(); i++) {
+					Maploader.grunts.get(i).rect.setLocation(cam.cameraX+Maploader.grunts.get(i).positionX, cam.cameraY+Maploader.grunts.get(i).positionY);
+					
+					if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 						System.out.println("hit");
-						Maploader.mainPlayer.canAct = false;
 						Maploader.mainPlayer.health--;
 					}
 				}
-			}
-			Maploader.mainPlayer.canAct = true;
-			//Projectile Collision
-			for(int i = 0; i<Projectiles.size(); i++) {
-				Projectiles.get(i).rect.setLocation(cam.cameraX+Projectiles.get(i).positionX, cam.cameraY+Projectiles.get(i).positionY);
-				boolean toBeRemoved = false;
 				
-				//Checks if projectile hits Grunt
-				for(int j = 0; j<Maploader.grunts.size(); j++){
-					if(Projectiles.get(i).rect.intersects(Maploader.grunts.get(j).rect)) {
-						toBeRemoved = true;
-						Maploader.grunts.get(j).health--;
+				for(int i = 0; i<Maploader.ghosts.size(); i++) {
+					Maploader.ghosts.get(i).rect.setLocation(cam.cameraX+Maploader.ghosts.get(i).positionX, cam.cameraY+Maploader.ghosts.get(i).positionY);
+					
+					if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
+						System.out.println("hit");
+						Maploader.ghosts.get(i).isDead = true;
+						if(Maploader.mainPlayer.canAct){
+							System.out.println("hit");
+							Maploader.mainPlayer.canAct = false;
+							Maploader.mainPlayer.health--;
+						}
 					}
 				}
-				
-				//Checks if projectile hits Ghost
-				for(int j = 0; j<Maploader.ghosts.size(); j++){
-					if(Projectiles.get(i).rect.intersects(Maploader.ghosts.get(j).rect)) {
-						toBeRemoved = true;
-						Maploader.ghosts.get(j).health--;
+				Maploader.mainPlayer.canAct = true;
+				//Projectile Collision
+				for(int i = 0; i<Projectiles.size(); i++) {
+					Projectiles.get(i).rect.setLocation(cam.cameraX+Projectiles.get(i).positionX, cam.cameraY+Projectiles.get(i).positionY);
+					boolean toBeRemoved = false;
+					
+					//Checks if projectile hits Grunt
+					for(int j = 0; j<Maploader.grunts.size(); j++){
+						if(Projectiles.get(i).rect.intersects(Maploader.grunts.get(j).rect)) {
+							toBeRemoved = true;
+							Maploader.grunts.get(j).health--;
+						}
 					}
-				}
-				//Checks if projectile hits GhostSpawner
-				for(int j = 0; j<Maploader.ghostSpawner.size(); j++){
-					if(Projectiles.get(i).rect.intersects(Maploader.ghostSpawner.get(j).rect)) {
-						toBeRemoved = true;
-						Maploader.ghostSpawner.get(j).hp--;
+					
+					//Checks if projectile hits Ghost
+					for(int j = 0; j<Maploader.ghosts.size(); j++){
+						if(Projectiles.get(i).rect.intersects(Maploader.ghosts.get(j).rect)) {
+							toBeRemoved = true;
+							Maploader.ghosts.get(j).health--;
+						}
 					}
-				}
-				
-					if(Projectiles.get(i).rect.intersects(Maploader.ExitDoor.rect)) {
-						toBeRemoved = true;
-						Maploader.ExitDoor.CheckIfOpen(true);
+					//Checks if projectile hits GhostSpawner
+					for(int j = 0; j<Maploader.ghostSpawner.size(); j++){
+						if(Projectiles.get(i).rect.intersects(Maploader.ghostSpawner.get(j).rect)) {
+							toBeRemoved = true;
+							Maploader.ghostSpawner.get(j).hp--;
+						}
 					}
-				
-				//Removes projectile if it has hit something
-				if(toBeRemoved)
-					Projectiles.remove(i);
-			}
-			
-			//Read player input
-			if(Maploader.mainPlayer.canAct) {
-				Input playerInput = gc.getInput();
-				
-				if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_A)){
-					if(!playerCollisionTest(-1,-1)){
-						Maploader.mainPlayer.Move("leftUp",speed, delta);
-						cam.cameraX += speed*delta;
-						cam.cameraY += speed*delta;
-					}
-				}
-				
-				else if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
-					if(!playerCollisionTest(1,-1)){
-						Maploader.mainPlayer.Move("rightUp",speed, delta);
-						cam.cameraX -= speed*delta;
-						cam.cameraY += speed*delta;
-					}
+					
+						if(Projectiles.get(i).rect.intersects(Maploader.ExitDoor.rect)) {
+							toBeRemoved = true;
+							Maploader.ExitDoor.CheckIfOpen(true);
+						}
+					
+					//Removes projectile if it has hit something
+					if(toBeRemoved)
+						Projectiles.remove(i);
 				}
 				
-				else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
-					if(!playerCollisionTest(-1,1)){
-						Maploader.mainPlayer.Move("leftDown",speed, delta);
-						cam.cameraX += speed*delta;
-						cam.cameraY -= speed*delta;
+				//Read player input
+				if(Maploader.mainPlayer.canAct) {
+					Input playerInput = gc.getInput();
+					
+					if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_A)){
+						if(!playerCollisionTest(-1,-1)){
+							Maploader.mainPlayer.Move("leftUp",speed, delta);
+							cam.cameraX += speed*delta;
+							cam.cameraY += speed*delta;
+						}
 					}
-				}
-				
-				else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
-					if(!playerCollisionTest(1,1)){
-						Maploader.mainPlayer.Move("rightDown",speed, delta);
-						cam.cameraX -= speed*delta;
-						cam.cameraY -= speed*delta;
+					
+					else if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
+						if(!playerCollisionTest(1,-1)){
+							Maploader.mainPlayer.Move("rightUp",speed, delta);
+							cam.cameraX -= speed*delta;
+							cam.cameraY += speed*delta;
+						}
 					}
-				}
-				
-				else if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
-					if(!playerCollisionTest(0,-1)){
-						Maploader.mainPlayer.Move("up",speed, delta);
-						cam.cameraY += speed*delta;
+					
+					else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
+						if(!playerCollisionTest(-1,1)){
+							Maploader.mainPlayer.Move("leftDown",speed, delta);
+							cam.cameraX += speed*delta;
+							cam.cameraY -= speed*delta;
+						}
 					}
-				} 
-				
-				else if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
-					if(!playerCollisionTest(-1,0)){
-						Maploader.mainPlayer.Move("left",speed, delta);
-						cam.cameraX += speed*delta;	
+					
+					else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
+						if(!playerCollisionTest(1,1)){
+							Maploader.mainPlayer.Move("rightDown",speed, delta);
+							cam.cameraX -= speed*delta;
+							cam.cameraY -= speed*delta;
+						}
 					}
-				}
-				
-				else if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
-					if(!playerCollisionTest(0,1)){
-						Maploader.mainPlayer.Move("down",speed, delta);
-						cam.cameraY -= speed*delta;
+					
+					else if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
+						if(!playerCollisionTest(0,-1)){
+							Maploader.mainPlayer.Move("up",speed, delta);
+							cam.cameraY += speed*delta;
+						}
 					} 
-				}
-				else if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
-					if(!playerCollisionTest(1,0)){
-						Maploader.mainPlayer.Move("right",speed, delta);
-						cam.cameraX -= speed*delta;	
+					
+					else if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
+						if(!playerCollisionTest(-1,0)){
+							Maploader.mainPlayer.Move("left",speed, delta);
+							cam.cameraX += speed*delta;	
+						}
+					}
+					
+					else if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
+						if(!playerCollisionTest(0,1)){
+							Maploader.mainPlayer.Move("down",speed, delta);
+							cam.cameraY -= speed*delta;
+						} 
+					}
+					else if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
+						if(!playerCollisionTest(1,0)){
+							Maploader.mainPlayer.Move("right",speed, delta);
+							cam.cameraX -= speed*delta;	
+						}
+					}
+					
+					if(playerInput.isKeyPressed(Input.KEY_SPACE)){
+						Maploader.mainPlayer.Shoot();
+					}
+				}//Player Input End
+				
+				for(int projectile = 0; projectile < Projectiles.size(); projectile++){
+					//Check if projectile is within bounds
+					if(Projectiles.get(projectile).positionX > Maploader.mainPlayer.positionX-150 && Projectiles.get(projectile).positionX < Maploader.mainPlayer.positionX+150 && Projectiles.get(projectile).positionY > Maploader.mainPlayer.positionY-150 && Projectiles.get(projectile).positionY < Maploader.mainPlayer.positionY+150){
+						Projectiles.get(projectile).Fly(delta);
+					} else {
+						Projectiles.remove(projectile);
 					}
 				}
 				
-				if(playerInput.isKeyPressed(Input.KEY_SPACE)){
-					Maploader.mainPlayer.Shoot();
+				for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
+					Maploader.ghosts.get(entity).AI(ghostSpeed,delta);
 				}
-			}//Player Input End
-			
-			for(int projectile = 0; projectile < Projectiles.size(); projectile++){
-				//Check if projectile is within bounds
-				if(Projectiles.get(projectile).positionX > Maploader.mainPlayer.positionX-150 && Projectiles.get(projectile).positionX < Maploader.mainPlayer.positionX+150 && Projectiles.get(projectile).positionY > Maploader.mainPlayer.positionY-150 && Projectiles.get(projectile).positionY < Maploader.mainPlayer.positionY+150){
-					Projectiles.get(projectile).Fly(delta);
-				} else {
-					Projectiles.remove(projectile);
+				for(int entity = 0; entity < Maploader.grunts.size(); entity++){
+					Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 				}
-			}
-			
-			for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
-				Maploader.ghosts.get(entity).AI(ghostSpeed,delta);
-			}
-			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
-				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
-			}
-			
-			if(Maploader.lvl == 1) {
-				delay++;
-				if(delay > 500) {
-					for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
-						Maploader.ghostSpawner.get(obj).spawner();
-						
+				
+				if(Maploader.lvl == 1) {
+					delay++;
+					if(delay > 500) {
+						for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
+							Maploader.ghostSpawner.get(obj).spawner();
+							
+						}
+						delay = 0;
 					}
-					delay = 0;
 				}
-			}
-			
-			if(Maploader.lvl == 0) {
-				delay++;
-				if(delay > 500) {
-					for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
-						Maploader.ghostSpawner.get(obj).spawner();
-						
+				
+				if(Maploader.lvl == 0) {
+					delay++;
+					if(delay > 500) {
+						for(int obj = 0; obj < Maploader.ghostSpawner.size(); obj++) {
+							Maploader.ghostSpawner.get(obj).spawner();
+							
+						}
+						delay = 0;
 					}
-					delay = 0;
 				}
-			}
-
-
-			//spawns++;
+	
+	
+				//spawns++;
+				
 			
-		
-		//These will be updated to fit the new Maploader so they actually work as a menu
-		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
-			Maploader.GameState = 1;
-		}
-		
-		if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) { 
-			Maploader.GameState = 0;
+			//These will be updated to fit the new Maploader so they actually work as a menu
+			if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
+				Maploader.GameState = 1;
+			}
+			
+			if(gc.getInput().isKeyPressed(Input.KEY_RSHIFT)) { 
+				Maploader.GameState = 0;
+			}
 		}
 	}//Update End
 	
-	private void deadUnitCleanup(){
+	private void deathHandling(){
 		//A function used to remove all dead units from the game
 		
 		//Remove Grunts
 		for(int currGrunt = 0; currGrunt < Maploader.grunts.size(); currGrunt++){
-			if(Maploader.grunts.get(currGrunt).isDead)
+			if(Maploader.grunts.get(currGrunt).isDead){
 				Maploader.grunts.remove(currGrunt);
+				score += 50;
+			}
 		}
 		
 		//Remove Ghosts
 		for(int currGhost = 0; currGhost < Maploader.ghosts.size(); currGhost++){
-			if(Maploader.ghosts.get(currGhost).isDead)
+			if(Maploader.ghosts.get(currGhost).isDead){
 				Maploader.ghosts.remove(currGhost);
+				score += 5;
+			}
+				
 		}
 		
 		//Remove GhostsSpawners
 		for(int currGhostSP = 0; currGhostSP < Maploader.ghostSpawner.size(); currGhostSP++){
-			if(Maploader.ghostSpawner.get(currGhostSP).isStaticDead)
+			if(Maploader.ghostSpawner.get(currGhostSP).isStaticDead){
 				Maploader.ghostSpawner.remove(currGhostSP);
+				score += 100;
+			}
+		}
+		
+		//End the game if player dies
+		if(Maploader.mainPlayer.health <= 0){
+			Maploader.GameState = 2;
 		}
 	}
 	
