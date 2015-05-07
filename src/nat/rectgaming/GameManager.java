@@ -1,6 +1,5 @@
 package nat.rectgaming;
 
-import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.ArrayList;
@@ -24,9 +23,6 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
@@ -36,23 +32,20 @@ public class GameManager extends BasicGame {
 	public int GameStates = 0;
 
 	public static ArrayList<Projectile> Projectiles;
-		
+	
+	//Collision Variables
+	
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
 	public float gruntSpeed = 0.03f;
 	public float cSpeed = speed + 0.0075f;
+	
 	public int delay = 0;
+
 	
 	//Camera Variables
 	public Camera cam = new Camera();
 	public boolean posCam = false;
-	
-	//GUI Elements
-	protected Font defaultFont;
-	protected TrueTypeFont scoreDisplay;
-	protected int score;
-	protected Image GUIheart;
-	
 	
 	public GameManager(){
 		super ("Rektlet");	
@@ -76,7 +69,8 @@ public class GameManager extends BasicGame {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		
+
+
 		if(Maploader.GameState == 0 && Maploader.lvl == 0) {
 			Resources.getImage("lvl0").draw(cam.cameraX,cam.cameraY);
 		} 
@@ -131,7 +125,6 @@ public class GameManager extends BasicGame {
 						break;	
 				}
 			}
-			
 			for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
 				Unit currEntity = Maploader.ghosts.get(entity);
 				
@@ -191,8 +184,6 @@ public class GameManager extends BasicGame {
 					break;	
 			}
 			
-			drawGUI();
-			
 			for(int projectile = 0; projectile < Projectiles.size(); projectile++){
 				Projectiles.get(projectile).projectileAnimation.draw(cam.cameraX+Projectiles.get(projectile).positionX,cam.cameraY+Projectiles.get(projectile).positionY);
 			}
@@ -202,29 +193,32 @@ public class GameManager extends BasicGame {
 			g.drawString("Menu", 50, 50);
 			g.drawString("Press Right Shift to return to game", 50, 150);
 		}
+		
+
+	
 	}//Render End
 	
 	
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		//Initialize the game basics upon startup
+	
 		gc.setMaximumLogicUpdateInterval(60);
+		//gc.setMinimumLogicUpdateInterval(30);
 		gc.setTargetFrameRate(60);
 		gc.setAlwaysRender(true);
 		gc.setShowFPS(false);
 		gc.setVSync(true);
 		
-		
 		new Resources();
 		new Maploader();
 		
-		defaultFont = new Font("Verdana", Font.BOLD, 12);
-		GUIheart = new Image("res/images/heart.png");
-		score = 0;
-		scoreDisplay = new TrueTypeFont(defaultFont, true);
-		
+
 		Projectiles = new ArrayList<Projectile>();
 		
+
+
+
+
 		posCam = true;
 
 	}//Init End	
@@ -247,6 +241,9 @@ public class GameManager extends BasicGame {
 			cam.cameraY = -Maploader.mainPlayer.positionY+150; 
 			posCam = false;
 		}
+
+
+
 			Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX, cam.cameraY+Maploader.mainPlayer.positionY);
 	
 
@@ -258,7 +255,7 @@ public class GameManager extends BasicGame {
 			for(int i = 0; i<Maploader.Rocks.size(); i++) {
 				Maploader.Rocks.get(i).rect.setLocation(cam.cameraX+Maploader.Rocks.get(i).positionX, cam.cameraY+Maploader.Rocks.get(i).positionY);
 			}
-			
+
 			for(int i = 0; i<Maploader.ghostSpawner.size(); i++) {
 				Maploader.ghostSpawner.get(i).rect.setLocation(cam.cameraX+Maploader.ghostSpawner.get(i).positionX, cam.cameraY+Maploader.ghostSpawner.get(i).positionY);
 			}
@@ -268,6 +265,7 @@ public class GameManager extends BasicGame {
 				
 				if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 					System.out.println("hit");
+					Maploader.mainPlayer.health--;
 				}
 			}
 			
@@ -275,15 +273,10 @@ public class GameManager extends BasicGame {
 				Maploader.ghosts.get(i).rect.setLocation(cam.cameraX+Maploader.ghosts.get(i).positionX, cam.cameraY+Maploader.ghosts.get(i).positionY);
 				
 				if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
+					System.out.println("hit");
 					Maploader.ghosts.get(i).isDead = true;
-					if(Maploader.mainPlayer.canAct){
-						System.out.println("hit");
-						Maploader.mainPlayer.canAct = false;
-						Maploader.mainPlayer.health--;
-					}
 				}
 			}
-			Maploader.mainPlayer.canAct = true;
 			
 			//Projectile Collision
 			for(int i = 0; i<Projectiles.size(); i++) {
@@ -402,6 +395,7 @@ public class GameManager extends BasicGame {
 			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
 				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 			}
+			
 			if(Maploader.lvl == 1) {
 				delay++;
 				if(delay > 500) {
@@ -423,6 +417,7 @@ public class GameManager extends BasicGame {
 					delay = 0;
 				}
 			}
+			
 		
 		//These will be updated to fit the new Maploader so they actually work as a menu
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
@@ -479,10 +474,4 @@ public class GameManager extends BasicGame {
 		return false;
 	}
 	
-	public void drawGUI(){
-		for(int hearts = 0; hearts < Maploader.mainPlayer.health; hearts++)
-			GUIheart.draw(8+16*hearts,8);
-		
-		scoreDisplay.drawString(8, 32, "Score: " + score);
-	}
 } //EOF
