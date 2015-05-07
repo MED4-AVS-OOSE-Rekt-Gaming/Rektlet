@@ -25,6 +25,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Music;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.gui.TextField;
@@ -38,6 +39,11 @@ public class GameManager extends BasicGame {
 	public int GameStates = 0;
 	public static ArrayList<Projectile> Projectiles;
 	private static Music music;
+	private static Sound ShootSound;
+	private static Sound MonsterIsHit;
+	private static Sound PlayerIsHit;
+	private static Sound DoorSound;
+	private static Sound ChestSound;
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
 	public float gruntSpeed = 0.03f;
@@ -222,6 +228,12 @@ public class GameManager extends BasicGame {
 		music.setVolume(0.5f);
 		music.loop();
 		
+		ShootSound = new Sound ("res/SFX/ShootSound.wav");
+		ChestSound = new Sound ("res/SFX/ChestSound.wav");
+		DoorSound = new Sound("res/SFX/DoorSound.wav");
+		PlayerIsHit = new Sound("res/SFX/PlayerIsHit.wav");
+		MonsterIsHit = new Sound("res/SFX/MonsterIsHit.wav");
+		
 		gc.setMaximumLogicUpdateInterval(60);
 		//gc.setMinimumLogicUpdateInterval(30);
 		gc.setTargetFrameRate(60);
@@ -238,10 +250,6 @@ public class GameManager extends BasicGame {
 		scoreDisplay = new TrueTypeFont(defaultFont, true);
 
 		Projectiles = new ArrayList<Projectile>();
-		
-
-
-
 
 		posCam = true;
 
@@ -295,6 +303,7 @@ public class GameManager extends BasicGame {
 					if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 						System.out.println("hit");
 						Maploader.mainPlayer.health--;
+						PlayerIsHit.play();
 					}
 				}
 				
@@ -308,6 +317,7 @@ public class GameManager extends BasicGame {
 							System.out.println("hit");
 							Maploader.mainPlayer.canAct = false;
 							Maploader.mainPlayer.health--;
+							PlayerIsHit.play();
 						}
 					}
 				}
@@ -322,6 +332,7 @@ public class GameManager extends BasicGame {
 						if(Projectiles.get(i).rect.intersects(Maploader.grunts.get(j).rect)) {
 							toBeRemoved = true;
 							Maploader.grunts.get(j).health--;
+							MonsterIsHit.play();
 						}
 					}
 					
@@ -330,6 +341,7 @@ public class GameManager extends BasicGame {
 						if(Projectiles.get(i).rect.intersects(Maploader.ghosts.get(j).rect)) {
 							toBeRemoved = true;
 							Maploader.ghosts.get(j).health--;
+							MonsterIsHit.play();
 						}
 					}
 					//Checks if projectile hits GhostSpawner
@@ -337,12 +349,19 @@ public class GameManager extends BasicGame {
 						if(Projectiles.get(i).rect.intersects(Maploader.ghostSpawner.get(j).rect)) {
 							toBeRemoved = true;
 							Maploader.ghostSpawner.get(j).hp--;
+							MonsterIsHit.play();
+						}
+					}//Checks if projectile hits Wall
+					for(int j = 0; j<Maploader.walls.size(); j++){
+						if(Projectiles.get(i).rect.intersects(Maploader.walls.get(j).rect)) {
+							toBeRemoved = true;
 						}
 					}
 					
 						if(Projectiles.get(i).rect.intersects(Maploader.ExitDoor.rect)) {
 							toBeRemoved = true;
 							Maploader.ExitDoor.CheckIfOpen(true);
+							DoorSound.play();
 						}
 					
 					//Removes projectile if it has hit something
@@ -415,6 +434,7 @@ public class GameManager extends BasicGame {
 					
 					if(playerInput.isKeyPressed(Input.KEY_SPACE)){
 						Maploader.mainPlayer.Shoot();
+						ShootSound.play();
 					}
 				}//Player Input End
 				
