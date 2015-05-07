@@ -348,7 +348,7 @@ public class GameManager extends BasicGame {
 					if(Projectiles.get(i).rect.intersects(Maploader.ghosts.get(j).rect)) {
 						toBeRemoved = true;
 						Maploader.ghosts.get(j).health--;
-						MonsterIsHit.play();
+						MonsterIsHit.play(1f,1f/Maploader.ghosts.size());
 					}
 				}
 				//Checks if projectile hits GhostSpawner
@@ -359,12 +359,20 @@ public class GameManager extends BasicGame {
 						MonsterIsHit.play();
 					}
 				}
-				
+				//Checks if Projectile hits walls
+				for(int j = 0; j<Maploader.walls.size(); j++){
+					if(Projectiles.get(i).rect.intersects(Maploader.walls.get(j).rect)) {
+						toBeRemoved = true;
+					}
+				}
+				//Checks if Projectile hits door
 					if(Projectiles.get(i).rect.intersects(Maploader.ExitDoor.rect)) {
 						toBeRemoved = true;
 						Maploader.ExitDoor.CheckIfOpen(true);
 						DoorSound.play();
 					}
+					
+
 				
 				//Removes projectile if it has hit something
 				if(toBeRemoved)
@@ -513,7 +521,7 @@ public class GameManager extends BasicGame {
 		
 		//Remove GhostsSpawners
 		for(int currGhostSP = 0; currGhostSP < Maploader.ghostSpawner.size(); currGhostSP++){
-			if(Maploader.ghostSpawner.get(currGhostSP).isStaticDead) {
+			if(Maploader.ghostSpawner.get(currGhostSP).hp <= 0) {
 				Maploader.ghostSpawner.remove(currGhostSP);
 			score += 100;
 			}
