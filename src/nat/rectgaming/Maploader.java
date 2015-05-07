@@ -91,14 +91,15 @@ public class Maploader extends GameManager {
 		walls.clear();
 		ghosts.clear();
 		ghostSpawner.clear();
-		mainPlayer.positionX = 16*16;
-		mainPlayer.positionY = 16*16;
+		mainPlayer.positionX = 16*35;
+		mainPlayer.positionY = 16*20;
 		for(int i = 0; i < 16*50; i+= 16) {
 		walls.add(new Wall(i,0));
 		walls.add(new Wall(0,i));
 		}
 		for(int i = 16*50-16; i > 0; i -= 16) {
 		walls.add(new Wall(i,16*50-16));
+		if(i != 16*36 && i != 16*35)
 		walls.add(new Wall(16*50-16,i));
 		}
 		grunts.add(new Grunt(16*4,16*4, 16*8,16*8));
@@ -114,6 +115,9 @@ public class Maploader extends GameManager {
 		ghostSpawner.add(new GhostSpawner(i,16*32));
 		ghostSpawner.add(new GhostSpawner(16*32,i));
 		}
+		ExitDoor = new Door(0,0,false);
+		ExitDoor.positionX = 16*50-16;
+		ExitDoor.positionY = 16*36-16;
 			
 		}
 		
@@ -130,7 +134,9 @@ public class Maploader extends GameManager {
 		walls.add(new Wall(0,i));
 		}
 		for(int i = 16*50-16; i > 0; i -= 16) {
+			if(i != 16*12 && i != 16*13) {
 		walls.add(new Wall(i,16*50-16));
+			}
 		walls.add(new Wall(16*50-16,i));
 		}
 		grunts.add(new Grunt(16*8,16*8, 16*4, 16*4));
@@ -138,8 +144,12 @@ public class Maploader extends GameManager {
 		Rocks.add(new rock(16*2,16));
 		walls.add(new Wall(16*2,16*2));
 		ghosts.add(new Ghost(16*7,16*7));
-			
-		} else if(lvl > 3 && GameState == 0) {
+		
+		ExitDoor = new Door(0,0, true);
+		ExitDoor.positionX = 16*12;
+		ExitDoor.positionY = 16*50-16;
+		
+		} else if(lvl > 2 && GameState == 0) {
 			GameState = 1;
 			lvl = -1;
 		}

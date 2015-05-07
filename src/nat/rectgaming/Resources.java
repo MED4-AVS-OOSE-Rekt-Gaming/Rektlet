@@ -22,6 +22,7 @@ public class Resources {
 		try {
 			images.put("lvl0", loadImage("res/images/levels/lvl0.png"));
 			images.put("lvl1", loadImage("res/images/levels/lvl1.png"));
+			images.put("lvl2", loadImage("res/images/levels/lvl2.png"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
