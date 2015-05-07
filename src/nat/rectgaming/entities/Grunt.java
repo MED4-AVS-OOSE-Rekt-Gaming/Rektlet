@@ -9,17 +9,24 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Grunt extends Unit {
-	
+	int destX1;
+	int destY1;
+	int destX2;
+	int destY2;
 	
 	@Override
 	public String toString(){
 		return "The Grunt, who is a "+super.toString();
 	}
 	
-	public Grunt(int spawnX, int spawnY){
+	public Grunt(int spawnX, int spawnY, int destinationX1, int destinationY1){
 		
 		positionX = spawnX;
 		positionY = spawnY;
+		destX1 = spawnX;
+		destY1 = spawnY;
+		destX2 = destinationX1;
+		destY2 = destinationY1;
 		facingDirection = "down";
 		width = 16;
 		height = 16;
@@ -52,67 +59,68 @@ public class Grunt extends Unit {
 
 		}
 	}
+
 	int patrolType = 0; // Part of AI
-	
-	public void AI(float s, int deltat, int x1, int y1, int x2, int y2){
+		
+	public void AI(float s, int deltat){
 		
 		if (health > 0) {
 			if(patrolType == 0){
-				if ( x1 > (int)this.positionX  && y1 > (int)this.positionY) {
+				if ( destY1 > (int)this.positionX  && destY1 > (int)this.positionY) {
 					Move("rightDown",s, deltat);
 					
-				} else if( x1 < (int)this.positionX  && y1 > (int)this.positionY) {
+				} else if( destY1 < (int)this.positionX  && destY1 > (int)this.positionY) {
 					Move("leftDown",s, deltat);
 					
-				} else if( x1 > (int)this.positionX  && y1 < (int)this.positionY) {
+				} else if( destY1 > (int)this.positionX  && destY1 < (int)this.positionY) {
 					Move("rightUp",s, deltat);
 					
-				} else if( x1 < (int)this.positionX  && y1 < (int)this.positionY) {
+				} else if( destY1 < (int)this.positionX  && destY1 < (int)this.positionY) {
 					Move("leftUp",s, deltat);
 					
-				} else if( x1 == (int)this.positionX  && y1 > (int)this.positionY) {
+				} else if( destY1 == (int)this.positionX  && destY1 > (int)this.positionY) {
 					Move("down",s, deltat);
 					
-				} else if( x1 == (int)this.positionX  && y1 < (int)this.positionY) {
+				} else if( destY1 == (int)this.positionX  && destY1 < (int)this.positionY) {
 					Move("up",s, deltat);
 					
-				} else if( x1 > (int)this.positionX  && y1 == (int)this.positionY) {
+				} else if( destY1 > (int)this.positionX  && destY1 == (int)this.positionY) {
 					Move("right",s, deltat);
 					
-				} else if( x1 < (int)this.positionX  && y1 == (int)this.positionY) {
+				} else if( destY1 < (int)this.positionX  && destY1 == (int)this.positionY) {
 					Move("left",s, deltat);
 					
-				} else if (x1 == (int)this.positionX && y1 == (int)this.positionY) {
+				} else if (destY1 == (int)this.positionX && destY1 == (int)this.positionY) {
 					patrolType = 1;
 				}
 			}
 			if (patrolType == 1){
 				
-				 if ( x2 > (int)this.positionX  && y2 > (int)this.positionY) {
+				 if ( destY2 > (int)this.positionX  && destY2 > (int)this.positionY) {
 					Move("rightDown",s, deltat);
 					
-				} else if( x2 < (int)this.positionX  && y2 > (int)this.positionY) {
+				} else if( destY2 < (int)this.positionX  && destY2 > (int)this.positionY) {
 					Move("leftDown",s, deltat);
 					
-				} else if( x2 > (int)this.positionX  && y2 < (int)this.positionY) {
+				} else if( destY2 > (int)this.positionX  && destY2 < (int)this.positionY) {
 					Move("rightUp",s, deltat);
 					
-				} else if( x2 < (int)this.positionX  && y2 < (int)this.positionY) {
+				} else if( destY2 < (int)this.positionX  && destY2 < (int)this.positionY) {
 					Move("leftUp",s, deltat);
 					
-				} else if( x2 == (int)this.positionX  && y2 > (int)this.positionY) {
+				} else if( destY2 == (int)this.positionX  && destY2 > (int)this.positionY) {
 					Move("down",s, deltat);
 					
-				} else if( x2 == (int)this.positionX  && y2 < (int)this.positionY) {
+				} else if( destY2 == (int)this.positionX  && destY2 < (int)this.positionY) {
 					Move("up",s, deltat);
 					
-				} else if( x2 > (int)this.positionX  && y2 == (int)this.positionY) {
+				} else if( destY2 > (int)this.positionX  && destY2 == (int)this.positionY) {
 					Move("right",s, deltat);
 					
-				} else if( x2 < (int)this.positionX  && y2 == (int)this.positionY) {
+				} else if( destY2 < (int)this.positionX  && destY2 == (int)this.positionY) {
 					Move("left",s, deltat);
 					
-				} else if (x2 == (int)this.positionX && y2 == (int)this.positionY) {
+				} else if (destY2 == (int)this.positionX && destY2 == (int)this.positionY) {
 					patrolType = 0;
 				} 
 			}
@@ -120,6 +128,5 @@ public class Grunt extends Unit {
 			isDead = true;
 		} 
 }//end of Patrol ABA
-
 	
 }//EOF

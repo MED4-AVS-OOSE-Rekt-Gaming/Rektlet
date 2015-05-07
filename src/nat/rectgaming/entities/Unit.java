@@ -105,10 +105,6 @@ public abstract class Unit extends GameObject{
 	public void AI(float speed,int delta){
 		//Chase AI that ignore collision
 	}
-	public void AI (float speed,int delta, int x1, int y1, int x2,int y2){
-		//Patrol AI A to B to A
-	}
-	
 
 	
 }
