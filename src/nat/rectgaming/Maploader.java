@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 
 
-
-
 import nat.rectgaming.entities.*;
 
 public class Maploader extends GameManager {
@@ -19,6 +17,7 @@ public class Maploader extends GameManager {
 	public static ArrayList<staticObject> walls;
 	public static ArrayList<staticObject> ghostSpawner;
 	public static  Player mainPlayer;
+	public static Door ExitDoor;
 
 	
 	public Maploader() {
@@ -28,6 +27,7 @@ public class Maploader extends GameManager {
 		walls = new ArrayList<staticObject>();
 		ghostSpawner = new ArrayList<staticObject>();
 		mainPlayer = new Player(0, 0);
+
 		LoadMap(0,0);
 		
 		
@@ -49,17 +49,19 @@ public class Maploader extends GameManager {
 		ghostSpawner.clear();
 		mainPlayer.positionX = 16;
 		mainPlayer.positionY = 16;
-		grunts.add(new Grunt(700,300));
-		Rocks.add(new rock(200,600));
+		grunts.add(new Grunt(16*44,16*19, 16*22,16*12));
+		Rocks.add(new rock(16*13,16*38));
 		for(int i = 0; i < 16*50; i+= 16) {
 		walls.add(new Wall(i,0));
 		walls.add(new Wall(0,i));
 		}
 		for(int i = 16*50-16; i > 0; i -= 16) {
+		if(i != 16*47 && i != 16*48){
 		walls.add(new Wall(i,16*50-16));
+		}
 		walls.add(new Wall(16*50-16,i));
 		}
-		
+
 		for(int i = 16*25-16; i > 16*2; i -= 16) {
 		walls.add(new Wall(i,16*18));
 		}
@@ -78,6 +80,9 @@ public class Maploader extends GameManager {
 		ghostSpawner.add(new GhostSpawner(i,16*25));
 		ghostSpawner.add(new GhostSpawner(16*25,i));
 		}
+		ExitDoor = new Door(0,0, true);
+		ExitDoor.positionX = 16*48-16;
+		ExitDoor.positionY = 16*50-16;
 		}
 		
 		else if(lvl == 1 && GameState == 0) {
@@ -96,7 +101,7 @@ public class Maploader extends GameManager {
 		walls.add(new Wall(i,16*50-16));
 		walls.add(new Wall(16*50-16,i));
 		}
-		grunts.add(new Grunt(16*4,16*4));
+		grunts.add(new Grunt(16*4,16*4, 16*8,16*8));
 		Rocks.add(new rock(16,16));
 		Rocks.add(new rock(16*2,16));
 		walls.add(new Wall(16*3,16*3));
@@ -128,7 +133,7 @@ public class Maploader extends GameManager {
 		walls.add(new Wall(i,16*50-16));
 		walls.add(new Wall(16*50-16,i));
 		}
-		grunts.add(new Grunt(16*8,16*8));
+		grunts.add(new Grunt(16*8,16*8, 16*4, 16*4));
 		Rocks.add(new rock(16*2,16*2));
 		Rocks.add(new rock(16*2,16));
 		walls.add(new Wall(16*2,16*2));

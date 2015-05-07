@@ -36,23 +36,24 @@ public class GameManager extends BasicGame {
 	public int GameStates = 0;
 
 	public static ArrayList<Projectile> Projectiles;
-		
+	
+	
 	public float speed = 0.06f;
 	public float ghostSpeed = 0.03f;
 	public float gruntSpeed = 0.03f;
 	public float cSpeed = speed + 0.0075f;
+	
 	public int delay = 0;
-	
-	//Camera Variables
-	public Camera cam = new Camera();
-	public boolean posCam = false;
-	
+
 	//GUI Elements
 	protected Font defaultFont;
 	protected TrueTypeFont scoreDisplay;
 	protected int score;
 	protected Image GUIheart;
 	
+	//Camera Variables
+	public Camera cam = new Camera();
+	public boolean posCam = false;
 	
 	public GameManager(){
 		super ("Rektlet");	
@@ -76,7 +77,8 @@ public class GameManager extends BasicGame {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		
+
+
 		if(Maploader.GameState == 0 && Maploader.lvl == 0) {
 			Resources.getImage("lvl0").draw(cam.cameraX,cam.cameraY);
 		} 
@@ -85,7 +87,7 @@ public class GameManager extends BasicGame {
 			Resources.getImage("lvl1").draw(cam.cameraX,cam.cameraY);	
 		}
 		
-		if(Maploader.GameState == 0 && Maploader.lvl < 5){
+		if(Maploader.GameState == 0 && Maploader.lvl < 4){
 			for(int obj = 0; obj < Maploader.Rocks.size(); obj++) {
 				staticObject currObject = Maploader.Rocks.get(obj);
 				currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
@@ -100,6 +102,8 @@ public class GameManager extends BasicGame {
 				staticObject currObject = Maploader.ghostSpawner.get(obj);
 				currObject.objImage.draw(cam.cameraX+currObject.positionX, cam.cameraY+currObject.positionY);
 			}
+			
+			Maploader.ExitDoor.objImage.draw(cam.cameraX+Maploader.ExitDoor.positionX, cam.cameraY+Maploader.ExitDoor.positionY);
 			
 			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
 				Unit currEntity = Maploader.grunts.get(entity);
@@ -131,7 +135,6 @@ public class GameManager extends BasicGame {
 						break;	
 				}
 			}
-			
 			for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
 				Unit currEntity = Maploader.ghosts.get(entity);
 				
@@ -202,18 +205,21 @@ public class GameManager extends BasicGame {
 			g.drawString("Menu", 50, 50);
 			g.drawString("Press Right Shift to return to game", 50, 150);
 		}
+		
+
+	
 	}//Render End
 	
 	
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		//Initialize the game basics upon startup
+	
 		gc.setMaximumLogicUpdateInterval(60);
+		//gc.setMinimumLogicUpdateInterval(30);
 		gc.setTargetFrameRate(60);
 		gc.setAlwaysRender(true);
 		gc.setShowFPS(false);
 		gc.setVSync(true);
-		
 		
 		new Resources();
 		new Maploader();
@@ -222,9 +228,13 @@ public class GameManager extends BasicGame {
 		GUIheart = new Image("res/images/heart.png");
 		score = 0;
 		scoreDisplay = new TrueTypeFont(defaultFont, true);
-		
+
 		Projectiles = new ArrayList<Projectile>();
 		
+
+
+
+
 		posCam = true;
 
 	}//Init End	
@@ -247,9 +257,16 @@ public class GameManager extends BasicGame {
 			cam.cameraY = -Maploader.mainPlayer.positionY+150; 
 			posCam = false;
 		}
+
+
+
 			Maploader.mainPlayer.rect.setLocation(cam.cameraX+Maploader.mainPlayer.positionX, cam.cameraY+Maploader.mainPlayer.positionY);
 	
-
+			Maploader.ExitDoor.rect.setLocation(cam.cameraX+Maploader.ExitDoor.positionX, cam.cameraY+Maploader.ExitDoor.positionY);
+			if(Maploader.ExitDoor.rect.intersects(Maploader.mainPlayer.rect) && Maploader.ExitDoor.isOpen == true) {
+				Maploader.LoadMap(Maploader.lvl+=1, 0);
+				posCam = true;
+			}
 	
 			for(int i = 0; i<Maploader.walls.size(); i++) {
 				Maploader.walls.get(i).rect.setLocation(cam.cameraX+Maploader.walls.get(i).positionX, cam.cameraY+Maploader.walls.get(i).positionY);
@@ -262,12 +279,13 @@ public class GameManager extends BasicGame {
 			for(int i = 0; i<Maploader.ghostSpawner.size(); i++) {
 				Maploader.ghostSpawner.get(i).rect.setLocation(cam.cameraX+Maploader.ghostSpawner.get(i).positionX, cam.cameraY+Maploader.ghostSpawner.get(i).positionY);
 			}
-			
+
 			for(int i = 0; i<Maploader.grunts.size(); i++) {
 				Maploader.grunts.get(i).rect.setLocation(cam.cameraX+Maploader.grunts.get(i).positionX, cam.cameraY+Maploader.grunts.get(i).positionY);
 				
 				if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 					System.out.println("hit");
+					Maploader.mainPlayer.health--;
 				}
 			}
 			
@@ -275,6 +293,7 @@ public class GameManager extends BasicGame {
 				Maploader.ghosts.get(i).rect.setLocation(cam.cameraX+Maploader.ghosts.get(i).positionX, cam.cameraY+Maploader.ghosts.get(i).positionY);
 				
 				if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
+					System.out.println("hit");
 					Maploader.ghosts.get(i).isDead = true;
 					if(Maploader.mainPlayer.canAct){
 						System.out.println("hit");
@@ -284,7 +303,6 @@ public class GameManager extends BasicGame {
 				}
 			}
 			Maploader.mainPlayer.canAct = true;
-			
 			//Projectile Collision
 			for(int i = 0; i<Projectiles.size(); i++) {
 				Projectiles.get(i).rect.setLocation(cam.cameraX+Projectiles.get(i).positionX, cam.cameraY+Projectiles.get(i).positionY);
@@ -305,7 +323,6 @@ public class GameManager extends BasicGame {
 						Maploader.ghosts.get(j).health--;
 					}
 				}
-				
 				//Checks if projectile hits GhostSpawner
 				for(int j = 0; j<Maploader.ghostSpawner.size(); j++){
 					if(Projectiles.get(i).rect.intersects(Maploader.ghostSpawner.get(j).rect)) {
@@ -313,6 +330,11 @@ public class GameManager extends BasicGame {
 						Maploader.ghostSpawner.get(j).hp--;
 					}
 				}
+				
+					if(Projectiles.get(i).rect.intersects(Maploader.ExitDoor.rect)) {
+						toBeRemoved = true;
+						Maploader.ExitDoor.CheckIfOpen(true);
+					}
 				
 				//Removes projectile if it has hit something
 				if(toBeRemoved)
@@ -402,6 +424,7 @@ public class GameManager extends BasicGame {
 			for(int entity = 0; entity < Maploader.grunts.size(); entity++){
 				Maploader.grunts.get(entity).AI(gruntSpeed,delta);
 			}
+			
 			if(Maploader.lvl == 1) {
 				delay++;
 				if(delay > 500) {
@@ -423,6 +446,10 @@ public class GameManager extends BasicGame {
 					delay = 0;
 				}
 			}
+
+
+			//spawns++;
+			
 		
 		//These will be updated to fit the new Maploader so they actually work as a menu
 		if(gc.getInput().isKeyPressed(Input.KEY_ESCAPE)) {
@@ -476,6 +503,7 @@ public class GameManager extends BasicGame {
 			}
 		}
 		
+		
 		return false;
 	}
 	
@@ -485,4 +513,5 @@ public class GameManager extends BasicGame {
 		
 		scoreDisplay.drawString(8, 32, "Score: " + score);
 	}
+	
 } //EOF
