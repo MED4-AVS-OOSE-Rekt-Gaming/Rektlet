@@ -16,6 +16,7 @@ public class GhostSpawner extends staticObject {
 		positionY = spawnY;
 		width = 16;
 		height = 16;
+		hp = 3;
 		rect = new Rectangle (positionX, positionY, width, height);
 
 		try {
