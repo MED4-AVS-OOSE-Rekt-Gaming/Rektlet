@@ -22,6 +22,7 @@ public class Player extends Unit{
 		height = 16;
 		rect = new Rectangle(positionX,positionY,width,height);
 		facingDirection = "down";
+		health = 3;
 		
 		try {
 			spriteUp = new SpriteSheet(new Image("res/images/units/babarian/babarianMoveUp.png"),16,16);
@@ -85,7 +86,4 @@ public class Player extends Unit{
 		shot.flyingDirection = facingDirection;
 		GameManager.Projectiles.add(shot);
 	}
-
-
-	
 } //EOF
