@@ -210,6 +210,7 @@ public class GameManager extends BasicGame {
 			g.drawString("You got rekt.",90,50);
 			g.drawString("End of Game",90,100);
 			g.drawString("You got "+score+" points", 60, 150);
+			g.drawString("Press R To Restart", 70, 200);
 		}
 
 	
@@ -254,15 +255,20 @@ public class GameManager extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		if(Maploader.GameState != 2){
-		deadUnitCleanup();
-		
-		if(gc.getInput().isKeyPressed(Input.KEY_ENTER)) {
-		//	MapLoader = true;
+
+		if(gc.getInput().isKeyPressed(Input.KEY_R)) {
+			Maploader.mainPlayer.health = 3;
+			score = 0;
+			Maploader.lvl = -1;
+			Maploader.GameState = 0;
 			Maploader.LoadMap(Maploader.lvl+=1, 0);
 			posCam = true;
 			
 		}
+		if(Maploader.GameState != 2){
+		deadUnitCleanup();
+		
+
 		
 
 		if(posCam == true) {
@@ -288,6 +294,11 @@ public class GameManager extends BasicGame {
 				}
 				for(int i = 0; i < Maploader.ghostSpawner.size(); i++) {
 				Maploader.ghostSpawner.get(i).hp+= increment;
+				}
+				if(Maploader.mainPlayer.health <= 5){
+				Maploader.mainPlayer.health += 1;
+				} else if(Maploader.mainPlayer.health > 5 ) {
+					Maploader.mainPlayer.health = 5;
 				}
 				posCam = true;
 			}
