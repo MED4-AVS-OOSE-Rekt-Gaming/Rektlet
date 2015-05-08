@@ -5,19 +5,20 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 import nat.rectgaming.GameManager;
 public class Player extends Unit{
+	
 	
 	@Override
 	public String toString(){
 		return "The Player, who is a "+super.toString();
 	}
 	
-	public Player(int spawnX, int spawnY){
+	public Player(int spawnX, int spawnY, float speed){
 		positionX = spawnX;
 		positionY = spawnY;
+		localSpeed = speed;
 		width = 16;
 		height = 16;
 		rect = new Rectangle(positionX,positionY,width,height);
