@@ -65,61 +65,61 @@ public class Grunt extends Unit {
 		
 		if (health > 0) {
 			if(patrolType == 0){
-				if ( destY1 > (int)this.positionX  && destY1 > (int)this.positionY) {
+				if ( destX1 > (int)this.positionX  && destY1 > (int)this.positionY) {
 					Move("rightDown", deltat);
 					
-				} else if( destY1 < (int)this.positionX  && destY1 > (int)this.positionY) {
+				} else if( destX1 < (int)this.positionX  && destY1 > (int)this.positionY) {
 					Move("leftDown", deltat);
 					
-				} else if( destY1 > (int)this.positionX  && destY1 < (int)this.positionY) {
+				} else if( destX1 > (int)this.positionX  && destY1 < (int)this.positionY) {
 					Move("rightUp", deltat);
 					
-				} else if( destY1 < (int)this.positionX  && destY1 < (int)this.positionY) {
+				} else if( destX1 < (int)this.positionX  && destY1 < (int)this.positionY) {
 					Move("leftUp", deltat);
 					
-				} else if( destY1 == (int)this.positionX  && destY1 > (int)this.positionY) {
+				} else if( destX1 == (int)this.positionX  && destY1 > (int)this.positionY) {
 					Move("down", deltat);
 					
-				} else if( destY1 == (int)this.positionX  && destY1 < (int)this.positionY) {
+				} else if( destX1 == (int)this.positionX  && destY1 < (int)this.positionY) {
 					Move("up", deltat);
 					
-				} else if( destY1 > (int)this.positionX  && destY1 == (int)this.positionY) {
+				} else if( destX1 > (int)this.positionX  && destY1 == (int)this.positionY) {
 					Move("right", deltat);
 					
-				} else if( destY1 < (int)this.positionX  && destY1 == (int)this.positionY) {
+				} else if( destX1 < (int)this.positionX  && destY1 == (int)this.positionY) {
 					Move("left", deltat);
 					
-				} else if (destY1 == (int)this.positionX && destY1 == (int)this.positionY) {
+				} else if (destX1 == (int)this.positionX && destY1 == (int)this.positionY) {
 					patrolType = 1;
 				}
 			}//end of if
 			if (patrolType == 1){
 				
-				 if ( destY2 > (int)this.positionX  && destY2 > (int)this.positionY) {
+				 if ( destX2 > (int)this.positionX  && destY2 > (int)this.positionY) {
 					Move("rightDown", deltat);
 					
-				} else if( destY2 < (int)this.positionX  && destY2 > (int)this.positionY) {
+				} else if( destX2 < (int)this.positionX  && destY2 > (int)this.positionY) {
 					Move("leftDown", deltat);
 					
-				} else if( destY2 > (int)this.positionX  && destY2 < (int)this.positionY) {
+				} else if( destX2 > (int)this.positionX  && destY2 < (int)this.positionY) {
 					Move("rightUp", deltat);
 					
-				} else if( destY2 < (int)this.positionX  && destY2 < (int)this.positionY) {
+				} else if( destX2 < (int)this.positionX  && destY2 < (int)this.positionY) {
 					Move("leftUp", deltat);
 					
-				} else if( destY2 == (int)this.positionX  && destY2 > (int)this.positionY) {
+				} else if( destX2 == (int)this.positionX  && destY2 > (int)this.positionY) {
 					Move("down", deltat);
 					
-				} else if( destY2 == (int)this.positionX  && destY2 < (int)this.positionY) {
+				} else if( destX2 == (int)this.positionX  && destY2 < (int)this.positionY) {
 					Move("up", deltat);
 					
-				} else if( destY2 > (int)this.positionX  && destY2 == (int)this.positionY) {
+				} else if( destX2 > (int)this.positionX  && destY2 == (int)this.positionY) {
 					Move("right", deltat);
 					
-				} else if( destY2 < (int)this.positionX  && destY2 == (int)this.positionY) {
+				} else if( destX2 < (int)this.positionX  && destY2 == (int)this.positionY) {
 					Move("left", deltat);
 					
-				} else if (destY2 == (int)this.positionX && destY2 == (int)this.positionY) {
+				} else if (destX2 == (int)this.positionX && destY2 == (int)this.positionY) {
 					patrolType = 0;
 				} 
 			}//end of it
