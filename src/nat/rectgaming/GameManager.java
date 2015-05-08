@@ -41,9 +41,9 @@ public class GameManager extends BasicGame {
 	private Camera cam = new Camera();
 	
 	//Sound Elements
-	private static Music musicA;
-	private static Music musicB;
-	private static Music musicc;
+	protected static Music musicA;
+	protected static Music musicB;
+	protected static Music musicC;
 	private static Sound ShootSound;
 	private static Sound MonsterIsHit;
 	private static Sound PlayerIsHit;
