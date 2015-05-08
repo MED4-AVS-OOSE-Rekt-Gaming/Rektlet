@@ -28,11 +28,6 @@ public class GameManager extends BasicGame {
 
 	public static ArrayList<Projectile> Projectiles; //An array containing all projectiles on the map
 	
-	public float speed = 0.06f;
-	public float ghostSpeed = 0.03f;
-	public float gruntSpeed = 0.03f;
-	public float cSpeed = speed + 0.0075f;
-	
 	public int delay = 0; //Delay counter for ghost spawners
 	protected int deltaTime; //Time between two frames in millis
 	
@@ -44,10 +39,11 @@ public class GameManager extends BasicGame {
 	
 	//Camera Variables
 	private Camera cam = new Camera();
-	private boolean posCam = false;
 	
 	//Sound Elements
-	private static Music music;
+	private static Music musicA;
+	private static Music musicB;
+	private static Music musicc;
 	private static Sound ShootSound;
 	private static Sound MonsterIsHit;
 	private static Sound PlayerIsHit;
@@ -86,9 +82,6 @@ public class GameManager extends BasicGame {
 		new Maploader();
 		
 		//Load sounds
-		music = new Music ("res/BGM/SongA.wav");
-		music.setVolume(0.5f);
-		music.loop();
 		ShootSound = new Sound ("res/SFX/ShootSound.wav");
 		DoorSound = new Sound("res/SFX/DoorSound.wav");
 		PlayerIsHit = new Sound("res/SFX/PlayerIsHit.wav");
@@ -226,10 +219,10 @@ public class GameManager extends BasicGame {
 		//A method for controlling how enemies act, including spawners and their spawn delay
 		
 		for(int entity = 0; entity < Maploader.ghosts.size(); entity++){
-			Maploader.ghosts.get(entity).AI(ghostSpeed,deltaTime);
+			Maploader.ghosts.get(entity).AI(deltaTime);
 		}
 		for(int entity = 0; entity < Maploader.grunts.size(); entity++){
-			Maploader.grunts.get(entity).AI(gruntSpeed,deltaTime);
+			Maploader.grunts.get(entity).AI(deltaTime);
 		}
 		
 		if(Maploader.GameState == 0) {
@@ -314,7 +307,7 @@ public class GameManager extends BasicGame {
 		Maploader.lvl =-1;
 		Maploader.GameState = 0;
 		Maploader.LoadMap(Maploader.lvl+=1, 0);
-		posCam = true;
+		
 	}
 	
 	private void inputHandling(GameContainer inputListener){
@@ -336,60 +329,60 @@ public class GameManager extends BasicGame {
 			if(Maploader.GameState == 0){
 				if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_A)){
 					if(!playerCollisionTest(-1,-1)){
-						Maploader.mainPlayer.Move("leftUp",speed, deltaTime);
-						cam.cameraX += speed*deltaTime;
-						cam.cameraY += speed*deltaTime;
+						Maploader.mainPlayer.Move("leftUp", deltaTime);
+						cam.cameraX += Maploader.mainPlayer.localSpeed*deltaTime;
+						cam.cameraY += Maploader.mainPlayer.localSpeed*deltaTime;
 					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_W) && playerInput.isKeyDown(Input.KEY_D)){ 
 					if(!playerCollisionTest(1,-1)){
-						Maploader.mainPlayer.Move("rightUp",speed, deltaTime);
-						cam.cameraX -= speed*deltaTime;
-						cam.cameraY += speed*deltaTime;
+						Maploader.mainPlayer.Move("rightUp", deltaTime);
+						cam.cameraX -= Maploader.mainPlayer.localSpeed*deltaTime;
+						cam.cameraY += Maploader.mainPlayer.localSpeed*deltaTime;
 					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_A)){
 					if(!playerCollisionTest(-1,1)){
-						Maploader.mainPlayer.Move("leftDown",speed, deltaTime);
-						cam.cameraX += speed*deltaTime;
-						cam.cameraY -= speed*deltaTime;
+						Maploader.mainPlayer.Move("leftDown", deltaTime);
+						cam.cameraX += Maploader.mainPlayer.localSpeed*deltaTime;
+						cam.cameraY -= Maploader.mainPlayer.localSpeed*deltaTime;
 					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_S) && playerInput.isKeyDown(Input.KEY_D)){
 					if(!playerCollisionTest(1,1)){
-						Maploader.mainPlayer.Move("rightDown",speed, deltaTime);
-						cam.cameraX -= speed*deltaTime;
-						cam.cameraY -= speed*deltaTime;
+						Maploader.mainPlayer.Move("rightDown", deltaTime);
+						cam.cameraX -= Maploader.mainPlayer.localSpeed*deltaTime;
+						cam.cameraY -= Maploader.mainPlayer.localSpeed*deltaTime;
 					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_W) && (!playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
 					if(!playerCollisionTest(0,-1)){
-						Maploader.mainPlayer.Move("up",speed, deltaTime);
-						cam.cameraY += speed*deltaTime;
+						Maploader.mainPlayer.Move("up", deltaTime);
+						cam.cameraY += Maploader.mainPlayer.localSpeed*deltaTime;
 					}
 				} 
 				
 				else if(playerInput.isKeyDown(Input.KEY_A) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_S))){
 					if(!playerCollisionTest(-1,0)){
-						Maploader.mainPlayer.Move("left",speed, deltaTime);
-						cam.cameraX += speed*deltaTime;	
+						Maploader.mainPlayer.Move("left", deltaTime);
+						cam.cameraX += Maploader.mainPlayer.localSpeed*deltaTime;	
 					}
 				}
 				
 				else if(playerInput.isKeyDown(Input.KEY_S) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_D) && !playerInput.isKeyDown(Input.KEY_A))){
 					if(!playerCollisionTest(0,1)){
-						Maploader.mainPlayer.Move("down",speed, deltaTime);
-						cam.cameraY -= speed*deltaTime;
+						Maploader.mainPlayer.Move("down", deltaTime);
+						cam.cameraY -= Maploader.mainPlayer.localSpeed*deltaTime;
 					} 
 				}
 				else if(playerInput.isKeyDown(Input.KEY_D) && (!playerInput.isKeyDown(Input.KEY_W) && !playerInput.isKeyDown(Input.KEY_A) && !playerInput.isKeyDown(Input.KEY_S))){
 					if(!playerCollisionTest(1,0)){
-						Maploader.mainPlayer.Move("right",speed, deltaTime);
-						cam.cameraX -= speed*deltaTime;	
+						Maploader.mainPlayer.Move("right", deltaTime);
+						cam.cameraX -= Maploader.mainPlayer.localSpeed*deltaTime;	
 					}
 				}
 				
