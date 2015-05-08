@@ -2,10 +2,6 @@ package nat.rectgaming;
 
 import java.util.ArrayList;
 
-
-
-import nat.rectgaming.*;
-
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
@@ -16,39 +12,31 @@ public class Maploader extends GameManager {
 	public static int lvl = 0;
 	public static int GameState = 0;
 	
-	public static ArrayList<Unit> ghosts;
-	public static ArrayList<Unit> grunts;
+	public static ArrayList<Ghost> ghosts;
+	public static ArrayList<Grunt> grunts;
 	public static ArrayList<staticObject> Rocks;
 	public static ArrayList<staticObject> walls;
-	public static ArrayList<staticObject> ghostSpawner;
+	public static ArrayList<GhostSpawner> ghostSpawner;
 	public static  Player mainPlayer;
 	public static Door ExitDoor;
-
 	
 	public Maploader() {
-		ghosts = new ArrayList<Unit>();
-		grunts = new ArrayList<Unit>();
+		ghosts = new ArrayList<Ghost>();
+		grunts = new ArrayList<Grunt>();
 		Rocks = new ArrayList<staticObject>();
 		walls = new ArrayList<staticObject>();
-		ghostSpawner = new ArrayList<staticObject>();
+		ghostSpawner = new ArrayList<GhostSpawner>();
 		mainPlayer = new Player(0, 0, 0.06f);
 
 		LoadMap(0,0);
 		
-		
-	//	System.out.println(ghosts.size());
-		//LoadMap(0);
-		}
+		}//MapLoader
 		
 	
 	public static void LoadMap(int level, int GS) {
 		lvl = level;
 		GameState = GS;
-		
-		
 		if(lvl == 0 && GameState == 0) {
-			//musicB.stop();
-			//musicC.stop();
 			try {
 				musicA = new Music ("res/BGM/SongA.wav");
 			} catch (SlickException e) {
@@ -108,10 +96,9 @@ public class Maploader extends GameManager {
 		ExitDoor.positionX = 16*48-16;
 		ExitDoor.positionY = 16*50-16;
 		}
-		
+		//level 1 end
 		else if(lvl == 1 && GameState == 0) {
 			musicA.stop();
-			//musicC.stop();
 			try {
 				musicB = new Music ("res/BGM/SongB.wav");
 			} catch (SlickException e) {
@@ -162,9 +149,7 @@ public class Maploader extends GameManager {
 			Rocks.add(new rock(i+16*10, 16*21));
 			Rocks.add(new rock(i+16*10, 16*37));
 		}
-		//Rocks.add(new rock(16,16));
-		//Rocks.add(new rock(16*2,16));
-		//for(int i = )
+
 		for(int i = 16; i < 16*48; i+=32 ){
 		ghostSpawner.add(new GhostSpawner(i,16*2));
 		ghostSpawner.add(new GhostSpawner(16*2,i));
@@ -179,7 +164,7 @@ public class Maploader extends GameManager {
 		ExitDoor.positionX = 16*50-16;
 		ExitDoor.positionY = 16*20-16;
 			
-		}
+		}//Level 2 end
 		
 		else if(lvl == 2 && GameState == 0) {
 			musicB.stop();
@@ -242,13 +227,11 @@ public class Maploader extends GameManager {
 		ExitDoor = new Door(0,0, true);
 		ExitDoor.positionX = 16*12;
 		ExitDoor.positionY = 16*50-16;
-		
+		//Level 3 end
 		} else if(lvl > 2 && GameState == 0) {
-			//GameState = 1;
 			lvl = -1;
-		}
+		}//Reset back to first level
 		
-		
-	}
+	}//loadMap
 	
-}
+}//EOF

@@ -1,11 +1,9 @@
 package nat.rectgaming;
 
 import java.awt.Font;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.ArrayList;
 
-import nat.rectgaming.*;
 import nat.rectgaming.entities.*;
 
 import org.newdawn.slick.AppGameContainer;
@@ -16,8 +14,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.Sound;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
@@ -44,6 +40,7 @@ public class GameManager extends BasicGame {
 	protected static Music musicA;
 	protected static Music musicB;
 	protected static Music musicC;
+	protected static Music deathMusic;
 	private static Sound ShootSound;
 	private static Sound MonsterIsHit;
 	private static Sound PlayerIsHit;
@@ -112,7 +109,7 @@ public class GameManager extends BasicGame {
 			drawGUI();
 		}
 		
-		if(Maploader.GameState == 2){
+		if(Maploader.GameState == 1){
 			endScreen(g);
 		}
 	}//Render End
@@ -159,13 +156,13 @@ public class GameManager extends BasicGame {
 			Maploader.ghostSpawner.get(i).rect.setLocation(cam.cameraX+Maploader.ghostSpawner.get(i).positionX, cam.cameraY+Maploader.ghostSpawner.get(i).positionY);
 		}
 		
-		//Checks for collisions between enemis and player
+		//Checks for collisions between enemies and player
 		for(int i = 0; i<Maploader.grunts.size(); i++) {
 			Maploader.grunts.get(i).rect.setLocation(cam.cameraX+Maploader.grunts.get(i).positionX, cam.cameraY+Maploader.grunts.get(i).positionY);
 			
 			if(Maploader.grunts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 				System.out.println("hit");
-				Maploader.mainPlayer.health--;
+				Maploader.mainPlayer.health = 0;
 				PlayerIsHit.play();
 			}
 		}
@@ -176,15 +173,15 @@ public class GameManager extends BasicGame {
 			if(Maploader.ghosts.get(i).rect.intersects(Maploader.mainPlayer.rect)) {
 				System.out.println("hit");
 				Maploader.ghosts.get(i).isDead = true;
-				if(Maploader.mainPlayer.canAct){
+				if(!Maploader.mainPlayer.isInvulnerable){
 					System.out.println("hit");
-					Maploader.mainPlayer.canAct = false;
+					Maploader.mainPlayer.isInvulnerable = true;
 					Maploader.mainPlayer.health--;
 					PlayerIsHit.play();
 				}
 			}
 		}
-		Maploader.mainPlayer.canAct = true;
+		Maploader.mainPlayer.isInvulnerable = false;
 	}//collisionDetection End
 	
 	private void endLevel(){
@@ -204,7 +201,7 @@ public class GameManager extends BasicGame {
 		}
 		
 		for(int i = 0; i < Maploader.ghostSpawner.size(); i++) {
-			Maploader.ghostSpawner.get(i).hp+= increment;
+			Maploader.ghostSpawner.get(i).health+= increment;
 		}
 		
 		//Gives player health to a maximum of five
@@ -235,7 +232,7 @@ public class GameManager extends BasicGame {
 				delay = 0;
 			}
 		}
-	}
+	}//enemyAction
 	
 	private void projectileHandling(){
 		//A method to check for projectile collisions, damage enemies that are hit by projectiles, 
@@ -276,7 +273,7 @@ public class GameManager extends BasicGame {
 			for(int j = 0; j<Maploader.ghostSpawner.size(); j++){
 				if(Projectiles.get(i).rect.intersects(Maploader.ghostSpawner.get(j).rect)) {
 					toBeRemoved = true;
-					Maploader.ghostSpawner.get(j).hp--;
+					Maploader.ghostSpawner.get(j).health--;
 					MonsterIsHit.play();
 				}
 			}
@@ -308,7 +305,7 @@ public class GameManager extends BasicGame {
 		Maploader.GameState = 0;
 		Maploader.LoadMap(Maploader.lvl+=1, 0);
 		
-	}
+	}//restartGame
 	
 	private void inputHandling(GameContainer inputListener){
 		//A method to read player input and act accordingly
@@ -323,7 +320,7 @@ public class GameManager extends BasicGame {
 			cam.cameraY = -Maploader.mainPlayer.positionY+150; 
 		}
 		
-		if(Maploader.mainPlayer.canAct) {
+		
 			Input playerInput = inputListener.getInput();
 			
 			if(Maploader.GameState == 0){
@@ -391,14 +388,13 @@ public class GameManager extends BasicGame {
 					ShootSound.play();
 				}
 			}//Gamestate 0
-		}
 	}//inputHandling End
 	
 	private void centerCamera(){
 		//A method for centering the camera on the player
 		cam.cameraX = -Maploader.mainPlayer.positionX+150;
 		cam.cameraY = -Maploader.mainPlayer.positionY+150; 
-	}
+	} //centerCamera
 	
 	private void deathHandling(){
 		//A method used to remove all dead units from the game
@@ -421,7 +417,7 @@ public class GameManager extends BasicGame {
 		
 		//Remove GhostsSpawners
 		for(int currGhostSP = 0; currGhostSP < Maploader.ghostSpawner.size(); currGhostSP++){
-			if(Maploader.ghostSpawner.get(currGhostSP).hp <= 0) {
+			if(Maploader.ghostSpawner.get(currGhostSP).health <= 0) {
 				Maploader.ghostSpawner.remove(currGhostSP);
 			score += 100;
 			}
@@ -429,9 +425,17 @@ public class GameManager extends BasicGame {
 		
 		//End the game if player dies
 		if(Maploader.mainPlayer.health <= 0){
-			Maploader.GameState = 2;
+			Maploader.GameState = 1;
+			try {
+				deathMusic = new Music ("res/BGM/DeathSong.wav");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			deathMusic.setVolume(0.5f);
+			deathMusic.loop();
 		}
-	}
+	}//deathHandling
 	
 	private boolean playerCollisionTest(float testPosX, float testPosY){
 		//A function used to determine whether the player will collide with a staticObject, were his position the same as the given arguments
@@ -464,7 +468,7 @@ public class GameManager extends BasicGame {
 			GUIheart.draw(8+16*hearts,8);
 		
 		scoreDisplay.drawString(8, 32, "Score: " + score);
-	}
+	}//drawGUI
 	
 	private void drawBackground(){
 		
@@ -502,7 +506,7 @@ public class GameManager extends BasicGame {
 		
 		//Draw exit door
 		Maploader.ExitDoor.objImage.draw(cam.cameraX+Maploader.ExitDoor.positionX, cam.cameraY+Maploader.ExitDoor.positionY);
-	}
+	}//drawstaticObjects
 	
 	private void drawPlayer(){
 		switch(Maploader.mainPlayer.facingDirection){

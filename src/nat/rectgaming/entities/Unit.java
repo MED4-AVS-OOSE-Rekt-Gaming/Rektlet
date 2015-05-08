@@ -5,11 +5,10 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Unit extends GameObject{
-	public boolean canAct;
+
 	public boolean isDead;
 	public int health;
 	public float localSpeed;
-	public int damage;
 	public Shape rect;
 	
 	protected SpriteSheet spriteUp;
@@ -36,16 +35,15 @@ public abstract class Unit extends GameObject{
 		positionX = 0;
 		positionY = 0;
 		isDead = false;
-		canAct = true;
 	}
 	
 	@Override
 	public String toString(){
-		return health+"/"+damage+" Unit, a "+super.toString();
+		return health+" health Unit, a "+super.toString();
 	}
 	
 		public void Move(String direction, int delta){
-			if(canAct){
+			
 				switch(direction){
 					case "up":
 						facingDirection = "up";
@@ -88,21 +86,5 @@ public abstract class Unit extends GameObject{
 						System.out.println("Invalid direction was called!");
 						break;
 			}
-		}//if(canAct) 
 	}//Move()
-
-	protected void Attack(){
-		
-	}//Attack()
-	
-	void Die(){
-		isDead = true;
-		
-	}//Die()
-	
-	public void AI(int delta){
-		//Chase AI that ignore collision
-	}
-
-	
-}
+}//EOF

@@ -13,7 +13,7 @@ public boolean isOpen = false;
 
 		positionX = spawnX;
 		positionY = spawnY;
-		hp = 2;
+		health = 2;
 		if(WORH == true) {
 			isW = true;
 			isH = false;
@@ -23,9 +23,6 @@ public boolean isOpen = false;
 		}
 
 		if(isW == true) {
-			//positionX = spawnX;
-			//positionY = spawnY;
-			//hp = 2;
 			width = 32;
 			height = 16;
 			try {
@@ -35,11 +32,8 @@ public boolean isOpen = false;
 				e.printStackTrace();
 			}
 	
-		}
-		if(hp > 0 && isH == true) {
-			//positionX = spawnX;
-			//positionY = spawnY;
-			//hp = 2;
+		}//if end
+		if(health > 0 && isH == true) {
 			width = 16;
 			height = 32;
 
@@ -50,10 +44,9 @@ public boolean isOpen = false;
 				e.printStackTrace();
 			}
 			
-			
-		} 
+		} //if end
 		rect = new Rectangle (positionX, positionY, width, height);
-	}
+	}//Door
 	
 	
 	public void CheckIfOpen(boolean open) {
@@ -67,7 +60,7 @@ public boolean isOpen = false;
 			}
 			
 			isOpen = true;
-		}
+		}//if end
 		
 		if(open == true && isH == true) {
 			try {
@@ -78,7 +71,7 @@ public boolean isOpen = false;
 			}
 			
 			isOpen = true;
-		}
+		}//if end
 		
-	}
-}
+	}//CheckIfOpen end
+}//EOF

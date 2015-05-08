@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class staticObject extends GameObject {
 
-	public int hp;
+	public int health;
 	public Image objImage;
 	public Shape rect;
 	public boolean  isStaticDead;
@@ -13,14 +13,11 @@ public abstract class staticObject extends GameObject {
 	staticObject() {
 		positionX = 0;
 		positionY = 0;
-		hp = 0;
-	}
-	public void spawner() {
-		
+		health = 0;
 	}
 	
 	void staticDie(){
 		isStaticDead = true;
 	}//Die
 	
-}
+}//EOF

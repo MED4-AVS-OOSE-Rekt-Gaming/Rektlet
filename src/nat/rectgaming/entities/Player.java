@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import nat.rectgaming.GameManager;
 public class Player extends Unit{
-	
+	public boolean isInvulnerable;
 	
 	@Override
 	public String toString(){
@@ -19,6 +19,7 @@ public class Player extends Unit{
 		positionX = spawnX;
 		positionY = spawnY;
 		localSpeed = speed;
+		isInvulnerable = false;
 		width = 16;
 		height = 16;
 		rect = new Rectangle(positionX,positionY,width,height);
@@ -43,7 +44,7 @@ public class Player extends Unit{
 		} catch (SlickException e) {
 			System.err.println("Missing SpriteSheet");
 		}
-	}
+	}//Player
 	
 	public void Shoot(){
 		Projectile shot = new Projectile();
@@ -86,5 +87,5 @@ public class Player extends Unit{
 		
 		shot.flyingDirection = facingDirection;
 		GameManager.Projectiles.add(shot);
-	}
+	}//shoot
 } //EOF

@@ -31,9 +31,7 @@ public class Grunt extends Unit {
 		height = 16;
 		rect = new Rectangle(positionX, positionY, width,height);
 		health = 3;
-		damage = 1;
 		isDead = false;
-		canAct = true;
 		
 		try {
 
@@ -57,7 +55,7 @@ public class Grunt extends Unit {
 		} catch (SlickException e) {
 
 		}
-	}
+	}//Grunt
 
 	int patrolType = 0; // Part of AI
 		
@@ -126,6 +124,6 @@ public class Grunt extends Unit {
 		}else{
 			isDead = true;
 		} 
-}//end of Patrol ABA
+}//end of AI ABA
 	
 }//EOF

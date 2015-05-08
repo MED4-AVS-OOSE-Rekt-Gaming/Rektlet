@@ -12,7 +12,6 @@ public class Projectile extends GameObject {
 	SpriteSheet ProjectileSprites;
 	public Animation projectileAnimation;
 	
-	public Projectile thisProjectile;
 	public float projectileSpeed;
 	public Shape rect;
 	
@@ -22,7 +21,6 @@ public class Projectile extends GameObject {
 	}
 	
 	public Projectile(){
-		thisProjectile = this;
 		projectileSpeed = 0.2f;
 		rect = new Rectangle(positionX,positionY,8,8);
 		try {
@@ -30,7 +28,7 @@ public class Projectile extends GameObject {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-	}
+	}//Projectile
 	
 	public void Fly(int delta){
 		switch(flyingDirection){
@@ -64,5 +62,5 @@ public class Projectile extends GameObject {
 				positionY += projectileSpeed * delta;
 				break;
 		}
-	}
-}
+	}//Fly()
+}//EOF

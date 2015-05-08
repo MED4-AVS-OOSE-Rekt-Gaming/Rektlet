@@ -25,9 +25,7 @@ public class Ghost extends Unit {
 		rect = new Rectangle(positionX, positionY, width, height);
 		facingDirection = "down";
 		health = 3;
-		damage = 1;
 		isDead = false;
-		canAct = true;
 		
 		
 		try { //Override Move
@@ -59,9 +57,8 @@ public class Ghost extends Unit {
 		} catch (SlickException e) {
 
 		}
-	}
+	}// Ghost
 	
-	@Override
 	public void AI(int deltat){
 		if(health > 0){
 			if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
@@ -84,6 +81,6 @@ public class Ghost extends Unit {
 		} else {
 			isDead = true;
 		}
-	}
+	}//AI
 
-}
+}//EOF

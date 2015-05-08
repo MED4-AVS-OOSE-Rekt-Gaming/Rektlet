@@ -9,13 +9,12 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class GhostSpawner extends staticObject {
 
-
 	public GhostSpawner(int spawnX, int spawnY) {
 		positionX = spawnX;
 		positionY = spawnY;
 		width = 16;
 		height = 16;
-		hp = 3;
+		health = 3;
 		rect = new Rectangle (positionX, positionY, width, height);
 
 		try {
@@ -25,18 +24,17 @@ public class GhostSpawner extends staticObject {
 			e.printStackTrace();
 		}
 		
-	}
+	}//GhostSpawner
 	
-	@Override
 	public void spawner() {
-		if(hp > 0) {
+		if(health > 0) {
 			float posX = positionX;
 			float posY = positionY;
 			Maploader.ghosts.add(new Ghost((int)(posX+16), (int)(posY),0.03f));
-	} else if( hp < 1) {
+	} else if( health < 1) {
 		isStaticDead = true;
 	}
 	
-	} 
+	} //spawner
 	
 }//EOF
