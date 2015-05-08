@@ -1,7 +1,6 @@
 package nat.rectgaming.entities;
 
 import nat.rectgaming.Maploader;
-import nat.rectgaming.GameManager;
 import nat.rectgaming.entities.Ghost;
 
 import org.newdawn.slick.Image;
@@ -31,21 +30,13 @@ public class GhostSpawner extends staticObject {
 	@Override
 	public void spawner() {
 		if(hp > 0) {
-		//boolean canSpawn = true;
-			//delay++;
 			float posX = positionX;
 			float posY = positionY;
-			//spawns++;
-			//for(int i = 0; i < Maploader.ghostSpawner.size(); i++) {
-				Maploader.ghosts.add(new Ghost((int)(posX+16), (int)(posY)));
-				//}
-		
-		
+			Maploader.ghosts.add(new Ghost((int)(posX+16), (int)(posY),0.03f));
 	} else if( hp < 1) {
 		isStaticDead = true;
 	}
 	
 	} 
 	
-	
-}
+}//EOF
