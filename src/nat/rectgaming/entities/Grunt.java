@@ -1,7 +1,5 @@
 package nat.rectgaming.entities;
 
-import nat.rectgaming.Maploader;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
@@ -19,7 +17,7 @@ public class Grunt extends Unit {
 		return "The Grunt, who is a "+super.toString();
 	}
 	
-	public Grunt(int spawnX, int spawnY, int destinationX1, int destinationY1){
+	public Grunt(int spawnX, int spawnY, int destinationX1, int destinationY1, float speed){
 		
 		positionX = spawnX;
 		positionY = spawnY;
@@ -27,6 +25,7 @@ public class Grunt extends Unit {
 		destY1 = spawnY;
 		destX2 = destinationX1;
 		destY2 = destinationY1;
+		localSpeed = speed;
 		facingDirection = "down";
 		width = 16;
 		height = 16;
@@ -62,68 +61,68 @@ public class Grunt extends Unit {
 
 	int patrolType = 0; // Part of AI
 		
-	public void AI(float s, int deltat){
+	public void AI(int deltat){
 		
 		if (health > 0) {
 			if(patrolType == 0){
 				if ( destY1 > (int)this.positionX  && destY1 > (int)this.positionY) {
-					Move("rightDown",s, deltat);
+					Move("rightDown", deltat);
 					
 				} else if( destY1 < (int)this.positionX  && destY1 > (int)this.positionY) {
-					Move("leftDown",s, deltat);
+					Move("leftDown", deltat);
 					
 				} else if( destY1 > (int)this.positionX  && destY1 < (int)this.positionY) {
-					Move("rightUp",s, deltat);
+					Move("rightUp", deltat);
 					
 				} else if( destY1 < (int)this.positionX  && destY1 < (int)this.positionY) {
-					Move("leftUp",s, deltat);
+					Move("leftUp", deltat);
 					
 				} else if( destY1 == (int)this.positionX  && destY1 > (int)this.positionY) {
-					Move("down",s, deltat);
+					Move("down", deltat);
 					
 				} else if( destY1 == (int)this.positionX  && destY1 < (int)this.positionY) {
-					Move("up",s, deltat);
+					Move("up", deltat);
 					
 				} else if( destY1 > (int)this.positionX  && destY1 == (int)this.positionY) {
-					Move("right",s, deltat);
+					Move("right", deltat);
 					
 				} else if( destY1 < (int)this.positionX  && destY1 == (int)this.positionY) {
-					Move("left",s, deltat);
+					Move("left", deltat);
 					
 				} else if (destY1 == (int)this.positionX && destY1 == (int)this.positionY) {
 					patrolType = 1;
 				}
-			}
+			}//end of if
 			if (patrolType == 1){
 				
 				 if ( destY2 > (int)this.positionX  && destY2 > (int)this.positionY) {
-					Move("rightDown",s, deltat);
+					Move("rightDown", deltat);
 					
 				} else if( destY2 < (int)this.positionX  && destY2 > (int)this.positionY) {
-					Move("leftDown",s, deltat);
+					Move("leftDown", deltat);
 					
 				} else if( destY2 > (int)this.positionX  && destY2 < (int)this.positionY) {
-					Move("rightUp",s, deltat);
+					Move("rightUp", deltat);
 					
 				} else if( destY2 < (int)this.positionX  && destY2 < (int)this.positionY) {
-					Move("leftUp",s, deltat);
+					Move("leftUp", deltat);
 					
 				} else if( destY2 == (int)this.positionX  && destY2 > (int)this.positionY) {
-					Move("down",s, deltat);
+					Move("down", deltat);
 					
 				} else if( destY2 == (int)this.positionX  && destY2 < (int)this.positionY) {
-					Move("up",s, deltat);
+					Move("up", deltat);
 					
 				} else if( destY2 > (int)this.positionX  && destY2 == (int)this.positionY) {
-					Move("right",s, deltat);
+					Move("right", deltat);
 					
 				} else if( destY2 < (int)this.positionX  && destY2 == (int)this.positionY) {
-					Move("left",s, deltat);
+					Move("left", deltat);
 					
 				} else if (destY2 == (int)this.positionX && destY2 == (int)this.positionY) {
 					patrolType = 0;
 				} 
-			}
+			}//end of it
 		}else{
 			isDead = true;
 		} 

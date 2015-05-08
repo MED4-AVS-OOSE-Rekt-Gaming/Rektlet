@@ -10,14 +10,16 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Ghost extends Unit {
 	
+	
 	@Override
 	public String toString(){
 		return "The Ghost, who is a "+super.toString();
 	}
 	
-	public Ghost(int spawnX, int spawnY){
+	public Ghost(int spawnX, int spawnY, float speed){
 		positionX = spawnX;
 		positionY = spawnY;
+		localSpeed = speed;
 		width = 16;
 		height = 16;
 		rect = new Rectangle(positionX, positionY, width, height);
@@ -60,24 +62,24 @@ public class Ghost extends Unit {
 	}
 	
 	@Override
-	public void AI(float s ,int deltat){
+	public void AI(int deltat){
 		if(health > 0){
 			if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-				Move("rightDown",s, deltat);
+				Move("rightDown", deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-				Move("leftDown",s, deltat);
+				Move("leftDown", deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-				Move("rightUp",s, deltat);
+				Move("rightUp", deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-				Move("leftUp",s, deltat);
+				Move("leftUp", deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) > (int)(this.positionY)){
-				Move("down",s, deltat);
+				Move("down", deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) == (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) < (int)(this.positionY)){
-				Move("up",s, deltat);
+				Move("up", deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) > (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
-				Move("right",s, deltat);
+				Move("right", deltat);
 			} else if((int)(Maploader.mainPlayer.positionX) < (int)(this.positionX) && (int)(Maploader.mainPlayer.positionY) == (int)(this.positionY)){
-				Move("left",s, deltat);
+				Move("left", deltat);
 			}
 		} else {
 			isDead = true;

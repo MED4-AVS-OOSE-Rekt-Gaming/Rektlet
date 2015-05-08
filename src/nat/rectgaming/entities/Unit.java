@@ -1,16 +1,14 @@
 package nat.rectgaming.entities;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Unit extends GameObject{
 	public boolean canAct;
 	public boolean isDead;
 	public int health;
+	public float localSpeed;
 	public int damage;
 	public Shape rect;
 	
@@ -46,45 +44,45 @@ public abstract class Unit extends GameObject{
 		return health+"/"+damage+" Unit, a "+super.toString();
 	}
 	
-		public void Move(String direction, float speedOverride, int delta){
+		public void Move(String direction, int delta){
 			if(canAct){
 				switch(direction){
 					case "up":
 						facingDirection = "up";
-						positionY-= speedOverride * delta ;
+						positionY-= localSpeed * delta ;
 						break;
 					case "left":
 						facingDirection = "left";
-						positionX-= speedOverride * delta;
+						positionX-= localSpeed * delta;
 						break;
 					case "down":
 						facingDirection = "down";
-						positionY+= speedOverride * delta;
+						positionY+= localSpeed * delta;
 						break;
 					case "right":
 						facingDirection = "right";
-						positionX+= speedOverride * delta;
+						positionX+= localSpeed * delta;
 						break;
 						
 					case "leftUp":
 						facingDirection = "leftUp";
-						positionX-= speedOverride * delta;
-						positionY-= speedOverride * delta;
+						positionX-= localSpeed * delta;
+						positionY-= localSpeed * delta;
 						break;		
 					case "leftDown":
 						facingDirection = "leftDown";
-						positionX-= speedOverride * delta;
-						positionY+= speedOverride * delta;
+						positionX-= localSpeed * delta;
+						positionY+= localSpeed * delta;
 						break;
 					case "rightDown":
 						facingDirection = "rightDown";
-						positionX+= speedOverride * delta;
-						positionY+= speedOverride * delta;
+						positionX+= localSpeed * delta;
+						positionY+= localSpeed * delta;
 						break;
 					case "rightUp":
 						facingDirection = "rightUp";
-						positionX+= speedOverride * delta;
-						positionY-= speedOverride * delta;
+						positionX+= localSpeed * delta;
+						positionY-= localSpeed * delta;
 						break;
 					default:
 						System.out.println("Invalid direction was called!");
@@ -102,7 +100,7 @@ public abstract class Unit extends GameObject{
 		
 	}//Die()
 	
-	public void AI(float speed,int delta){
+	public void AI(int delta){
 		//Chase AI that ignore collision
 	}
 
